@@ -1,0 +1,123 @@
+package cl.jumpitt.happ.utils
+
+import android.app.Activity
+import android.content.Intent
+import android.util.TypedValue
+import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import cl.jumpitt.happ.R
+import cl.jumpitt.happ.context
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
+
+
+//Style Labels
+fun TextView.containedStyle(labelstext: Labelstext, colorText: ColorIdResource, opacityPercentage: Float = 1F, font: Int = labelstext.font){
+    this.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(labelstext.sizeText))
+    this.typeface = ResourcesCompat.getFont(context, font)
+    this.setTextColor(context.resources.getColorStateList(colorText.color,null))
+    this.alpha = opacityPercentage
+}
+
+// Style Buttons
+fun MaterialButton.containedStyle(colorBackground: ColorIdResource, colorText: ColorIdResource, opacityPercentage: Int = 100, font: Int = R.font.dmsans_bold){
+    this.backgroundTintList = context.resources.getColorStateList(colorBackground.color, null).withAlpha((255*opacityPercentage)/100)
+//  this.setBackgroundColor(colorBackground.color)
+    this.setTextColor(context.resources.getColorStateList(colorText.color,null))
+    this.setRippleColorResource(colorText.color)
+    this.typeface = ResourcesCompat.getFont(context, font)
+    this.isAllCaps = false
+    this.cornerRadius = resources.getDimension(R.dimen.btnCornerRadius).toInt()
+    this.letterSpacing = 0F
+    this.setTextSize(TypedValue.COMPLEX_UNIT_PX,resources.getDimension(R.dimen.btnTextSizeMedium))
+//    this.height = resources.getDimensionPixelSize(R.dimen.btnHeight)
+}
+
+//Button disabled
+fun MaterialButton.disabled(){
+    this.isEnabled = false
+    this.alpha = 0.5F
+}
+
+//Button enabled
+fun MaterialButton.enabled(){
+    this.isEnabled = true
+    this.alpha = 1F
+}
+
+//Go to second activity
+inline fun <reified T: Activity> Activity.goToActivity(transition: String = Transition.LEFT_TO_RIGHT, finish: Boolean = false, noinline init: Intent.() -> Unit = {}) {
+    val intent = Intent(this, T::class.java)
+    intent.init()
+    startActivity(intent)
+    this.transitionActivity(transition)
+    if (finish)
+        finishAffinity()
+}
+
+fun Activity.transitionActivity(transition: String){
+    when(transition){
+        Transition.LEFT_TO_RIGHT -> overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
+        Transition.RIGHT_TO_LEFT -> overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right)
+    }
+}
+
+//Style Snackbar
+fun Activity.showSnackbar(view: View, message: String, colorSnackbarBackground: ColorIdResource, colorSnackbarText: ColorIdResource) {
+    val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+
+    val snackbarView = snackbar.view
+
+    snackbarView.background = context.getDrawable(R.drawable.snackbar_container)
+//    snackbarView.setBackgroundColor(ResourcesCompat.getColor(resources,colorSnackbarBackground.color,null))
+    val textView = snackbarView.findViewById(R.id.snackbar_text) as TextView
+
+    textView.setTextColor(ResourcesCompat.getColor(resources, colorSnackbarText.color, null))
+    //textView.textSize = 12f
+    textView.typeface = ResourcesCompat.getFont(this.applicationContext, R.font.dmsans_regular)
+    textView.isAllCaps = false
+    snackbar.setAnchorView(view)
+    snackbar.show()
+}
+
+//Fragments
+//TODO: FRAGMENT TRANSACTION
+inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit = {}) {
+    val fragmentTransaction = beginTransaction()
+    fragmentTransaction.func()
+    fragmentTransaction.commit()
+}
+
+
+fun FragmentActivity.replaceFragment(
+    fragment: Fragment,
+    frameId: Int,
+    backStackTag: String? = null
+) {
+    supportFragmentManager.inTransaction {
+        replace(frameId, fragment)
+        addToBackStack(backStackTag)
+    }
+}
+
+fun AppCompatActivity.replaceFragmentQuestions(
+    fragment: Fragment,
+    frameId: Int,
+    backStackTag: String? = null,
+    transactionOptions: FragmentTransaction.() -> Unit = {}
+) {
+    supportFragmentManager.inTransaction {
+        transactionOptions()
+        backStackTag?.let { addToBackStack(it) }
+        replace(frameId, fragment)
+    }
+}
+
+fun FragmentTransaction.enterFromRight() =
+    setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar">
+    </include>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvDataPerson"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/lbDataPerson" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/itNameRegister"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:boxCornerRadiusTopStart="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+                    app:boxBackgroundColor="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNameRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/dmsans_medium"
+                        android:hint="@string/itName"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/itSurnameRegister"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:boxCornerRadiusTopStart="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+                    app:boxBackgroundColor="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSurnameRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dmsans_medium"
+                        android:hint="@string/itSurname"
+                        android:inputType="textPersonName"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/itMailRegister"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:boxCornerRadiusTopStart="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeErrorColor="@color/danger"
+                    app:errorIconTint="@color/danger"
+                    app:errorTextColor="@color/danger"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/errorAppearance">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMailRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dmsans_medium"
+                        android:hint="@string/itMail"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/itPasswordRegister"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxCornerRadiusTopStart="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPasswordRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dmsans_medium"
+                        android:hint="@string/itPassword"
+                        android:inputType="textPassword"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNextRegisterTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnHeight"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/btnNext"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

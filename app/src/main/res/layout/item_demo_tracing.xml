@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titleTcnFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tcn detectado"
+        android:textStyle="bold"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        />
+
+    <TextView
+        android:id="@+id/tcnFound"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E6917158A031CC80916F900DD2745BD2"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        />
+
+    <TextView
+        android:id="@+id/titleTime"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:text="Fecha"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/titleDistance"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:text="Distancia aproximada"
+        />
+    <TextView
+        android:id="@+id/distance"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimaryDark"
+        />
+</LinearLayout>

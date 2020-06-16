@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTriageResultTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:text="@string/lbNewRiskScore" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvLevelTriageResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            tools:backgroundTint="@color/semaphoreOrange"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/tvTriageResultValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="32dp"
+                android:paddingTop="8sp"
+                android:paddingEnd="32sp"
+                android:paddingBottom="8sp"
+                tools:text="52"
+                tools:textColor="@color/semaphoreOrange"
+                android:textSize="60sp" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvTriageResultSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            tools:text="Debes hacerte un test" />
+
+        <TextView
+            android:id="@+id/tvTriageResultDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="12dp"
+            tools:text="Según al puntaje obtenido tines una mediana probabilidad de contagio" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFinishTriageResult"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btnHeight"
+            android:layout_marginTop="12dp"
+            android:text="@string/btnUnderstood" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

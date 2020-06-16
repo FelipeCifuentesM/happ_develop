@@ -1,0 +1,56 @@
+<resources>
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/dmsans_medium</item>
+        <item name="android:textSize">@dimen/h6TextSize</item>
+    </style>
+
+    <!-- Bottom navigation -->
+    <style name="Widget.BottomNavigationViewTextStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/dmsans_medium</item>
+    </style>
+
+
+    <!--InputText error -->
+    <style name="errorAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textSize">11.5sp</item>
+        <item name="android:fontFamily">@font/dmsans_regular</item>
+    </style>
+
+    <!-- Card corner Radius custom -->
+    <style name="MyCardViewCornerBottom" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners_bottom</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay_card_custom_corners_bottom" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">32dp</item>
+        <item name="cornerSizeBottomLeft">32dp</item>
+    </style>
+
+    <style name="MyCardViewCornerTop" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay_card_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">32dp</item>
+        <item name="cornerSizeTopLeft">32dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+
+</resources>

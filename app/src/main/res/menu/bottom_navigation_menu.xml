@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigationRisk"
+        android:icon="@drawable/ic_user_pass"
+        android:title="@string/navFragmentRisk" />
+    <item
+        android:id="@+id/navigationProfile"
+        android:icon="@drawable/ic_user_circle_solid"
+        android:title="@string/navFragmentProfile" />
+</menu>

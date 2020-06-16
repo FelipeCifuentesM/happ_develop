@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Labels -->
+    <dimen name="h1LetterSpacing">-1.5sp</dimen>
+    <dimen name="h1TextSize">60sp</dimen>
+    <dimen name="h2LetterSpacing">-0.5sp</dimen>
+    <dimen name="h2TextSize">48sp</dimen>
+    <dimen name="h3LetterSpacing">0sp</dimen>
+    <dimen name="h3TextSize">34sp</dimen>
+    <dimen name="h4LetterSpacing">0sp</dimen>
+    <dimen name="h4TextSize">28sp</dimen>
+    <dimen name="h5LetterSpacing">0sp</dimen>
+    <dimen name="h5TextSize">24sp</dimen>
+    <dimen name="h6LetterSpacing">0.25sp</dimen>
+    <dimen name="h6TextSize">20sp</dimen>
+    <dimen name="body1LetterSpacing">0.5sp</dimen>
+    <dimen name="body1TextSize">15sp</dimen>
+    <dimen name="body2LetterSpacing">0sp</dimen>
+    <dimen name="body2TextSize">12sp</dimen>
+    <dimen name="subtitle1LetterSpacing">0sp</dimen>
+    <dimen name="subtitle1TextSize">15sp</dimen>
+    <dimen name="subtitle2LetterSpacing">0.1sp</dimen>
+    <dimen name="subtitle2TextSize">13.5sp</dimen>
+    <dimen name="buttonLetterSpacing">0.5sp</dimen>
+    <dimen name="buttonTextSize">16sp</dimen>
+    <dimen name="captionLetterSpacing">0.4sp</dimen>
+    <dimen name="captionTextSize">11sp</dimen>
+    <dimen name="overlineLetterSpacing">2.0sp</dimen>
+    <dimen name="overlineTextSize">11.5sp</dimen>
+
+    <!-- Material -->
+    <dimen name="btnCornerRadius">16dp</dimen>
+    <dimen name="btnTextSizeMedium">16sp</dimen>
+    <dimen name="btnHeight">64dp</dimen>
+    <dimen name="cardCornerRadiusMedium">24dp</dimen>
+    <dimen name="cardCornerRadius">32dp</dimen>
+    <dimen name="inputCornerRadius">16dp</dimen>
+    <dimen name="snackBarCornerRadius">16dp</dimen>
+
+</resources>

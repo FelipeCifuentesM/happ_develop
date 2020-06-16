@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0050ff</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#003cbf</color>
+    <color name="skyBlue">#5fc5ff</color>
+    <color name="danger">#FF5252</color>
+
+    <color name="iconHouseUser">#a600cd</color>
+    <color name="iconBriefcase">#02a3ff</color>
+    <color name="backgroundLight">#f1f1f1</color>
+    <color name="iconDisabled">#999999</color>
+    <color name="backgroundQuestionNotSelected">#f2f2f7</color>
+    <color name="backgroundQuestionSelected">#1a003cbf</color>
+
+    <color name="semaphoreOrange">#ffae13</color>
+    <color name="semaphoreGreen">#15dea9</color>
+    <color name="semaphoreRed">#ff4e4e</color>
+
+</resources>

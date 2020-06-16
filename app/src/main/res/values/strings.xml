@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Happ</string>
+
+
+    <!-- Labels -->
+    <string name="lbOnBoardTitle1">Protege tu salud</string>
+    <string name="lbOnBoardDescription1">Controla de forma segura tu exposición para mantenerte saludable y mantener saludable a otros.</string>
+    <string name="lbTermsConditions">Al hacer click en comenzar, aceptas los términos de uso y politica de privacidad</string>
+    <string name="lbLoginTitle">Ingresa a tu cuenta</string>
+    <string name="lbCreateAccount">¿No tienes cuenta?</string>
+    <string name="lbValidateRut">Valida tu rut</string>
+    <string name="lbDataPerson">Ingresa tus datos</string>
+    <string name="lbDataLive">¿Donde vives?</string>
+    <string name="lbDataWork">¿Donde trabajas?</string>
+    <string name="lbPermissionTitle">habilita tu bluetooth</string>
+    <string name="lbPermissionDescription">Happ registra los contactos con otros usuarios a traves de Bluetooth Low Energy para poder informarte en caso de exposición </string>
+    <string name="lbBluetooth">Bluetooth</string>
+    <string name="lbApprovedRegister">¡Ya puedes comenzar!</string>
+    <string name="lbNewRiskScore">Tu nuevo riesgo es</string>
+    <string name="lbMyDailyPass">Mi pase diario</string>
+    <string name="lbGetDailyPassDesc">Responde las preguntas para actualizar tu riesgo y obtener tu pase diario</string>
+    <string name="lbLastCheckTime">Último chequeo %1$s</string>
+    <string name="lbPassDuration">Duración pase</string>
+
+    <!-- Input Text fields -->
+    <string name="itRut">Rut</string>
+    <string name="itPassword">Contraseña</string>
+    <string name="itDocumentNumber">Número documento</string>
+    <string name="itName">Nombre</string>
+    <string name="itSurname">Apellido</string>
+    <string name="itMail">Correo electrónico</string>
+    <string name="itRegion">Región</string>
+    <string name="itCommune">Comuna</string>
+
+
+    <!-- Buttons -->
+    <string name="btnStart">Comenzar</string>
+    <string name="btnEnterLogin">Ingresar</string>
+    <string name="btnCreateAccount">Registrarme</string>
+    <string name="btnNext">Siguiente</string>
+    <string name="btnPermissions">Habilitar</string>
+    <string name="btnUnderstood">Entendido</string>
+    <string name="btnAnswer">Contestar</string>
+    <string name="btnGetPass">Obtener pase</string>
+    <string name="btnLogOut">Cerrar sesión</string>
+
+    <!-- Toolbar -->
+    <string name="tbLogIn">Iniciar sesión</string>
+    <string name="tbCreateAccount">Crear cuenta</string>
+    <string name="tbPermissions">Permisos</string>
+    <string name="tbTriage">Mi riesgo</string>
+
+
+    <!-- Bottom Navigation Bar -->
+    <string name="navFragmentExposition">Exposición</string>
+    <string name="navFragmentRisk">Mi riesgo</string>
+    <string name="navFragmentProfile">Perfil</string>
+
+    <!-- Errors snackbar -->
+    <string name="snkValidateDNI">Validación erronea</string>
+    <string name="snkRegisterError">No se pudo realizar el registro</string>
+    <string name="snkBluetoothPermissionDenied">Para continuar debe activar el permiso de bluetooth</string>
+    <string name="snkBluetoothNotAvailable">Bluetooth no disponible en dispositivo</string>
+    <string name="snkTriageOnlyOnce">El triage principal solo se puede responder una vez</string>
+    <!-- Errors input -->
+    <string name="itRutError">Rut inválido</string>
+    <string name="itMailError">Correo electrónico inválido</string>
+
+
+
+</resources>

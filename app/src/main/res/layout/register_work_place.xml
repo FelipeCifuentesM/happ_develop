@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar">
+    </include>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginRight="32dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/iconBriefcase"
+                    app:srcCompat="@drawable/ic_briefcase_duotone" />
+
+                <TextView
+                    android:id="@+id/tvDataWork"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/lbDataWork"
+                    android:textAlignment="center" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiWorkRegion"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/itRegion"
+                    app:boxCornerRadiusTopStart="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+                    app:boxBackgroundColor="@color/white">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/filledWorkRegionDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:enabled="false"
+                        android:inputType="textNoSuggestions" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiWorkCommune"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/itCommune"
+                    app:boxCornerRadiusTopStart="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+                    app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+                    app:boxBackgroundColor="@color/white">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/filledWorkCommuneDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:enabled="false"
+                        android:inputType="textNoSuggestions" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNextWorkPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnHeight"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/btnNext"
+                    app:layout_constraintTop_toBottomOf="@+id/itLoginMail" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
