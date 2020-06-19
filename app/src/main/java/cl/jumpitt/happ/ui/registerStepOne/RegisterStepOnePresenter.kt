@@ -1,8 +1,14 @@
 package cl.jumpitt.happ.ui.registerStepOne
 
 import android.app.Activity
+import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.request.RegisterRequest
 import cl.jumpitt.happ.network.request.ValidateDNIRequest
+import cl.jumpitt.happ.network.response.ErrorResponse
+import cl.jumpitt.happ.network.response.ValidateDNIResponse
+import cl.jumpitt.happ.utils.parseErrJsonResponse
+import cl.jumpitt.happ.utils.qualifyResponseErrorDefault
+import retrofit2.Response
 
 class RegisterStepOnePresenter constructor(private val activity: Activity): RegisterStepOneContract.Presenter, RegisterStepOneContract.InteractorOutputs {
     private var mInteractor: RegisterStepOneContract.Interactor = RegisterStepOneInteractor()
@@ -23,8 +29,13 @@ class RegisterStepOnePresenter constructor(private val activity: Activity): Regi
         mRouter.navigateRegisterStepTwo()
     }
 
-    override fun postValidateDNIOutputError() {
-        mView.showValidateDNIError()
+    override fun postValidateDNIOutputError(errorCode: Int, response: Response<ValidateDNIResponse>) {
+        val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
+        mView.showValidateDNIError(messageError)
+    }
+
+    override fun postValidateDNIFailureError() {
+        mView.showValidateDNIError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 
 }

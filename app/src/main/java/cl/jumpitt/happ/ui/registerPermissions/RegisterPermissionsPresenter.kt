@@ -1,8 +1,13 @@
 package cl.jumpitt.happ.ui.registerPermissions
 
 import android.app.Activity
+import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.request.RegisterRequest
+import cl.jumpitt.happ.network.response.ErrorResponse
 import cl.jumpitt.happ.network.response.RegisterResponse
+import cl.jumpitt.happ.utils.parseErrJsonResponse
+import cl.jumpitt.happ.utils.qualifyResponseErrorDefault
+import retrofit2.Response
 
 
 class RegisterPermissionsPresenter constructor(private val activity: Activity): RegisterPermissionsContract.Presenter, RegisterPermissionsContract.InteractorOutputs{
@@ -32,9 +37,13 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         mRouter.navigateRegisterSuccess()
     }
 
-    override fun postRegisterOutputError() {
-        mView.showRegisterError()
+    override fun postRegisterOutputError(errorCode: Int, response: Response<RegisterResponse>) {
+        val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
+        mView.showRegisterError(messageError)
     }
 
+    override fun postRegisterFailureError() {
+        mView.showRegisterError(activity.resources.getString(R.string.snkDefaultApiError))
+    }
 
 }

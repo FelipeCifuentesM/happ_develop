@@ -61,8 +61,8 @@ class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
 
     }
 
-    override fun showValidateDNIError() {
-        showSnackbar(containerStepOne, resources.getString(R.string.snkValidateDNI), ColorIdResource.BLUE, ColorIdResource.WHITE)
+    override fun showValidateDNIError(messageError: String) {
+        showSnackbar(containerStepOne, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
     }
 
     override fun onBackPressed() {

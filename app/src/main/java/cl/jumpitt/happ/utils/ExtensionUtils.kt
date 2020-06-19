@@ -58,6 +58,17 @@ fun String.isMailValid(): Boolean{
     }
 }
 
+//Compare Passwords
+fun String.comparePassword(passwordOrigin: String): Boolean{
+    val pattern = Pattern.compile(passwordOrigin, Pattern.CASE_INSENSITIVE)
+    val matcher = pattern.matcher(this)
+
+    if (!matcher.matches()) {
+        return false
+    }
+    return true
+}
+
 //Input rut validate
 fun String.isCheckDigitRut() : Boolean{
     try {

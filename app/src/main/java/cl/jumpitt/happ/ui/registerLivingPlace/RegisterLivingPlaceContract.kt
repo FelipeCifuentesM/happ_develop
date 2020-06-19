@@ -2,6 +2,7 @@ package cl.jumpitt.happ.ui.registerLivingPlace
 
 import cl.jumpitt.happ.network.request.RegisterRequest
 import cl.jumpitt.happ.network.response.RegionsResponse
+import retrofit2.Response
 
 interface RegisterLivingPlaceContract {
 
@@ -9,6 +10,8 @@ interface RegisterLivingPlaceContract {
         fun showInitializeView()
         fun loadRegions(regionsNameList: ArrayList<String>, regionsList: List<RegionsResponse.DataRegions>)
         fun loadCommunes(communesNameList: ArrayList<String>)
+        fun showLivingPlaceError(messageError: String)
+
     }
 
     interface Presenter{
@@ -29,6 +32,7 @@ interface RegisterLivingPlaceContract {
 
     interface InteractorOutputs{
         fun getRegionsOutput(regionsList: List<RegionsResponse.DataRegions>)
-        fun getRegionsOutputError()
+        fun getRegionsOutputError(errorCode: Int, response: Response<RegionsResponse>)
+        fun getRegionsFailureError()
     }
 }

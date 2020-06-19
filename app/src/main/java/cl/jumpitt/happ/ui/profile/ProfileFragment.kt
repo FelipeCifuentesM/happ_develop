@@ -1,6 +1,5 @@
 package cl.jumpitt.happ.ui.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.response.RegisterResponse
-import cl.jumpitt.happ.ui.login.Login
 import cl.jumpitt.happ.utils.ColorIdResource
 import cl.jumpitt.happ.utils.Labelstext
 import cl.jumpitt.happ.utils.containedStyle
-import cl.jumpitt.happ.utils.goToActivity
-import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.item_rounded_toolbar.*
 
 
 class ProfileFragment : Fragment(), ProfileFragmentContract.View {
@@ -38,10 +35,11 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         mPresenter.initializeView()
 
         btnCloseSesion.setOnClickListener {
-            Hawk.delete("userProfileData")
-            requireActivity().goToActivity<Login>("") {
-                this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
+            mPresenter.deleteProfileData()
+        }
+
+        btnEnterChangePass.setOnClickListener {
+            mPresenter.navigateChangePassword()
         }
 
         cvProfileUserData.setOnClickListener {
@@ -60,15 +58,18 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
     }
 
     override fun showInitializeView() {
+        tvRoundedToolbar.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvProfileName.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvProfileRut.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
         tvProfileMail.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
-        btnCloseSesion.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLUE)
+        btnEnterChangePass.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLUE)
+        btnCloseSesion.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLACK)
 
         mPresenter.getUserProfileData()
     }
 
     override fun showUnwrappingValues(userData: RegisterResponse) {
+        tvRoundedToolbar.text = resources.getString(R.string.tbProfile)
         userData.profile?.names?.let {names -> tvProfileName.text = names.capitalize() }
         userData.profile?.lastName?.let {lastName -> tvProfileName.text =  "${tvProfileName.text} ${lastName.capitalize()}"  }
         userData.profile?.rut?.let {rut -> tvProfileRut.text = rut }

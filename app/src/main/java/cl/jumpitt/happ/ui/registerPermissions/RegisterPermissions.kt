@@ -41,6 +41,11 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
         btnNextRegistePermission.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
     }
 
+    override fun showRegisterError(messageError: String) {
+        showSnackbar(containerRegisterPermission, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+
+    }
+
     private fun onBluetooth(){
         bAdapter?.let { _bAdapter ->
             if(_bAdapter.isEnabled){
@@ -68,10 +73,6 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
                 }
         }
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun showRegisterError() {
-        showSnackbar(containerRegisterPermission, resources.getString(R.string.snkRegisterError), ColorIdResource.BLUE, ColorIdResource.WHITE)
     }
 
     override fun onBackPressed() {

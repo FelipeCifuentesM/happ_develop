@@ -2,11 +2,13 @@ package cl.jumpitt.happ.ui.registerStepOne
 
 import cl.jumpitt.happ.network.request.RegisterRequest
 import cl.jumpitt.happ.network.request.ValidateDNIRequest
+import cl.jumpitt.happ.network.response.ValidateDNIResponse
+import retrofit2.Response
 
 interface RegisterStepOneContract {
     interface View{
         fun showInitializeView()
-        fun showValidateDNIError()
+        fun showValidateDNIError(messageError: String)
     }
 
     interface Presenter{
@@ -25,6 +27,7 @@ interface RegisterStepOneContract {
 
     interface InteractorOutputs{
         fun postValidateDNIOutput(validateDNIRequest: ValidateDNIRequest)
-        fun postValidateDNIOutputError()
+        fun postValidateDNIOutputError(errorCode: Int, response: Response<ValidateDNIResponse>)
+        fun postValidateDNIFailureError()
     }
 }

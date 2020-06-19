@@ -2,6 +2,7 @@ package cl.jumpitt.happ.ui.triage
 
 import cl.jumpitt.happ.model.Question
 import cl.jumpitt.happ.network.response.TriageAnswerResponse
+import retrofit2.Response
 
 interface TriageActivityContract {
 
@@ -35,7 +36,8 @@ interface TriageActivityContract {
         fun onTriageLoaded()
         fun nextQuestion(question: Question?, tracing: Boolean) //if null -> send answer
         fun getTriageAnswerOutput(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse)
-        fun getTriageAnswerOutputError(errorCode: Int)
+        fun getTriageAnswerOutputError(errorCode: Int, response: Response<TriageAnswerResponse>)
         fun getAccessTokenProfileOutput(tracing: Boolean, accessToken: String)
+        fun getTriageAnswerFailureError()
     }
 }

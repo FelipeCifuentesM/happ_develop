@@ -22,20 +22,24 @@ class MainActivityInteractor(private val mIOutput: MainActivityContract.Interact
         RestClient.instance.getHealthCare("${ConstantsApi.BEARER} $accessToken").
         enqueue(object: Callback<TriageAnswerResponse> {
             override fun onFailure(call: Call<TriageAnswerResponse>, t: Throwable) {
+                mIOutput.getHealthCareFailureError()
             }
 
             override fun onResponse(call: Call<TriageAnswerResponse>, response: Response<TriageAnswerResponse>) {
-                val dataResponseCode = response.code()
-                val dataResponse = response.body()
+                val responseCode = response.code()
+                val responseData = response.body()
 
-                if (dataResponseCode == 200){
-                    dataResponse?.let { healthCareStatus ->
-                        mIOutput.getHealthCareOutput(healthCareStatus)
-                    }?: run{
-                        mIOutput.getHealthCareOutputError()
+                when (responseCode) {
+                    200 -> {
+                        responseData?.let { healthCareStatus ->
+                            mIOutput.getHealthCareOutput(healthCareStatus)
+                        }?: run {
+                            mIOutput.getHealthCareOutputError(responseCode, response)
+                        }
                     }
-                }else{
-                    mIOutput.getHealthCareOutputError()
+                    else -> {
+                        mIOutput.getHealthCareOutputError(responseCode, response)
+                    }
                 }
             }
         })

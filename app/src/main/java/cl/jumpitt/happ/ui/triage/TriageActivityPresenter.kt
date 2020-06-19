@@ -4,7 +4,11 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import cl.jumpitt.happ.R
 import cl.jumpitt.happ.model.Question
+import cl.jumpitt.happ.network.response.ErrorResponse
 import cl.jumpitt.happ.network.response.TriageAnswerResponse
+import cl.jumpitt.happ.utils.parseErrJsonResponse
+import cl.jumpitt.happ.utils.qualifyResponseErrorDefault
+import retrofit2.Response
 
 class TriageActivityPresenter constructor(private val activity: Activity): TriageActivityContract.Presenter,
     TriageActivityContract.InteractorOutputs {
@@ -52,12 +56,13 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
             mRouter.displayResult(tracing)
     }
 
-    override fun getTriageAnswerOutputError(errorCode: Int) {
-        when(errorCode){
-            422 -> mView.showTriageAnswerError(activity.resources.getString(R.string.snkTriageOnlyOnce))
-        }
+    override fun getTriageAnswerOutputError(errorCode: Int, response: Response<TriageAnswerResponse>) {
+        val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
+        mView.showTriageAnswerError(messageError)
     }
 
-
+    override fun getTriageAnswerFailureError() {
+        mView.showTriageAnswerError(activity.resources.getString(R.string.snkDefaultApiError))
+    }
 
 }

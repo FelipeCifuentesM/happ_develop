@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.sentry.android.gradle'
 
 ext {
-    baseURL = "\"http://api.keepsafe.jumpittlabs.cl:9000/v1/\""
+    baseURL = "\"http://api.keepsafe.jumpittlabs.cl/v1/\""
 }
 
 android {

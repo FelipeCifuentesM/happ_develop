@@ -1,5 +1,6 @@
 package cl.jumpitt.happ.ui.login
 
+import android.util.Log
 import cl.jumpitt.happ.network.RestClient
 import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
 import cl.jumpitt.happ.network.response.LoginAccessTokenResponse
@@ -20,20 +21,22 @@ class LoginInteractor: LoginContract.Interactor {
         RestClient.instance.postLoginAccessToken(loginRequest).
         enqueue(object: Callback<LoginAccessTokenResponse> {
             override fun onFailure(call: Call<LoginAccessTokenResponse>, t: Throwable) {
-
+                interactorOutput.LoginFailureError()
             }
 
             override fun onResponse(call: Call<LoginAccessTokenResponse>, response: Response<LoginAccessTokenResponse>) {
                 val dataResponseToken = response.body()
-                val dataResponseCode = response.code()
-                dataResponseToken?.let {
-                    if(dataResponseCode == 200){
-                        interactorOutput.postLoginAccessTokenOutput(dataResponseToken)
-                    }else{
-                        interactorOutput.postLoginAccessTokenOutputError()
+                when (response.code()) {
+                    200 -> {
+                        dataResponseToken?.let {
+                            interactorOutput.postLoginAccessTokenOutput(dataResponseToken)
+                        }?: run {
+                            interactorOutput.postLoginAccessTokenOutputError(response.code(), response)
+                        }
                     }
-                }?: run {
-                    interactorOutput.postLoginAccessTokenOutputError()
+                    else -> {
+                        interactorOutput.postLoginAccessTokenOutputError(response.code(), response)
+                    }
                 }
             }
         })
@@ -43,21 +46,27 @@ class LoginInteractor: LoginContract.Interactor {
         RestClient.instance.getProfile( "${ConstantsApi.BEARER} ${dataResponseToken.accessToken}").
         enqueue(object: Callback<ProfileResponse>{
             override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
-                interactorOutput.getProfileOutputError()
+                interactorOutput.LoginFailureError()
             }
 
             override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
-                val dataResponse = response.body()
-                val dataResponseCode = response.code()
-                if(dataResponseCode == 200){
-                    dataResponse?.let {dataLoginResponse ->
-                        interactorOutput.getProfileOutput(dataLoginResponse, dataResponseToken.accessToken)
-                    }?: run {
-                        interactorOutput.getProfileOutputError()
+                val responseData = response.body()
+                val responseCode = response.code()
+
+                when (responseCode) {
+                    200 -> {
+                        responseData?.let {dataLoginResponse ->
+                            interactorOutput.getProfileOutput(dataLoginResponse, dataResponseToken.accessToken)
+                        }?: run {
+                            interactorOutput.getProfileOutputError(responseCode, response)
+                        }
                     }
-                }else{
-                    interactorOutput.getProfileOutputError()
+                    else -> {
+                        interactorOutput.getProfileOutputError(responseCode, response)
+                    }
                 }
+
+
             }
 
         })

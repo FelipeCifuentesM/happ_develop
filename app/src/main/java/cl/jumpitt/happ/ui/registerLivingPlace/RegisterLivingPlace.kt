@@ -87,6 +87,10 @@ class RegisterLivingPlace: ToolbarActivity(), RegisterLivingPlaceContract.View{
         filledLivingCommuneDropdown.setAdapter(adapter)
     }
 
+    override fun showLivingPlaceError(messageError: String) {
+        showSnackbar(containerLivingPlace, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         this.transitionActivity(Transition.RIGHT_TO_LEFT)
