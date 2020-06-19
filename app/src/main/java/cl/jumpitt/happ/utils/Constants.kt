@@ -39,6 +39,7 @@ object ConstantsApi{
     const val CLIENT_ID = "90affe9b-de2d-4365-bca3-d6bbda4cf9f4"
     const val CLIENT_SECRET = "S9CQlSPDBbEK9HCS2iYjitAkhlvGwAOPzuq5r24u"
     const val BEARER  = "Bearer"
+    const val FAILURE_ERROR = -1
 }
 
 enum class SemaphoreTriage(val colorResource: ColorIdResource, val colorID: Int, val level: String){

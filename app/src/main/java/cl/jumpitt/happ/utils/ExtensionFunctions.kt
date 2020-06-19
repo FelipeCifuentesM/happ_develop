@@ -13,8 +13,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import cl.jumpitt.happ.R
 import cl.jumpitt.happ.context
+import cl.jumpitt.happ.network.response.ErrorResponse
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.JsonParser
+import retrofit2.Response
+
+import java.lang.Exception
 
 
 //Style Labels
@@ -71,19 +78,47 @@ fun Activity.transitionActivity(transition: String){
 //Style Snackbar
 fun Activity.showSnackbar(view: View, message: String, colorSnackbarBackground: ColorIdResource, colorSnackbarText: ColorIdResource) {
     val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-
     val snackbarView = snackbar.view
-
     snackbarView.background = context.getDrawable(R.drawable.snackbar_container)
 //    snackbarView.setBackgroundColor(ResourcesCompat.getColor(resources,colorSnackbarBackground.color,null))
     val textView = snackbarView.findViewById(R.id.snackbar_text) as TextView
-
     textView.setTextColor(ResourcesCompat.getColor(resources, colorSnackbarText.color, null))
     //textView.textSize = 12f
     textView.typeface = ResourcesCompat.getFont(this.applicationContext, R.font.dmsans_regular)
     textView.isAllCaps = false
-    snackbar.setAnchorView(view)
     snackbar.show()
+}
+
+//
+inline fun <reified T> Response<*>.parseErrJsonResponse(): ErrorResponse {
+    try {
+        var mJson: JsonElement? = null
+        mJson = JsonParser.parseString(this.errorBody()!!.string())
+        val gson = Gson()
+        val errorResponse: ErrorResponse = gson.fromJson(mJson, ErrorResponse::class.java)
+        return errorResponse
+    } catch (e: Exception) {
+        return ErrorResponse()
+    }
+}
+
+fun Response<*>.qualifyResponseErrorDefault(errorCode: Int, activity: Activity): String{
+    when(errorCode){
+        200 -> {
+            return activity.resources.getString(R.string.snkDataNullError)
+        }
+        422 -> {
+            val errorResponse = this.parseErrJsonResponse<ErrorResponse>()
+            errorResponse.errorMessage?.let {messageError ->
+                return messageError
+            }?: run{
+                return activity.resources.getString(R.string.snkDefaultApiError)
+            }
+
+        }
+        else ->
+            return activity.resources.getString(R.string.snkDefaultApiError)
+    }
 }
 
 //Fragments

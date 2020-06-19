@@ -5,16 +5,12 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-class AuthorizationInterceptor(private val authorizationRepository: LoginAccessTokenResponse) : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val newRequest = chain.request().signedRequest()
-        return chain.proceed(newRequest)
-    }
+class OAuthInterceptor(private val tokenType: String, private val acceessToken: String): Interceptor {
 
-    private fun Request.signedRequest(): Request {
-        val accessToken = authorizationRepository.accessToken
-        return newBuilder()
-            .header("Authorization", "Bearer $accessToken")
-            .build()
+    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+        var request = chain.request()
+        request = request.newBuilder().header("Authorization", "$tokenType $acceessToken").build()
+
+        return chain.proceed(request)
     }
 }

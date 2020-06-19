@@ -3,11 +3,12 @@ package cl.jumpitt.happ.ui.login
 import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
 import cl.jumpitt.happ.network.response.LoginAccessTokenResponse
 import cl.jumpitt.happ.network.response.ProfileResponse
+import retrofit2.Response
 
 interface LoginContract {
     interface View{
         fun showInitializeView()
-
+        fun showValidateLoginError(messageError: String)
     }
 
     interface Presenter{
@@ -29,8 +30,9 @@ interface LoginContract {
 
     interface InteractorOutputs{
         fun postLoginAccessTokenOutput(dataResponseToken: LoginAccessTokenResponse)
-        fun postLoginAccessTokenOutputError()
+        fun postLoginAccessTokenOutputError(errorCode: Int, response: Response<LoginAccessTokenResponse>)
         fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String)
-        fun getProfileOutputError()
+        fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>)
+        fun LoginFailureError()
     }
 }

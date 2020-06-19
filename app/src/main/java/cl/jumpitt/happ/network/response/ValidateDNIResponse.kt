@@ -4,11 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 
 data class ValidateDNIResponse(
-    val code: Int,
-    val resource: String,
-    val message: String,
-    val id: String,
+    val id: String? = null,
     @SerializedName("dni")
-    val rut: String,
-    val status: String?
+    val rut: String? = null,
+    val status: String? = null
 )

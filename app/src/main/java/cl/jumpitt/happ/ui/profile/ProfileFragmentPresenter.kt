@@ -20,6 +20,15 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
         mRouter.navigateTracingLog()
     }
 
+    override fun deleteProfileData() {
+        mInteractor.deleteProfileData()
+        mRouter.navigateLogin()
+    }
+
+    override fun navigateChangePassword() {
+        mRouter.navigateChangePassword()
+    }
+
     override fun getUserProfileDataOutput(userData: RegisterResponse) {
         mView.showUnwrappingValues(userData)
     }

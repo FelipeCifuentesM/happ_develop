@@ -18,21 +18,25 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
         RestClient.instance.postRegister(registerRequest).
         enqueue(object: Callback<RegisterResponse> {
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                interactorOutputs.postRegisterFailureError()
             }
 
             override fun onResponse(x: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                 val responseCode = response.code()
                 val responseRegisterProfile = response.body()
-                responseRegisterProfile?.let {
-                    if (responseCode == 200) {
-                        interactorOutputs.postRegisterOutput(responseRegisterProfile)
-                    } else {
-                        interactorOutputs.postRegisterOutputError()
-                    }
-                }?: run {
-                    interactorOutputs.postRegisterOutputError()
-                }
 
+                when (responseCode) {
+                    200 -> {
+                        responseRegisterProfile?.let {
+                            interactorOutputs.postRegisterOutput(responseRegisterProfile)
+                        }?: run {
+                            interactorOutputs.postRegisterOutputError(responseCode, response)
+                        }
+                    }
+                    else -> {
+                        interactorOutputs.postRegisterOutputError(responseCode, response)
+                    }
+                }
             }
 
         })

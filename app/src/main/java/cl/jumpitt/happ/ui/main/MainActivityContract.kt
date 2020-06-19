@@ -1,10 +1,12 @@
 package cl.jumpitt.happ.ui.main
 
 import cl.jumpitt.happ.network.response.TriageAnswerResponse
+import retrofit2.Response
 
 interface MainActivityContract {
     interface View{
         fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse)
+        fun showTriageAnswerError(messageError: String)
     }
 
     interface Presenter{
@@ -24,6 +26,7 @@ interface MainActivityContract {
     interface InteractorOutputs{
         fun getAccesTokenOutput(accessToken: String)
         fun getHealthCareOutput(healthCareStatus: TriageAnswerResponse)
-        fun getHealthCareOutputError()
+        fun getHealthCareOutputError(errorCode: Int, response: Response<TriageAnswerResponse>)
+        fun getHealthCareFailureError()
     }
 }

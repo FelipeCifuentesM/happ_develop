@@ -63,7 +63,7 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
         RestClient.instance.postTriageAnswer( accessToken, triageAnswerResponse).
         enqueue(object: Callback<TriageAnswerResponse>{
             override fun onFailure(call: Call<TriageAnswerResponse>, t: Throwable) {
-                mIOutput.getTriageAnswerOutputError(-1)
+                mIOutput.getTriageAnswerFailureError()
             }
 
             override fun onResponse(call: Call<TriageAnswerResponse>, response: Response<TriageAnswerResponse>) {
@@ -73,20 +73,16 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
                         dataResponse?.let { responseTriageAnswer ->
                             mIOutput.getTriageAnswerOutput(tracing, responseTriageAnswer)
                         }?: run {
-                            mIOutput.getTriageAnswerOutputError(response.code())
+                            mIOutput.getTriageAnswerOutputError(response.code(), response)
                         }
                     }
-                    422 -> {
-                        mIOutput.getTriageAnswerOutputError(response.code())
-                    }
                     else -> {
-                        mIOutput.getTriageAnswerOutputError(response.code())
+                        mIOutput.getTriageAnswerOutputError(response.code(), response)
                     }
                 }
             }
 
         })
-
     }
 
     override fun getAccessTokenProfile(tracing: Boolean){

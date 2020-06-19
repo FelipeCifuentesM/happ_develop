@@ -1,11 +1,15 @@
 package cl.jumpitt.happ.ui.main
 
 import android.bluetooth.BluetoothAdapter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.response.TriageAnswerResponse
-import cl.jumpitt.happ.ui.*
+import cl.jumpitt.happ.ui.MyRiskAnswerFragment
+import cl.jumpitt.happ.ui.MyRiskPendingFragment
+import cl.jumpitt.happ.ui.MyRiskValueFragment
+import cl.jumpitt.happ.ui.MyRiskValueHighFragment
 import cl.jumpitt.happ.ui.profile.ProfileFragment
 import cl.jumpitt.happ.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,7 +19,6 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     private lateinit var mPresenter: MainActivityContract.Presenter
     private lateinit var healthCareStatusCopy: TriageAnswerResponse
     private var bAdapter: BluetoothAdapter? = null
-    private val otherStrings = arrayOf("a", "b", "c")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +41,14 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         when (menuItem.itemId) {
             R.id.navigationRisk -> {
                 when(healthCareStatusCopy.triageStatus){
-                    TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(), R.id.mainContainer)
-                    TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(), R.id.mainContainer)
+                    TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(), R.id.mainPager, "0")
+                    TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(), R.id.mainPager, "0")
                     TriageStatus.TRIAGE_COMPLETED -> {
                         healthCareStatusCopy.risk?.level?.let {level ->
                             if( level == SemaphoreTriage.RISK_HIGH.name)
-                                this.replaceFragment(MyRiskValueHighFragment.newInstance(), R.id.mainContainer)
+                                this.replaceFragment(MyRiskValueHighFragment.newInstance(), R.id.mainPager, "0")
                             else
-                                this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainContainer)
+                                this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainPager, "0")
                         }
 
                     }
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigationProfile -> {
-                this.replaceFragment(ProfileFragment.newInstance(), R.id.mainContainer)
+                this.replaceFragment(ProfileFragment.newInstance(), R.id.mainPager, "1")
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -63,23 +66,31 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     override fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse) {
         healthCareStatusCopy = healthCareStatus
         when(healthCareStatus.triageStatus){
-            TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(), R.id.mainContainer)
-            TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(), R.id.mainContainer)
+            TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(), R.id.mainPager, "0")
+            TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(), R.id.mainPager, "0")
             TriageStatus.TRIAGE_COMPLETED -> {
                 healthCareStatus.risk?.level?.let {level ->
                     if( level == SemaphoreTriage.RISK_HIGH.name)
-                        this.replaceFragment(MyRiskValueHighFragment.newInstance(), R.id.mainContainer)
+                        this.replaceFragment(MyRiskValueHighFragment.newInstance(), R.id.mainPager, "0")
                     else
-                        this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainContainer)
+                        this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainPager, "0")
                 }
 
             }
         }
     }
 
+    override fun showTriageAnswerError(messageError: String) {
+        showSnackbar(mainPager, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 1)
+        if (supportFragmentManager.backStackEntryCount > 1){
+            val backEntry: FragmentManager.BackStackEntry = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2)
+            val stackId: Int? = backEntry.name?.toInt()
+            stackId?.let { bottomNavigation.menu.getItem(stackId).isChecked = true }
             supportFragmentManager.popBackStack()
+        }
         else
             finish()
     }

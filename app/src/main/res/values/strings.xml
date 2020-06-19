@@ -16,11 +16,12 @@
     <string name="lbPermissionDescription">Happ registra los contactos con otros usuarios a traves de Bluetooth Low Energy para poder informarte en caso de exposición </string>
     <string name="lbBluetooth">Bluetooth</string>
     <string name="lbApprovedRegister">¡Ya puedes comenzar!</string>
-    <string name="lbNewRiskScore">Tu nuevo riesgo es</string>
+    <string name="lbNewRiskScore">Tu nuevo puntaje es</string>
     <string name="lbMyDailyPass">Mi pase diario</string>
     <string name="lbGetDailyPassDesc">Responde las preguntas para actualizar tu riesgo y obtener tu pase diario</string>
     <string name="lbLastCheckTime">Último chequeo %1$s</string>
     <string name="lbPassDuration">Duración pase</string>
+    <string name="lbChangePassTitle">Cambiar contraseña</string>
 
     <!-- Input Text fields -->
     <string name="itRut">Rut</string>
@@ -31,6 +32,9 @@
     <string name="itMail">Correo electrónico</string>
     <string name="itRegion">Región</string>
     <string name="itCommune">Comuna</string>
+    <string name="itCurrentPass">Contraseña actual</string>
+    <string name="itNewPass">Nueva contraseña</string>
+    <string name="itRepeatNewPass">Repetir nueva contraseña</string>
 
 
     <!-- Buttons -->
@@ -43,12 +47,15 @@
     <string name="btnAnswer">Contestar</string>
     <string name="btnGetPass">Obtener pase</string>
     <string name="btnLogOut">Cerrar sesión</string>
+    <string name="btnChangePass">Cambiar contraseña</string>
 
     <!-- Toolbar -->
     <string name="tbLogIn">Iniciar sesión</string>
     <string name="tbCreateAccount">Crear cuenta</string>
     <string name="tbPermissions">Permisos</string>
     <string name="tbTriage">Mi riesgo</string>
+    <string name="tbProfile">Mi perfil</string>
+    <string name="tbChangePass">Contraseña</string>
 
 
     <!-- Bottom Navigation Bar -->
@@ -62,6 +69,9 @@
     <string name="snkBluetoothPermissionDenied">Para continuar debe activar el permiso de bluetooth</string>
     <string name="snkBluetoothNotAvailable">Bluetooth no disponible en dispositivo</string>
     <string name="snkTriageOnlyOnce">El triage principal solo se puede responder una vez</string>
+    <string name="snkDefaultApiError">Falló la comunicación con el servidor</string>
+    <string name="snkDataNullError">No se encontraron datos</string>
+
     <!-- Errors input -->
     <string name="itRutError">Rut inválido</string>
     <string name="itMailError">Correo electrónico inválido</string>

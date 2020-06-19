@@ -2,12 +2,12 @@ package cl.jumpitt.happ.ui.registerPermissions
 
 import cl.jumpitt.happ.network.request.RegisterRequest
 import cl.jumpitt.happ.network.response.RegisterResponse
+import retrofit2.Response
 
 interface RegisterPermissionsContract {
     interface View{
         fun showInitializeView()
-        fun showRegisterError()
-
+        fun showRegisterError(messageError: String)
     }
 
     interface Presenter{
@@ -29,6 +29,8 @@ interface RegisterPermissionsContract {
     interface InteractorOutputs{
         fun getRegisterDataOutput(registerData: RegisterRequest)
         fun postRegisterOutput(dataRegisterResponse: RegisterResponse)
-        fun postRegisterOutputError()
+        fun postRegisterOutputError(errorCode: Int, response: Response<RegisterResponse>)
+        fun postRegisterFailureError()
+
     }
 }

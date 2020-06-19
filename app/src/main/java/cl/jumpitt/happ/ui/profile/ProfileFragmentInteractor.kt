@@ -10,5 +10,9 @@ class ProfileFragmentInteractor(private val mIOutput: ProfileFragmentContract.In
         mIOutput.getUserProfileDataOutput(userData)
     }
 
+    override fun deleteProfileData() {
+        Hawk.delete("userProfileData")
+    }
+
 
 }

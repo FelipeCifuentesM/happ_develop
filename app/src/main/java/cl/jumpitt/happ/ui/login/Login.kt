@@ -62,6 +62,10 @@ class Login: ToolbarActivity(), LoginContract.View{
         btnEnterLogin.disabled()
     }
 
+    override fun showValidateLoginError(messageError: String) {
+        showSnackbar(containerLogin, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         this.transitionActivity(Transition.RIGHT_TO_LEFT)

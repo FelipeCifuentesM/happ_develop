@@ -81,6 +81,10 @@ class RegisterWorkplace: ToolbarActivity(), RegisterWorkPlaceContract.View{
         filledWorkCommuneDropdown.setAdapter(adapter)
     }
 
+    override fun showWorkPlaceError(messageError: String) {
+        showSnackbar(containerWorkPlace, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         this.transitionActivity(Transition.RIGHT_TO_LEFT)

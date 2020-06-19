@@ -12,14 +12,19 @@ interface ProfileFragmentContract {
         fun initializeView()
         fun getUserProfileData()
         fun navigateTracingLog()
+        fun deleteProfileData()
+        fun navigateChangePassword()
     }
 
     interface Interactor{
         fun getUserProfileData()
+        fun deleteProfileData()
     }
 
     interface Router{
         fun navigateTracingLog()
+        fun navigateLogin()
+        fun navigateChangePassword()
     }
 
     interface InteractorOutputs{

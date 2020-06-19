@@ -1,8 +1,13 @@
 package cl.jumpitt.happ.ui.registerLivingPlace
 
 import android.app.Activity
+import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.request.RegisterRequest
+import cl.jumpitt.happ.network.response.ErrorResponse
 import cl.jumpitt.happ.network.response.RegionsResponse
+import cl.jumpitt.happ.utils.parseErrJsonResponse
+import cl.jumpitt.happ.utils.qualifyResponseErrorDefault
+import retrofit2.Response
 
 class RegisterLivingPlacePresenter constructor(private val activity: Activity): RegisterLivingPlaceContract.Presenter, RegisterLivingPlaceContract.InteractorOutputs{
     private var mInteractor: RegisterLivingPlaceContract.Interactor = RegisterLivingPlaceInteractor()
@@ -39,8 +44,14 @@ class RegisterLivingPlacePresenter constructor(private val activity: Activity): 
         mView.loadRegions(regionsNameList, regionsList)
     }
 
-    override fun getRegionsOutputError() {
-
+    override fun getRegionsOutputError(errorCode: Int, response: Response<RegionsResponse>) {
+        val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
+        mView.showLivingPlaceError(messageError)
     }
+
+    override fun getRegionsFailureError() {
+        mView.showLivingPlaceError(activity.resources.getString(R.string.snkDefaultApiError))
+    }
+
 
 }

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout6"
+    android:id="@+id/containerLivingPlace"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -44,8 +44,7 @@
                     android:id="@+id/imageView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:tint="@color/iconHouseUser"
-                    app:srcCompat="@drawable/ic_house_user_duotone" />
+                    android:src="@drawable/ic_house_user_duotone" />
 
                 <TextView
                     android:id="@+id/tvDataLive"
