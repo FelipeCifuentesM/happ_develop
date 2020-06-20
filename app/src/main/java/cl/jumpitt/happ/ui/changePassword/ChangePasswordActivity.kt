@@ -1,6 +1,7 @@
 package cl.jumpitt.happ.ui.changePassword
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import cl.jumpitt.happ.R
 import cl.jumpitt.happ.ui.ToolbarActivity
@@ -27,7 +28,7 @@ class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
             }else{
                 aValidateInputPassword[0] = false
             }
-            validateInputsChangePass()
+            btnChangePassword.validateInputs(aValidateInputPassword)
         }
 
         etNewPassChange.validateFocus {newPass ->
@@ -45,8 +46,7 @@ class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
             }else{
                 aValidateInputPassword[1] = false
             }
-
-            validateInputsChangePass()
+            btnChangePassword.validateInputs(aValidateInputPassword)
         }
 
         etRepeatNewPassChange.validateFocus{repeatNewPass ->
@@ -56,7 +56,15 @@ class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
             }else{
                 aValidateInputPassword[2] = false
             }
-            validateInputsChangePass()
+            btnChangePassword.validateInputs(aValidateInputPassword)
+        }
+
+        btnChangePassword.setOnClickListener {
+            mPresenter.getAccessTokenProfile(etCurrentPassChange.text.toString(), etRepeatNewPassChange.text.toString())
+        }
+
+        containerContentChangePass.setOnClickListener {containerView ->
+            containerView.hideKeyboard()
         }
 
     }
@@ -67,11 +75,15 @@ class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
         btnChangePassword.disabled()
     }
 
-    private fun validateInputsChangePass() {
-        btnChangePassword.isEnabled = !aValidateInputPassword.contains(false)
-        if(btnChangePassword.isEnabled)
-            btnChangePassword.alpha = 1F
-        else
-            btnChangePassword.alpha = 0.5F
+    override fun showChangePasswordResponse(messageError: String) {
+        showSnackbar(containerChangePassword, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
+    override fun showLoader() {
+        pbChangePassword.visibility = View.VISIBLE
+    }
+
+    override fun hideLoader() {
+        pbChangePassword.visibility = View.GONE
     }
 }

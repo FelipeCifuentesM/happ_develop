@@ -2,16 +2,10 @@ package cl.jumpitt.happ.network
 
 
 import cl.jumpitt.happ.model.Triage
-import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
-import cl.jumpitt.happ.network.request.RegisterRequest
-import cl.jumpitt.happ.network.request.TriageAnswerRequest
-import cl.jumpitt.happ.network.request.ValidateDNIRequest
+import cl.jumpitt.happ.network.request.*
 import cl.jumpitt.happ.network.response.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -38,5 +32,11 @@ interface ApiService {
 
     @GET("healthcare")
     fun getHealthCare(@Header("Authorization") accessToken: String): Call<TriageAnswerResponse>
+
+    @POST("password/forgot")
+    fun postForgotPassword(@Body recoverPasswordRequest: RecoverPasswordRequest): Call<RecoverPasswordResponse>
+
+    @PUT("password")
+    fun putChangePassword(@Header("Authorization") accessToken: String, @Body changePasswordRequest: ChangePasswordRequest): Call<ChangePasswordResponse>
 
 }

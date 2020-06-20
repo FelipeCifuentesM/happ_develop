@@ -9,12 +9,15 @@ interface LoginContract {
     interface View{
         fun showInitializeView()
         fun showValidateLoginError(messageError: String)
+        fun showLoader()
+        fun hideLoader()
     }
 
     interface Presenter{
         fun initializeView()
         fun navigateRegisterStepOne()
         fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest)
+        fun navigateRecoverPass()
     }
 
     interface Interactor{
@@ -26,6 +29,7 @@ interface LoginContract {
     interface Router{
         fun navigateRegisterStepOne()
         fun navigateMain()
+        fun navigateRecoverPass()
     }
 
     interface InteractorOutputs{

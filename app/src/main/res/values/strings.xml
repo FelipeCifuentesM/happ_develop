@@ -22,6 +22,7 @@
     <string name="lbLastCheckTime">Último chequeo %1$s</string>
     <string name="lbPassDuration">Duración pase</string>
     <string name="lbChangePassTitle">Cambiar contraseña</string>
+    <string name="lbRecoverPassTitle">Recuperar contraseña</string>
 
     <!-- Input Text fields -->
     <string name="itRut">Rut</string>
@@ -48,6 +49,8 @@
     <string name="btnGetPass">Obtener pase</string>
     <string name="btnLogOut">Cerrar sesión</string>
     <string name="btnChangePass">Cambiar contraseña</string>
+    <string name="btnRecoverPass">Recuperar contraseña</string>
+    <string name="btnSend">Enviar</string>
 
     <!-- Toolbar -->
     <string name="tbLogIn">Iniciar sesión</string>

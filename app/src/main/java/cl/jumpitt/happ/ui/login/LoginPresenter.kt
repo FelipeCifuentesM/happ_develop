@@ -24,7 +24,12 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
     override fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest) {
+        mView.showLoader()
         mInteractor.postLoginAccessToken(loginRequest, this)
+    }
+
+    override fun navigateRecoverPass() {
+        mRouter.navigateRecoverPass()
     }
 
     override fun postLoginAccessTokenOutput(dataResponseToken: LoginAccessTokenResponse) {
@@ -32,6 +37,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
     override fun postLoginAccessTokenOutputError(errorCode: Int, response: Response<LoginAccessTokenResponse>) {
+        mView.hideLoader()
         when(errorCode){
             200 -> {
                 mView.showValidateLoginError(activity.resources.getString(R.string.snkDataNullError))
@@ -51,17 +57,20 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
 
     override fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String) {
+        mView.hideLoader()
         mInteractor.saveRegisterProfile(dataLoginResponse, accessToken)
         mRouter.navigateMain()
     }
 
     override fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>) {
+        mView.hideLoader()
         val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
         mView.showValidateLoginError(messageError)
     }
 
 
     override fun LoginFailureError() {
+        mView.hideLoader()
         mView.showValidateLoginError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 

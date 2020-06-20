@@ -31,17 +31,17 @@ class OnBoard: AppCompatActivity(){
                     resources.getString(R.string.lbOnBoardTitle1),
                     resources.getString(R.string.lbOnBoardDescription1),
                     R.drawable.ic_family_group
-                ),
-                OnBoardSlide(
-                    resources.getString(R.string.lbOnBoardTitle1),
-                    resources.getString(R.string.lbOnBoardDescription1),
-                    R.drawable.ic_buckler_heart
-                ),
-                OnBoardSlide(
-                    resources.getString(R.string.lbOnBoardTitle1),
-                    resources.getString(R.string.lbOnBoardDescription1),
-                    R.drawable.ic_family_group
                 )
+//                OnBoardSlide(
+//                    resources.getString(R.string.lbOnBoardTitle1),
+//                    resources.getString(R.string.lbOnBoardDescription1),
+//                    R.drawable.ic_buckler_heart
+//                ),
+//                OnBoardSlide(
+//                    resources.getString(R.string.lbOnBoardTitle1),
+//                    resources.getString(R.string.lbOnBoardDescription1),
+//                    R.drawable.ic_family_group
+//                )
             )
         )
 
@@ -49,8 +49,8 @@ class OnBoard: AppCompatActivity(){
         btnStartOB.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
 
         vpIntroOnBoard.adapter = introOnBoardAdapter
-        setupIndicators()
-        setCurrentIndicator(0)
+//        setupIndicators()
+//        setCurrentIndicator(0)
         vpIntroOnBoard.registerOnPageChangeCallback(object:
             ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {

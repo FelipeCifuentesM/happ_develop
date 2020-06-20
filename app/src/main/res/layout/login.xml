@@ -13,6 +13,17 @@
         layout="@layout/toolbar">
     </include>
 
+    <ProgressBar
+        android:id="@+id/pbLoogin"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -102,15 +113,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/btnHeight"
                     android:layout_marginTop="24dp"
-                    android:text="@string/btnEnterLogin"
-                    app:layout_constraintTop_toBottomOf="@+id/itLoginMail" />
+                    android:text="@string/btnEnterLogin" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRecoverPassLogin"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnHeight"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/btnRecoverPass" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="16dp"
                     android:backgroundTint="@color/skyBlue"
                     app:cardCornerRadius="@dimen/cardCornerRadius"
                     app:cardElevation="0dp">

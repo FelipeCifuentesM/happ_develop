@@ -8,6 +8,9 @@ interface RegisterPermissionsContract {
     interface View{
         fun showInitializeView()
         fun showRegisterError(messageError: String)
+        fun showLoader()
+        fun hideLoader()
+
     }
 
     interface Presenter{

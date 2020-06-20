@@ -9,6 +9,8 @@ interface RegisterStepOneContract {
     interface View{
         fun showInitializeView()
         fun showValidateDNIError(messageError: String)
+        fun showLoader()
+        fun hideLoader()
     }
 
     interface Presenter{

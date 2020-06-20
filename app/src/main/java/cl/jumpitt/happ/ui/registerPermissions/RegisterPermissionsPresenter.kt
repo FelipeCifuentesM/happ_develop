@@ -24,6 +24,7 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
     }
 
     override fun getRegisterData() {
+        mView.showLoader()
         mInteractor.getRegisterData(this)
     }
 
@@ -33,16 +34,19 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
 
 
     override fun postRegisterOutput(dataRegisterResponse: RegisterResponse) {
+        mView.hideLoader()
         mInteractor.saveRegisterProfile(dataRegisterResponse)
         mRouter.navigateRegisterSuccess()
     }
 
     override fun postRegisterOutputError(errorCode: Int, response: Response<RegisterResponse>) {
+        mView.hideLoader()
         val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
         mView.showRegisterError(messageError)
     }
 
     override fun postRegisterFailureError() {
+        mView.hideLoader()
         mView.showRegisterError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 

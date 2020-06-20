@@ -1,6 +1,7 @@
 package cl.jumpitt.happ.ui.login
 
 import android.os.Bundle
+import android.view.View
 import cl.jumpitt.happ.R
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
@@ -25,12 +26,20 @@ class Login: ToolbarActivity(), LoginContract.View{
 
 
         btnEnterLogin.setOnClickListener {
-            var loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
+            val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
             mPresenter.postLoginAccessToken(loginRequest)
+        }
+
+        btnRecoverPassLogin.setOnClickListener {
+            mPresenter.navigateRecoverPass()
         }
 
         btnCreateAccount.setOnClickListener {
             mPresenter.navigateRegisterStepOne()
+        }
+
+        containerContentLogin.setOnClickListener {containerView ->
+            containerView.hideKeyboard()
         }
 
         etRutLogin.validateFocusEnd {
@@ -58,12 +67,22 @@ class Login: ToolbarActivity(), LoginContract.View{
         tvLoginTitle.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvCreateAccount.containedStyle(Labelstext.H5, ColorIdResource.BLACK, font = R.font.dmsans_bold)
         btnEnterLogin.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnRecoverPassLogin.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLUE, font = R.font.dmsans_medium)
         btnCreateAccount.containedStyle(ColorIdResource.SKYBLUE, ColorIdResource.WHITE, font = R.font.dmsans_medium)
         btnEnterLogin.disabled()
     }
 
     override fun showValidateLoginError(messageError: String) {
         showSnackbar(containerLogin, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
+    override fun showLoader() {
+        pbLoogin.visibility = View.VISIBLE
+
+    }
+
+    override fun hideLoader() {
+        pbLoogin.visibility = View.GONE
     }
 
     override fun onBackPressed() {
