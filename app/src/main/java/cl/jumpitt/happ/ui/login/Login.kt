@@ -1,25 +1,16 @@
 package cl.jumpitt.happ.ui.login
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import cl.jumpitt.happ.R
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
-import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
 import cl.jumpitt.happ.ui.ToolbarActivity
 import cl.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.login.*
 
-class
-
-
-
-
-
-
-
-
-Login: ToolbarActivity(), LoginContract.View{
+class Login: ToolbarActivity(), LoginContract.View{
     private lateinit var mPresenter: LoginContract.Presenter
     private var aValidateInputsLogin = booleanArrayOf(false, false)
 
@@ -39,15 +30,14 @@ Login: ToolbarActivity(), LoginContract.View{
             mPresenter.postLoginAccessToken(loginRequest)
         }
 
+        btnRecoverPassLogin.setOnClickListener {
+            mPresenter.navigateRecoverPass()
+        }
+
         btnCreateAccount.setOnClickListener {
             mPresenter.navigateRegisterStepOne()
         }
 
-
-        etRutLogin.validateFocusBegin {
-            Log.e("semetieron", "aperafasd".removeRutFormat())
-
-        }
 
         etRutLogin.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
@@ -66,10 +56,10 @@ Login: ToolbarActivity(), LoginContract.View{
                 }
 
                 btnEnterLogin.validateInputs(aValidateInputsLogin)
-            }
+
+        containerContentLogin.setOnClickListener {containerView ->
+            containerView.hideKeyboard()
         }
-
-
 
         etPasswordLoginMail.validateFocus {
             aValidateInputsLogin[1] = !it.isEmpty()
@@ -84,12 +74,22 @@ Login: ToolbarActivity(), LoginContract.View{
         tvLoginTitle.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvCreateAccount.containedStyle(Labelstext.H5, ColorIdResource.BLACK, font = R.font.dmsans_bold)
         btnEnterLogin.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnRecoverPassLogin.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLUE, font = R.font.dmsans_medium)
         btnCreateAccount.containedStyle(ColorIdResource.SKYBLUE, ColorIdResource.WHITE, font = R.font.dmsans_medium)
         btnEnterLogin.disabled()
     }
 
     override fun showValidateLoginError(messageError: String) {
         showSnackbar(containerLogin, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
+    override fun showLoader() {
+        pbLoogin.visibility = View.VISIBLE
+
+    }
+
+    override fun hideLoader() {
+        pbLoogin.visibility = View.GONE
     }
 
     override fun onBackPressed() {

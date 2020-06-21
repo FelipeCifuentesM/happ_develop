@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.util.TypedValue
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -119,6 +120,12 @@ fun Response<*>.qualifyResponseErrorDefault(errorCode: Int, activity: Activity):
         else ->
             return activity.resources.getString(R.string.snkDefaultApiError)
     }
+}
+
+//Hide keyboard when pressing out of input
+fun View.hideKeyboard() {
+    val inputMethodManager = context.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+    inputMethodManager?.hideSoftInputFromWindow(this.windowToken, 0)
 }
 
 //Fragments

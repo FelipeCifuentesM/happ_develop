@@ -1,6 +1,7 @@
 package cl.jumpitt.happ.ui.registerStepOne
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.request.ValidateDNIRequest
@@ -62,6 +63,10 @@ class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
             val validateDNIRequest = ValidateDNIRequest(dni= rut, documentNumber= documentNumber)
             mPresenter.postValidateDNI(validateDNIRequest)
         }
+
+        containerContentStepOne.setOnClickListener {containerView ->
+            containerView.hideKeyboard()
+        }
     }
 
     override fun showInitializeView() {
@@ -73,6 +78,14 @@ class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
 
     override fun showValidateDNIError(messageError: String) {
         showSnackbar(containerStepOne, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
+    override fun showLoader() {
+        pbRegisterStepOne.visibility = View.VISIBLE
+    }
+
+    override fun hideLoader() {
+        pbRegisterStepOne.visibility = View.GONE
     }
 
     override fun onBackPressed() {

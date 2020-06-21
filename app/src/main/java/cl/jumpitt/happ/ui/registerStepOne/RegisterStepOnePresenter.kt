@@ -20,21 +20,25 @@ class RegisterStepOnePresenter constructor(private val activity: Activity): Regi
     }
 
     override fun postValidateDNI(validateDNIRequest: ValidateDNIRequest) {
+        mView.showLoader()
         mInteractor.postValidateDNI(validateDNIRequest, this)
     }
 
     override fun postValidateDNIOutput(validateDNIRequest: ValidateDNIRequest) {
+        mView.hideLoader()
         val registerDataObject = RegisterRequest(dni= validateDNIRequest.dni)
         mInteractor.saveRegisterData(registerDataObject)
         mRouter.navigateRegisterStepTwo()
     }
 
     override fun postValidateDNIOutputError(errorCode: Int, response: Response<ValidateDNIResponse>) {
+        mView.hideLoader()
         val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
         mView.showValidateDNIError(messageError)
     }
 
     override fun postValidateDNIFailureError() {
+        mView.hideLoader()
         mView.showValidateDNIError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 

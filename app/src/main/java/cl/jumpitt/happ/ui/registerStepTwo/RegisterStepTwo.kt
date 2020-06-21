@@ -67,6 +67,10 @@ class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
             val registerDataObject = RegisterRequest(names= name, lastName = surname, email = mail, password = password)
             mPresenter.navigateRegisterLivingPlace(registerDataObject)
         }
+
+        containerContentStepTwo.setOnClickListener {containerView ->
+            containerView.hideKeyboard()
+        }
     }
 
     override fun showInitializeView() {

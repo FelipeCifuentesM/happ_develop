@@ -4,6 +4,7 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import cl.jumpitt.happ.R
 import cl.jumpitt.happ.ui.ToolbarActivity
@@ -46,6 +47,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
 
     }
 
+
     private fun onBluetooth(){
         bAdapter?.let { _bAdapter ->
             if(_bAdapter.isEnabled){
@@ -73,6 +75,14 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
                 }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun showLoader() {
+        pbPermissions.visibility = View.VISIBLE
+    }
+
+    override fun hideLoader() {
+        pbPermissions.visibility = View.GONE
     }
 
     override fun onBackPressed() {

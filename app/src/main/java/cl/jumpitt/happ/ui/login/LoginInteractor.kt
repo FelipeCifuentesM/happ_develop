@@ -1,6 +1,5 @@
 package cl.jumpitt.happ.ui.login
 
-import android.util.Log
 import cl.jumpitt.happ.network.RestClient
 import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
 import cl.jumpitt.happ.network.response.LoginAccessTokenResponse

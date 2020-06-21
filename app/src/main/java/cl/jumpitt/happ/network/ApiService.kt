@@ -36,4 +36,9 @@ interface ApiService {
     @POST
     fun postTCN(@Url url: String, @Body tcnRequest: TracingRequest): Call<TracingResponse>
 
+    @POST("password/forgot")
+    fun postForgotPassword(@Body recoverPasswordRequest: RecoverPasswordRequest): Call<RecoverPasswordResponse>
+
+    @PUT("password")
+    fun putChangePassword(@Header("Authorization") accessToken: String, @Body changePasswordRequest: ChangePasswordRequest): Call<ChangePasswordResponse>
 }
