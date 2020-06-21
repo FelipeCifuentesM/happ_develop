@@ -26,7 +26,10 @@ class Login: ToolbarActivity(), LoginContract.View{
 
 
         btnEnterLogin.setOnClickListener {
-            val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
+            val loginRequest = LoginAccessTokenRequest(
+                username = etRutLogin.text.toString().rutFormatOnlyHyphen(),
+                password = etPasswordLoginMail.text.toString()
+            )
             mPresenter.postLoginAccessToken(loginRequest)
         }
 
@@ -42,30 +45,33 @@ class Login: ToolbarActivity(), LoginContract.View{
         etRutLogin.setOnFocusChangeListener { view, b ->
             if (view.isFocused) {
                 etRutLogin.setText(etRutLogin.text.toString().removeRutFormat())
-            }else{
-                if(etRutLogin.text.toString().isCheckDigitRut() || etRutLogin.text.toString().isEmpty()){
+            } else {
+                if (etRutLogin.text.toString().isCheckDigitRut() || etRutLogin.text.toString()
+                        .isEmpty()
+                ) {
 
                     etRutLogin.setText(etRutLogin.text.toString().rutFormat())
 
                     itRutLogin.isErrorEnabled = false
                     aValidateInputsLogin[0] = etRutLogin.text.toString().isNotEmpty()
-                }
-                else {
+                } else {
                     itRutLogin.error = getString(R.string.itRutError)
                     aValidateInputsLogin[0] = false
                 }
 
                 btnEnterLogin.validateInputs(aValidateInputsLogin)
 
-        containerContentLogin.setOnClickListener {containerView ->
-            containerView.hideKeyboard()
-        }
+                containerContentLogin.setOnClickListener { containerView ->
+                    containerView.hideKeyboard()
+                }
 
-        etPasswordLoginMail.validateFocus {
-            aValidateInputsLogin[1] = !it.isEmpty()
-            btnEnterLogin.validateInputs(aValidateInputsLogin)
-        }
+                etPasswordLoginMail.validateFocus {
+                    aValidateInputsLogin[1] = !it.isEmpty()
+                    btnEnterLogin.validateInputs(aValidateInputsLogin)
+                }
 
+            }
+        }
     }
 
     override fun showInitializeView() {
