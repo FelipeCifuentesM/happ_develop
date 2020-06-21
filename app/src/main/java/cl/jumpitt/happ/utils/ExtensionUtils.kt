@@ -1,21 +1,35 @@
 package cl.jumpitt.happ.utils
 
+import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
-import java.util.regex.Pattern
-import android.os.SystemClock
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
+import java.util.regex.Pattern
 
 
 // Input text validate
 fun TextInputEditText.validateFocusEnd(validation: (String) -> Unit){
     this.setOnFocusChangeListener { v, hasFocus ->
         if(!hasFocus){
+            validation((v as TextInputEditText).text.toString())
+        }
+    }
+}
+
+// Input text validate
+fun TextInputEditText.validateFocusBegin(validation: (String) -> Unit){
+    this.setOnFocusChangeListener { v, hasFocus ->
+        Log.e("wquera", "talweon")
+        if(hasFocus){
             validation((v as TextInputEditText).text.toString())
         }
     }
@@ -105,10 +119,44 @@ fun String.rutFormatOnlyHyphen(): String{
     rut= rut.replace(".","")
     rut= rut.replace("-","")
     rut = rut.replace(" ","")
-    var rutAux = rut.substring(0, rut.length - 1)
+    val rutAux = rut.substring(0, rut.length - 1)
     val dv = rut.get(rut.length-1)
 
     return "$rutAux-$dv"
+}
+
+fun String.rutFormat():String{
+
+    if(this.isEmpty()){
+        return this
+    }
+    val rut = this.rutFormatOnlyHyphen()
+
+    if(rut.length > 2){
+        val hyphen = rut.takeLast(2)
+        val removeHypenRut = rut.substring(0, rut.length - 2)
+        val removeHypenRutNumber = removeHypenRut.toInt()
+        val formatter = NumberFormat.getInstance(Locale("es", "CL"))
+        val formatedRut = formatter.format(removeHypenRutNumber)
+        return formatedRut+hyphen
+    }else{
+        return  this
+    }
+}
+
+fun String.removeRutFormat():String{
+
+    if(this.isEmpty()){
+        return this
+    }
+    val rut = this.rutFormatOnlyHyphen()
+    return if(rut.length > 2){
+        val hyphen = rut.takeLast(1)
+        val cleanRut = rut.substring(0, rut.length - 2).replace(".", "")
+        cleanRut + hyphen
+    }else{
+        this
+    }
 }
 
 //Bold backend **

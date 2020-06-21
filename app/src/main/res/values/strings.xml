@@ -75,6 +75,7 @@
     <!-- Errors input -->
     <string name="itRutError">Rut inválido</string>
     <string name="itMailError">Correo electrónico inválido</string>
+    <string name="itPasswordError">La contraseña debe tener mínimo 6 caracteres</string>
 
 
 

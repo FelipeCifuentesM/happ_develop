@@ -6,7 +6,10 @@ import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.request.ValidateDNIRequest
 import cl.jumpitt.happ.ui.ToolbarActivity
 import cl.jumpitt.happ.utils.*
+import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.register_step_one.*
+import kotlinx.android.synthetic.main.register_step_one.toolbar
+import kotlinx.android.synthetic.main.register_step_two.*
 
 class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
     private lateinit var mPresenter: RegisterStepOneContract.Presenter
@@ -22,17 +25,24 @@ class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
         mPresenter = RegisterStepOnePresenter(this)
         mPresenter.initializeView()
 
+        etRutRegister.setOnFocusChangeListener { view, b ->
+            if (view.isFocused) {
+                etRutRegister.setText(etRutRegister.text.toString().removeRutFormat())
+            }else{
+                if(etRutRegister.text.toString().isCheckDigitRut() || etRutRegister.text.toString().isEmpty()){
 
-        etRutRegister.validateFocusEnd {
-            if(it.isCheckDigitRut()){
-                itRutRegister.isErrorEnabled = false
-                aValidateInputsLogin[0] = true
+                    etRutRegister.setText(etRutRegister.text.toString().rutFormat())
+
+                    itRutRegister.isErrorEnabled = false
+                    aValidateInputsLogin[0] = etRutRegister.text.toString().isNotEmpty()
+                }
+                else {
+                    itRutRegister.error = getString(R.string.itRutError)
+                    aValidateInputsLogin[0] = false
+                }
+
+                btnNextRegisterOne.validateInputs(aValidateInputsLogin)
             }
-            else {
-                itRutRegister.error = getString(R.string.itRutError)
-                aValidateInputsLogin[0] = false
-            }
-            btnNextRegisterOne.validateInputs(aValidateInputsLogin)
         }
 
         etDocumentNumberRegister.validateFocus {

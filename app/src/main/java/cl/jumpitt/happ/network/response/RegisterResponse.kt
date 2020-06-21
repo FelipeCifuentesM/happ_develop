@@ -5,5 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class RegisterResponse(
     val profile: ProfileResponse? = null,
     @SerializedName("access_token")
-    val accessToken: String? = null
+    val accessToken: String? = null,
+    @SerializedName("refresh_token")
+    val refreshToken: String? = null
 )

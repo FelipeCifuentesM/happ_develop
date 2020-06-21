@@ -2,16 +2,10 @@ package cl.jumpitt.happ.network
 
 
 import cl.jumpitt.happ.model.Triage
-import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
-import cl.jumpitt.happ.network.request.RegisterRequest
-import cl.jumpitt.happ.network.request.TriageAnswerRequest
-import cl.jumpitt.happ.network.request.ValidateDNIRequest
+import cl.jumpitt.happ.network.request.*
 import cl.jumpitt.happ.network.response.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -38,5 +32,8 @@ interface ApiService {
 
     @GET("healthcare")
     fun getHealthCare(@Header("Authorization") accessToken: String): Call<TriageAnswerResponse>
+
+    @POST
+    fun postTCN(@Url url: String, @Body tcnRequest: TracingRequest): Call<TracingResponse>
 
 }

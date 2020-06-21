@@ -1,15 +1,25 @@
 package cl.jumpitt.happ.ui.login
 
 import android.os.Bundle
-import cl.jumpitt.happ.R
+import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
+import cl.jumpitt.happ.R
 import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
 import cl.jumpitt.happ.ui.ToolbarActivity
 import cl.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.login.*
 
-class Login: ToolbarActivity(), LoginContract.View{
+class
+
+
+
+
+
+
+
+
+Login: ToolbarActivity(), LoginContract.View{
     private lateinit var mPresenter: LoginContract.Presenter
     private var aValidateInputsLogin = booleanArrayOf(false, false)
 
@@ -25,7 +35,7 @@ class Login: ToolbarActivity(), LoginContract.View{
 
 
         btnEnterLogin.setOnClickListener {
-            var loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
+            val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
             mPresenter.postLoginAccessToken(loginRequest)
         }
 
@@ -33,17 +43,33 @@ class Login: ToolbarActivity(), LoginContract.View{
             mPresenter.navigateRegisterStepOne()
         }
 
-        etRutLogin.validateFocusEnd {
-            if(it.isCheckDigitRut()){
-                itRutLogin.isErrorEnabled = false
-                aValidateInputsLogin[0] = true
-            }
-            else {
-                itRutLogin.error = getString(R.string.itRutError)
-                aValidateInputsLogin[0] = false
-            }
-            btnEnterLogin.validateInputs(aValidateInputsLogin)
+
+        etRutLogin.validateFocusBegin {
+            Log.e("semetieron", "aperafasd".removeRutFormat())
+
         }
+
+        etRutLogin.setOnFocusChangeListener { view, b ->
+            if (view.isFocused) {
+                etRutLogin.setText(etRutLogin.text.toString().removeRutFormat())
+            }else{
+                if(etRutLogin.text.toString().isCheckDigitRut() || etRutLogin.text.toString().isEmpty()){
+
+                    etRutLogin.setText(etRutLogin.text.toString().rutFormat())
+
+                    itRutLogin.isErrorEnabled = false
+                    aValidateInputsLogin[0] = etRutLogin.text.toString().isNotEmpty()
+                }
+                else {
+                    itRutLogin.error = getString(R.string.itRutError)
+                    aValidateInputsLogin[0] = false
+                }
+
+                btnEnterLogin.validateInputs(aValidateInputsLogin)
+            }
+        }
+
+
 
         etPasswordLoginMail.validateFocus {
             aValidateInputsLogin[1] = !it.isEmpty()

@@ -10,6 +10,7 @@ import cl.jumpitt.happ.network.response.RegisterResponse
 import cl.jumpitt.happ.utils.ColorIdResource
 import cl.jumpitt.happ.utils.Labelstext
 import cl.jumpitt.happ.utils.containedStyle
+import cl.jumpitt.happ.utils.rutFormat
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_rounded_toolbar.*
 
@@ -72,7 +73,7 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         tvRoundedToolbar.text = resources.getString(R.string.tbProfile)
         userData.profile?.names?.let {names -> tvProfileName.text = names.capitalize() }
         userData.profile?.lastName?.let {lastName -> tvProfileName.text =  "${tvProfileName.text} ${lastName.capitalize()}"  }
-        userData.profile?.rut?.let {rut -> tvProfileRut.text = rut }
+        userData.profile?.rut?.let {rut -> tvProfileRut.text = rut.rutFormat() }
         userData.profile?.email?.let {email -> tvProfileMail.text = email }
     }
 

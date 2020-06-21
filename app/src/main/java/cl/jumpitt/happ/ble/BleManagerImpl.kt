@@ -12,10 +12,18 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import cl.jumpitt.happ.App
+import cl.jumpitt.happ.network.RestClient
+import cl.jumpitt.happ.network.request.TracingRequest
+import cl.jumpitt.happ.network.response.TracingResponse
 import cl.jumpitt.happ.ui.main.MainActivity
 import cl.jumpitt.happ.ui.profile.TcnBluetoothServiceCallbackDemo
+import cl.jumpitt.happ.utils.ColorIdResource
 import org.tcncoalition.tcnclient.TcnKeys
 import org.tcncoalition.tcnclient.bluetooth.TcnBluetoothService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,7 +64,22 @@ class BleManagerImpl(
             val currentDate = sdf.format(Date())
             Log.e("TcnClient", "myTcn: ${myTcn?.toHex()}  tcn found: ${tcn.toHex()} date: $currentDate distance: $estimatedDistance" )
             delegateDemo?.onTcnFound(tcn, myTcn, estimatedDistance)
+            val distance = if (estimatedDistance == null) {
+                "0"
+            } else {
+                estimatedDistance.toString()
+            }
 
+            RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/", tcnRequest = TracingRequest(userId = "66",tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = distance)).
+            enqueue(object: Callback<TracingResponse> {
+                override fun onFailure(call: Call<TracingResponse>, t: Throwable) {
+                }
+
+                override fun onResponse(call: Call<TracingResponse>, response: Response<TracingResponse>) {
+                    val dataResponse = response.body()
+
+                }
+            })
         }
     }
 
@@ -70,7 +93,7 @@ class BleManagerImpl(
     }
 
     override fun bluetoothStateChanged(bluetoothOn: Boolean) {
-        TODO("Not yet implemented")
+        Log.e("was", "disabled")
     }
 
     private fun foregroundNotification(): Notification {

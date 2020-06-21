@@ -2,7 +2,7 @@ package cl.jumpitt.happ.network.request
 
 import com.google.gson.annotations.SerializedName
 
-data class TCNRequest(
+data class TracingRequest(
     @SerializedName("user_id")
     val userId: String,
     val tcn: String,
