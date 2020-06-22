@@ -23,7 +23,7 @@ interface ChangePasswordContract {
     }
 
     interface Router{
-
+        fun navigateReturnProfile()
     }
 
     interface InteractorOutputs{

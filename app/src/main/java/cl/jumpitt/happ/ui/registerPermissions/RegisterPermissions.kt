@@ -3,7 +3,9 @@ package cl.jumpitt.happ.ui.registerPermissions
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import cl.jumpitt.happ.R
@@ -15,7 +17,6 @@ import kotlinx.android.synthetic.main.register_permissions.*
 class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
     private lateinit var mPresenter: RegisterPermissionsContract.Presenter
     private var bAdapter: BluetoothAdapter? = null
-    private val REQUEST_CODE_ENABLE_BT = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +56,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
                 mPresenter.getRegisterData()
             }else{
                 var intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(intent, REQUEST_CODE_ENABLE_BT)
+                startActivityForResult(intent, RequestCode.REQUEST_CODE_ENABLE_BT)
             }
         }?: run {
             showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.BLUE, ColorIdResource.WHITE)
@@ -65,7 +66,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when(requestCode){
-            REQUEST_CODE_ENABLE_BT ->
+            RequestCode.REQUEST_CODE_ENABLE_BT ->
                 if(resultCode  == Activity.RESULT_OK){
                     //Accept permission
                     mPresenter.getRegisterData()
@@ -75,6 +76,26 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
                 }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RequestCode.ACCESS_FINE_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Log.e("Borrar", "acepto permiso")
+                } else {
+                    Log.e("Borrar", "NO acepto")
+                }
+                return
+            }
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                Log.e("Borrar", "Ignoro todo")
+                // Ignore all other requests.
+            }
+        }
     }
 
     override fun showLoader() {

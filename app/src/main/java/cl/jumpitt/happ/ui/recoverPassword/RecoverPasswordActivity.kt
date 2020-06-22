@@ -1,6 +1,7 @@
 package cl.jumpitt.happ.ui.recoverPassword
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import cl.jumpitt.happ.R
@@ -32,7 +33,7 @@ class RecoverPasswordActivity: ToolbarActivity(), RecoverPasswordContract.View {
             mPresenter.postForgotPassword(etMailRecoverPass.text.toString())
         }
 
-        containerRecoverPassword.setOnClickListener {containerView ->
+        containerContentRecoverPass.setOnClickListener {containerView ->
             containerView.hideKeyboard()
         }
 

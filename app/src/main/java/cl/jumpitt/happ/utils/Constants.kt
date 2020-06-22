@@ -59,3 +59,8 @@ object Transition{
     const val LEFT_TO_RIGHT = "left"
     const val RIGHT_TO_LEFT = "right"
 }
+
+object RequestCode{
+    const val REQUEST_CODE_ENABLE_BT = 1000
+    const val ACCESS_FINE_LOCATION = 44
+}

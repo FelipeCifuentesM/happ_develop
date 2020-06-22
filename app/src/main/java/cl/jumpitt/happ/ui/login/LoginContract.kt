@@ -16,7 +16,7 @@ interface LoginContract {
     interface Presenter{
         fun initializeView()
         fun navigateRegisterStepOne()
-        fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest)
+        fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, requestPermissions: Boolean)
         fun navigateRecoverPass()
     }
 
