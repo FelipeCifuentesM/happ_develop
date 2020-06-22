@@ -70,10 +70,12 @@
     <string name="snkValidateDNI">Validación erronea</string>
     <string name="snkRegisterError">No se pudo realizar el registro</string>
     <string name="snkBluetoothPermissionDenied">Para continuar debe activar el permiso de bluetooth</string>
+    <string name="snkLocationPermissionDenied">No tiene activado el permiso de Ubicación</string>
     <string name="snkBluetoothNotAvailable">Bluetooth no disponible en dispositivo</string>
     <string name="snkTriageOnlyOnce">El triage principal solo se puede responder una vez</string>
     <string name="snkDefaultApiError">Falló la comunicación con el servidor</string>
     <string name="snkDataNullError">No se encontraron datos</string>
+    <string name="snkChangePassSuccess">Contraseña cambiada con éxito</string>
 
     <!-- Errors input -->
     <string name="itRutError">Rut inválido</string>

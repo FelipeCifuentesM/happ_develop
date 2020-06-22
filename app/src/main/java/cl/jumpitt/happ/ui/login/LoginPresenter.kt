@@ -6,6 +6,7 @@ import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
 import cl.jumpitt.happ.network.response.ErrorResponse
 import cl.jumpitt.happ.network.response.LoginAccessTokenResponse
 import cl.jumpitt.happ.network.response.ProfileResponse
+import cl.jumpitt.happ.utils.isPermissionLocation
 import cl.jumpitt.happ.utils.parseErrJsonResponse
 import cl.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
@@ -23,14 +24,26 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         mRouter.navigateRegisterStepOne()
     }
 
-    override fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest) {
-        mView.showLoader()
-        mInteractor.postLoginAccessToken(loginRequest, this)
+
+    override fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, requestPermissions: Boolean) {
+        //review permissions
+        if(requestPermissions){
+            val permissionGranted = activity.isPermissionLocation()
+            if(permissionGranted){
+                mView.showLoader()
+                mInteractor.postLoginAccessToken(loginRequest, this)
+            }
+        }else{
+            mView.showLoader()
+            mInteractor.postLoginAccessToken(loginRequest, this)
+        }
+
     }
 
     override fun navigateRecoverPass() {
         mRouter.navigateRecoverPass()
     }
+
 
     override fun postLoginAccessTokenOutput(dataResponseToken: LoginAccessTokenResponse) {
         mInteractor.getProfile(dataResponseToken, this)

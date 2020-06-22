@@ -1,6 +1,8 @@
 package cl.jumpitt.happ.ui.login
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import cl.jumpitt.happ.R
 import androidx.appcompat.widget.Toolbar
@@ -26,11 +28,8 @@ class Login: ToolbarActivity(), LoginContract.View{
 
 
         btnEnterLogin.setOnClickListener {
-            val loginRequest = LoginAccessTokenRequest(
-                username = etRutLogin.text.toString().rutFormatOnlyHyphen(),
-                password = etPasswordLoginMail.text.toString()
-            )
-            mPresenter.postLoginAccessToken(loginRequest)
+            val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
+            mPresenter.postLoginAccessToken(loginRequest, true)
         }
 
         btnRecoverPassLogin.setOnClickListener {
@@ -91,7 +90,6 @@ class Login: ToolbarActivity(), LoginContract.View{
 
     override fun showLoader() {
         pbLoogin.visibility = View.VISIBLE
-
     }
 
     override fun hideLoader() {
@@ -101,5 +99,29 @@ class Login: ToolbarActivity(), LoginContract.View{
     override fun onBackPressed() {
         super.onBackPressed()
         this.transitionActivity(Transition.RIGHT_TO_LEFT)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RequestCode.ACCESS_FINE_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Log.e("Borrar", "acepto permiso")
+                } else {
+                    Log.e("Borrar", "NO acepto")
+                }
+                val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
+                mPresenter.postLoginAccessToken(loginRequest, false)
+                return
+            }
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
+                mPresenter.postLoginAccessToken(loginRequest, false)
+                Log.e("Borrar", "Ignoro todo")
+                // Ignore all other requests.
+            }
+        }
     }
 }
