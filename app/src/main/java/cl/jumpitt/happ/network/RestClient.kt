@@ -1,5 +1,6 @@
 package cl.jumpitt.happ.network
 
+import cl.jumpitt.happ.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,7 +11,7 @@ object RestClient{
     private const val CONNECT_TIMEOUT = 30
     private const val WRITE_TIMEOUT = 30
     private const val READ_TIMEOUT = 30
-    private const val BASE_URL = "http://api.keepsafe.jumpittlabs.cl/v1/"
+    private const val BASE_URL = BuildConfig.BASE_URL
 
     private val loggingInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
