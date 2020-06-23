@@ -5,7 +5,9 @@
     <!-- Labels -->
     <string name="lbOnBoardTitle1">Protege tu salud</string>
     <string name="lbOnBoardDescription1">Controla de forma segura tu exposición para mantenerte saludable y mantener saludable a otros.</string>
-    <string name="lbTermsConditions">Al hacer click en comenzar, aceptas los términos de uso y politica de privacidad</string>
+    <string name="lbPhraseTermsConditions">Al hacer click en comenzar, %1$s y %2$s</string>
+    <string name="lbTermsConditions">aceptas los términos de uso</string>
+    <string name="lbPrivacy">política de privacidad</string>
     <string name="lbLoginTitle">Ingresa a tu cuenta</string>
     <string name="lbCreateAccount">¿No tienes cuenta?</string>
     <string name="lbValidateRut">Valida tu rut</string>
@@ -59,6 +61,8 @@
     <string name="tbTriage">Mi riesgo</string>
     <string name="tbProfile">Mi perfil</string>
     <string name="tbChangePass">Contraseña</string>
+    <string name="tbTermsConditions">Términos de uso</string>
+    <string name="tbPrivacy">Politicas de privacidad</string>
 
 
     <!-- Bottom Navigation Bar -->

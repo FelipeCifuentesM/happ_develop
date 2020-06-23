@@ -17,6 +17,7 @@
     <color name="iconDisabled">#999999</color>
     <color name="backgroundQuestionNotSelected">#f2f2f7</color>
     <color name="backgroundQuestionSelected">#1a003cbf</color>
+    <color name="textColorLink">#007aff</color>
 
     <color name="semaphoreOrange">#ffae13</color>
     <color name="semaphoreGreen">#15dea9</color>

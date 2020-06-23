@@ -1,6 +1,14 @@
 package cl.jumpitt.happ.ui
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -16,6 +24,7 @@ import cl.jumpitt.happ.utils.Labelstext
 import cl.jumpitt.happ.utils.containedStyle
 import cl.jumpitt.happ.utils.goToActivity
 import kotlinx.android.synthetic.main.on_board.*
+
 
 class OnBoard: AppCompatActivity(){
 
@@ -47,6 +56,49 @@ class OnBoard: AppCompatActivity(){
 
         tvTermsConditions.containedStyle(Labelstext.BODY2, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         btnStartOB.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+
+
+        val termsConditionLink = resources.getString(R.string.lbTermsConditions)
+        val privacyLink = resources.getString(R.string.lbPrivacy)
+        val phrase = String.format(resources.getString(R.string.lbPhraseTermsConditions),termsConditionLink, privacyLink)
+
+        val firstCharacterTerms = phrase.indexOf(termsConditionLink)
+        val firstCharacterPrivacy = phrase.indexOf(privacyLink)
+
+
+        val ss = SpannableString(phrase)
+//        val clickSpanTerms = object : ClickableSpan(){
+//            override fun onClick(widget: View) {
+//                Log.e("Borrar", "uno")
+//            }
+//
+//            override fun updateDrawState(ds: TextPaint) {
+//                super.updateDrawState(ds)
+//                ds.color = ColorIdResource.TEXTCOLORLINK.color
+//                ds.isUnderlineText = false
+//            }
+//        }
+
+        val clickSpanPrivacy = object : ClickableSpan(){
+            override fun onClick(widget: View) {
+                Log.e("Borrar", "dos")
+                goToActivity<WebViewActivity>{
+                    putExtra("urlWebView", "https://drive.google.com/file/d/1ELB17XPw62Hk0tHuGmvv_2ut1pAsDYEz/view")
+                    putExtra("titleBar", resources.getString(R.string.tbPrivacy))
+                }
+            }
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.color = ColorIdResource.TEXTCOLORLINK.color
+                ds.isUnderlineText = false
+            }
+        }
+        tvTermsConditions.highlightColor = Color.LTGRAY
+//        ss.setSpan(clickSpanTerms,firstCharacterTerms, firstCharacterTerms + termsConditionLink.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        ss.setSpan(clickSpanPrivacy,firstCharacterPrivacy, firstCharacterPrivacy + privacyLink.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tvTermsConditions.text = ss
+        tvTermsConditions.movementMethod = LinkMovementMethod.getInstance()
+
 
         vpIntroOnBoard.adapter = introOnBoardAdapter
 //        setupIndicators()
@@ -91,11 +143,4 @@ class OnBoard: AppCompatActivity(){
         }
     }
 
-
-
-
-
-
-
-    
 }
