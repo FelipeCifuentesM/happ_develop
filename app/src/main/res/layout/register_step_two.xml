@@ -65,6 +65,8 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itName"
+                        android:maxLines="1"
+                        android:maxLength="80"
                         android:inputType="textPersonName"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +89,8 @@
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itSurname"
                         android:inputType="textPersonName"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:maxLength="80" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -114,7 +117,8 @@
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itMail"
                         android:inputType="textEmailAddress"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:maxLength="150" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -137,7 +141,8 @@
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itPassword"
                         android:inputType="textPassword"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:maxLength="150" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton

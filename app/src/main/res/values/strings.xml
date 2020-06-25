@@ -85,6 +85,8 @@
     <string name="itRutError">Rut inválido</string>
     <string name="itMailError">Correo electrónico inválido</string>
 
-
+    <!-- Pattern validation input -->
+    <string name="patternRut">1234567890kK.-</string>
+    <string name="patternDocumentNumber">1234567890a.</string>
 
 </resources>

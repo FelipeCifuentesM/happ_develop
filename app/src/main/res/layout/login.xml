@@ -83,6 +83,7 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itRut"
+                        android:digits="@string/patternRut"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
