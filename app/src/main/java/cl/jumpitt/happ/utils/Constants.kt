@@ -9,8 +9,8 @@ enum class ColorIdResource(val color: Int) {
     SKYBLUE(R.color.skyBlue),
     SEMAPHOREORANGE(R.color.semaphoreOrange),
     SEMAPHOREGREEN(R.color.semaphoreGreen),
-    SEMAPHORERED(R.color.semaphoreRed)
-
+    SEMAPHORERED(R.color.semaphoreRed),
+    TEXTCOLORLINK(R.color.textColorLink)
 }
 
 enum class Labelstext(val sizeText: Int, val font: Int, val letterSpacing: Float) {

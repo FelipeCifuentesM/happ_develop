@@ -55,7 +55,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="26dp"
-        android:text="@string/lbTermsConditions"
+        tools:text="@string/lbTermsConditions"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
