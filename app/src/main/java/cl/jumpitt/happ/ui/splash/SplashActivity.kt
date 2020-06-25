@@ -16,8 +16,6 @@ class SplashActivity: AppCompatActivity(), SplashActivityContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)
-        val userData = Hawk.get<RegisterResponse>("userProfileData")
-//        Log.e("refreshToken23", userData.refreshToken+" gola " + userData.accessToken)
 
         mPresenter = SplashActivityPresenter(this)
 

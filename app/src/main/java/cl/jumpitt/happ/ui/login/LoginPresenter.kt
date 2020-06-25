@@ -92,9 +92,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         mView.hideLoader()
         mInteractor.saveRegisterProfile(dataLoginResponse, accessToken, refreshToken)
         val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-        Log.e("entro0","eda1")
         if(!isRunning) {
-            Log.e("entro0","eda")
             val tcnGenerator = TcnGeneratorImpl(context = activity)
             val bleManagerImpl = BleManagerImpl(
                 app = activity.applicationContext,
