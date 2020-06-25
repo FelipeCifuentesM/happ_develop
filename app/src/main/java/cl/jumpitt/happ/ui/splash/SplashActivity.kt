@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import cl.jumpitt.happ.R
-import cl.jumpitt.happ.utils.*
+import cl.jumpitt.happ.network.response.RegisterResponse
+import cl.jumpitt.happ.utils.RequestCode
+import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.splash_activity.*
 
 class SplashActivity: AppCompatActivity(), SplashActivityContract.View{
@@ -14,6 +16,8 @@ class SplashActivity: AppCompatActivity(), SplashActivityContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_activity)
+        val userData = Hawk.get<RegisterResponse>("userProfileData")
+//        Log.e("refreshToken23", userData.refreshToken+" gola " + userData.accessToken)
 
         mPresenter = SplashActivityPresenter(this)
 

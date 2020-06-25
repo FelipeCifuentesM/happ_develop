@@ -46,7 +46,7 @@ class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
 
         etPasswordRegister.validateFocus {
 
-            if(it.length > 6) {
+            if(it.length > 5) {
                 itPasswordRegister.isErrorEnabled = false
                 aValidateInputsLogin[3] = true
             }

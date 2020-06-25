@@ -1,7 +1,12 @@
 package cl.jumpitt.happ.ui.login
 
 import android.app.Activity
+import android.app.ActivityManager
+import android.content.Context
+import android.util.Log
 import cl.jumpitt.happ.R
+import cl.jumpitt.happ.ble.BleManagerImpl
+import cl.jumpitt.happ.ble.TcnGeneratorImpl
 import cl.jumpitt.happ.network.request.LoginAccessTokenRequest
 import cl.jumpitt.happ.network.response.ErrorResponse
 import cl.jumpitt.happ.network.response.LoginAccessTokenResponse
@@ -30,6 +35,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         if(requestPermissions){
             val permissionGranted = activity.isPermissionLocation()
             if(permissionGranted){
+
                 mView.showLoader()
                 mInteractor.postLoginAccessToken(loginRequest, this)
             }
@@ -38,6 +44,19 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
             mInteractor.postLoginAccessToken(loginRequest, this)
         }
 
+    }
+
+    private fun isMyServiceRunning(
+        serviceClass: Class<*>
+    ): Boolean {
+        val manager =
+            activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
     }
 
     override fun navigateRecoverPass() {
@@ -69,9 +88,20 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
 
-    override fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String) {
+    override fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String) {
         mView.hideLoader()
-        mInteractor.saveRegisterProfile(dataLoginResponse, accessToken)
+        mInteractor.saveRegisterProfile(dataLoginResponse, accessToken, refreshToken)
+        val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+        Log.e("entro0","eda1")
+        if(!isRunning) {
+            Log.e("entro0","eda")
+            val tcnGenerator = TcnGeneratorImpl(context = activity)
+            val bleManagerImpl = BleManagerImpl(
+                app = activity.applicationContext,
+                tcnGenerator = tcnGenerator
+            )
+            bleManagerImpl.startService()
+        }
         mRouter.navigateMain()
     }
 

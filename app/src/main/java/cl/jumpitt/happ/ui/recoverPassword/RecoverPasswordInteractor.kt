@@ -6,11 +6,12 @@ import cl.jumpitt.happ.network.response.RecoverPasswordResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URLEncoder
 
 class RecoverPasswordInteractor(private val mIOutput: RecoverPasswordContract.InteractorOutputs): RecoverPasswordContract.Interactor {
 
     override fun postForgotPassword(recoverPasswordRequest: RecoverPasswordRequest) {
-        RestClient.instance.postForgotPassword(recoverPasswordRequest).
+        RestClient.instance.postForgotPassword("ss@SS.cpm").
         enqueue(object: Callback<RecoverPasswordResponse> {
             override fun onFailure(call: Call<RecoverPasswordResponse>, t: Throwable) {
                 mIOutput.postRecoverPassFailureError()

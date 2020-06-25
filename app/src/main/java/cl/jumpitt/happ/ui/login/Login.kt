@@ -45,9 +45,7 @@ class Login: ToolbarActivity(), LoginContract.View{
             if (view.isFocused) {
                 etRutLogin.setText(etRutLogin.text.toString().removeRutFormat())
             } else {
-                if (etRutLogin.text.toString().isCheckDigitRut() || etRutLogin.text.toString()
-                        .isEmpty()
-                ) {
+                if (etRutLogin.text.toString().isCheckDigitRut() || etRutLogin.text.toString().isEmpty()) {
 
                     etRutLogin.setText(etRutLogin.text.toString().rutFormat())
 

@@ -1,7 +1,11 @@
 package cl.jumpitt.happ.ui.registerPermissions
 
 import android.app.Activity
+import android.app.ActivityManager
+import android.content.Context
 import cl.jumpitt.happ.R
+import cl.jumpitt.happ.ble.BleManagerImpl
+import cl.jumpitt.happ.ble.TcnGeneratorImpl
 import cl.jumpitt.happ.network.request.RegisterRequest
 import cl.jumpitt.happ.network.response.ErrorResponse
 import cl.jumpitt.happ.network.response.RegisterResponse
@@ -34,6 +38,17 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
 
 
     override fun postRegisterOutput(dataRegisterResponse: RegisterResponse) {
+
+        val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+        if(!isRunning) {
+            val tcnGenerator = TcnGeneratorImpl(context = activity)
+            val bleManagerImpl = BleManagerImpl(
+                app = activity.applicationContext,
+                tcnGenerator = tcnGenerator
+            )
+            bleManagerImpl.startService()
+        }
+
         mView.hideLoader()
         mInteractor.saveRegisterProfile(dataRegisterResponse)
         mRouter.navigateRegisterSuccess()
@@ -48,6 +63,19 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
     override fun postRegisterFailureError() {
         mView.hideLoader()
         mView.showRegisterError(activity.resources.getString(R.string.snkDefaultApiError))
+    }
+
+    private fun isMyServiceRunning(
+        serviceClass: Class<*>
+    ): Boolean {
+        val manager =
+            activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
     }
 
 }

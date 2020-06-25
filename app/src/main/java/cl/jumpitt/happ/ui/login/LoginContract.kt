@@ -23,7 +23,7 @@ interface LoginContract {
     interface Interactor{
         fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, interactorOutput: InteractorOutputs)
         fun getProfile(dataResponseToken: LoginAccessTokenResponse, interactorOutput: InteractorOutputs)
-        fun saveRegisterProfile(dataLoginResponse: ProfileResponse, accessToken: String)
+        fun saveRegisterProfile(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String)
     }
 
     interface Router{
@@ -35,7 +35,7 @@ interface LoginContract {
     interface InteractorOutputs{
         fun postLoginAccessTokenOutput(dataResponseToken: LoginAccessTokenResponse)
         fun postLoginAccessTokenOutputError(errorCode: Int, response: Response<LoginAccessTokenResponse>)
-        fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String)
+        fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String)
         fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>)
         fun LoginFailureError()
     }

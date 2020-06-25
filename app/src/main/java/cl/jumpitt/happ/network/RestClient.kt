@@ -19,7 +19,7 @@ object RestClient{
 
     private val okHttpClient = OkHttpClient().newBuilder()
         .addInterceptor(loggingInterceptor)
-        .authenticator(AccessTokenAuthenticator())
+        .authenticator(CustomAuthenticator())
         .connectTimeout(CONNECT_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .writeTimeout(WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -32,7 +32,6 @@ object RestClient{
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
-
         retrofit.create(ApiService::class.java)
     }
 

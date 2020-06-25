@@ -21,6 +21,9 @@ interface ApiService {
     @POST("auth/token")
     fun postLoginAccessToken(@Body loginTokenRequest: LoginAccessTokenRequest): Call<LoginAccessTokenResponse>
 
+    @POST("auth/token")
+    fun postRefreshAccessToken(@Body requestTokenRequest: RequestTokenRequest): Call<RefreshTokenResponse>
+
     @GET("profile")
     fun getProfile(@Header("Authorization") accessToken: String): Call<ProfileResponse>
 
@@ -34,10 +37,11 @@ interface ApiService {
     fun getHealthCare(@Header("Authorization") accessToken: String): Call<TriageAnswerResponse>
 
     @POST
-    fun postTCN(@Url url: String, @Body tcnRequest: TracingRequest): Call<TracingResponse>
+    fun postTCN(@Url url: String, @Header("Authorization") accessToken: String, @Body tcnRequest: TracingRequest): Call<TracingResponse>
 
+    @FormUrlEncoded
     @POST("password/forgot")
-    fun postForgotPassword(@Body recoverPasswordRequest: RecoverPasswordRequest): Call<RecoverPasswordResponse>
+    fun postForgotPassword(@Field("email") email: String): Call<RecoverPasswordResponse>
 
     @PUT("password")
     fun putChangePassword(@Header("Authorization") accessToken: String, @Body changePasswordRequest: ChangePasswordRequest): Call<ChangePasswordResponse>

@@ -1,5 +1,6 @@
 package cl.jumpitt.happ.ui.registerPermissions
 
+import android.util.Log
 import cl.jumpitt.happ.network.RestClient
 import cl.jumpitt.happ.network.request.RegisterRequest
 import cl.jumpitt.happ.network.response.RegisterResponse
@@ -43,7 +44,7 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
     }
 
     override fun saveRegisterProfile(dataRegisterResponse: RegisterResponse) {
-        val registerProfile = RegisterResponse(profile = dataRegisterResponse.profile, accessToken = dataRegisterResponse.accessToken)
+        val registerProfile = RegisterResponse(profile = dataRegisterResponse.profile, accessToken = dataRegisterResponse.accessToken, refreshToken = dataRegisterResponse.refreshToken)
         Hawk.put("userProfileData", registerProfile)
     }
 

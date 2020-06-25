@@ -43,7 +43,7 @@ class TracingLogFragment : Fragment(), TcnBluetoothServiceCallbackDemo {
         demoTracingRecyclerView.adapter = mAdapter
         //Run tcn ble
         val tcnGenerator = TcnGeneratorImpl(context =  requireActivity().applicationContext)
-        val bleManagerImpl = BleManagerImpl(app = requireActivity().applicationContext,tcnGenerator = tcnGenerator, delegateDemo = this)
+        val bleManagerImpl = BleManagerImpl(app = requireActivity().applicationContext,tcnGenerator = tcnGenerator)
         bleManagerImpl.startService()
 
 

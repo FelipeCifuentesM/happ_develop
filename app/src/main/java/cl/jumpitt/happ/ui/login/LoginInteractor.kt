@@ -55,7 +55,7 @@ class LoginInteractor: LoginContract.Interactor {
                 when (responseCode) {
                     200 -> {
                         responseData?.let {dataLoginResponse ->
-                            interactorOutput.getProfileOutput(dataLoginResponse, dataResponseToken.accessToken)
+                            interactorOutput.getProfileOutput(dataLoginResponse, dataResponseToken.accessToken, dataResponseToken.refreshToken)
                         }?: run {
                             interactorOutput.getProfileOutputError(responseCode, response)
                         }
@@ -71,8 +71,8 @@ class LoginInteractor: LoginContract.Interactor {
         })
     }
 
-    override fun saveRegisterProfile(dataLoginResponse: ProfileResponse, accessToken: String) {
-        val dataProfile = RegisterResponse(profile = dataLoginResponse, accessToken = accessToken)
+    override fun saveRegisterProfile(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String) {
+        val dataProfile = RegisterResponse(profile = dataLoginResponse, accessToken = accessToken, refreshToken = refreshToken)
         Hawk.put("userProfileData", dataProfile)
     }
 
