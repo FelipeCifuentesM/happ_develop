@@ -57,7 +57,10 @@
                     app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
                     app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
                     app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
-                    app:boxBackgroundColor="@color/white">
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeErrorColor="@color/danger"
+                    app:errorIconTint="@color/danger"
+                    app:errorTextColor="@color/danger">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNameRegister"
@@ -65,6 +68,8 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itName"
+                        android:maxLength="80"
+                        android:maxLines="1"
                         android:inputType="textPersonName"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,7 +83,10 @@
                     app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
                     app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
                     app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
-                    app:boxBackgroundColor="@color/white">
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeErrorColor="@color/danger"
+                    app:errorIconTint="@color/danger"
+                    app:errorTextColor="@color/danger">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etSurnameRegister"
@@ -86,8 +94,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itSurname"
-                        android:inputType="textPersonName"
-                        android:maxLines="1" />
+                        android:maxLength="80"
+                        android:maxLines="1"
+                        android:inputType="textPersonName"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -114,6 +123,7 @@
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itMail"
                         android:inputType="textEmailAddress"
+                        android:maxLength="150"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,6 +134,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     app:boxBackgroundColor="@color/white"
+                    app:boxStrokeErrorColor="@color/danger"
+                    app:errorIconTint="@color/danger"
+                    app:errorTextColor="@color/danger"
                     app:boxCornerRadiusTopStart="@dimen/inputCornerRadius"
                     app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
                     app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
@@ -137,6 +150,7 @@
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itPassword"
                         android:inputType="textPassword"
+                        android:maxLength="150"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 

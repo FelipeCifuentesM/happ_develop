@@ -4,7 +4,7 @@
 
     <!-- Labels -->
     <string name="lbOnBoardTitle1">Protege tu salud</string>
-    <string name="lbOnBoardDescription1">Controla de forma segura tu exposición para mantenerte saludable y mantener saludable a otros.</string>
+    <string name="lbOnBoardDescription1">Happ te cuida día a día a ti y a los que más te importan.</string>
     <string name="lbPhraseTermsConditions">Al hacer click en comenzar, %1$s y %2$s</string>
     <string name="lbTermsConditions">aceptas los términos de uso</string>
     <string name="lbPrivacy">política de privacidad</string>
@@ -85,6 +85,8 @@
     <string name="itRutError">Rut inválido</string>
     <string name="itMailError">Correo electrónico inválido</string>
     <string name="itPasswordError">La contraseña debe tener mínimo 6 caracteres</string>
+    <string name="itNameError">El nombre debe tener mínimo 3 caracteres</string>
+    <string name="itSurNameError">El apellido debe tener mínimo 3 caracteres</string>
 
 
 

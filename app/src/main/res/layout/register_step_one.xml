@@ -82,6 +82,7 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itRut"
+                        android:digits="1234567890kK.-"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,6 +104,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itDocumentNumber"
+                        android:digits="1234567890aA."
                         android:maxLines="1"
                         android:inputType="text"/>
                 </com.google.android.material.textfield.TextInputLayout>

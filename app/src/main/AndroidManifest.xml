@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="LockedOrientationActivity"
-    package="cl.jumpitt.happ">
+    package="com.jumpitt.happ">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
@@ -10,10 +10,13 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Google Analytics-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- background location API 29 or higher-->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
 
 
     <application
-        android:name="cl.jumpitt.happ.App"
+        android:name="com.jumpitt.happ.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,7 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name="com.jumpitt.happ.ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,64 +32,64 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.OnBoard"
+            android:name="com.jumpitt.happ.ui.OnBoard"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.login.Login"
+            android:name="com.jumpitt.happ.ui.login.Login"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.registerStepOne.RegisterStepOne"
+            android:name="com.jumpitt.happ.ui.registerStepOne.RegisterStepOne"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.registerStepTwo.RegisterStepTwo"
+            android:name="com.jumpitt.happ.ui.registerStepTwo.RegisterStepTwo"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.main.MainActivity"
+            android:name="com.jumpitt.happ.ui.main.MainActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.registerWorkPlace.RegisterWorkplace"
+            android:name="com.jumpitt.happ.ui.registerWorkPlace.RegisterWorkplace"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.registerPermissions.RegisterPermissions"
+            android:name="com.jumpitt.happ.ui.registerPermissions.RegisterPermissions"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.registerSuccess.RegisterSuccess"
+            android:name="com.jumpitt.happ.ui.registerSuccess.RegisterSuccess"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.registerLivingPlace.RegisterLivingPlace"
+            android:name="com.jumpitt.happ.ui.registerLivingPlace.RegisterLivingPlace"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.triage.TriageActivity"
+            android:name="com.jumpitt.happ.ui.triage.TriageActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="cl.jumpitt.happ.ui.TracingLogActivity"
+            android:name="com.jumpitt.happ.ui.TracingLogActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.changePassword.ChangePasswordActivity"
+            android:name="com.jumpitt.happ.ui.changePassword.ChangePasswordActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.recoverPassword.RecoverPasswordActivity"
+            android:name="com.jumpitt.happ.ui.recoverPassword.RecoverPasswordActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.WebViewActivity"
+            android:name="com.jumpitt.happ.ui.WebViewActivity"
             android:screenOrientation="portrait">
         </activity>
 

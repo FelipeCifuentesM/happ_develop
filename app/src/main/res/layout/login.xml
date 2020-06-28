@@ -29,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
+        android:id="@+id/containerScrollLogin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +84,7 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itRut"
+                        android:digits="1234567890kK.-"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,8 +107,10 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/dmsans_medium"
                         android:hint="@string/itPassword"
+                        android:maxLength="150"
+                        android:maxLines="1"
                         android:inputType="textPassword"
-                        android:maxLines="1" />
+                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
