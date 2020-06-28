@@ -35,4 +35,8 @@ class TracingLogActivity: AppCompatActivity() {
 
     }
 
+    override fun onTcnFound(tcn: ByteArray, myTcn: ByteArray?, estimatedDistance: Double?) {
+
+    }
+
 }
