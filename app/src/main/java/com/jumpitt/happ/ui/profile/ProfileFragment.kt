@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.RegisterResponse
+import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.ui.TracingLogActivity
 import com.jumpitt.happ.ui.changePassword.ChangePasswordActivity
 import com.jumpitt.happ.ui.main.MainActivity
@@ -72,12 +73,12 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         mPresenter.getUserProfileData()
     }
 
-    override fun showUnwrappingValues(userData: RegisterResponse) {
+    override fun showUnwrappingValues(userData: RegisterData?) {
         tvRoundedToolbar.text = resources.getString(R.string.tbProfile)
-        userData.profile?.names?.let {names -> tvProfileName.text = names.capitalize() }
-        userData.profile?.lastName?.let {lastName -> tvProfileName.text =  "${tvProfileName.text} ${lastName.capitalize()}"  }
-        userData.profile?.rut?.let {rut -> tvProfileRut.text = rut.rutFormat() }
-        userData.profile?.email?.let {email -> tvProfileMail.text = email }
+        userData?.names?.let {names -> tvProfileName.text = names.capitalize() }
+        userData?.lastName?.let {lastName -> tvProfileName.text =  "${tvProfileName.text} ${lastName.capitalize()}"  }
+        userData?.rut?.let {rut -> tvProfileRut.text = rut.rutFormat() }
+        userData?.email?.let {email -> tvProfileMail.text = email }
     }
 
     override fun showSnackBar(message: String) {
@@ -87,7 +88,7 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RequestCode.FROM_PROFILE_FRAGMENT){
+        if(resultCode == RequestCode.FROM_PROFILE_FRAGMENT){
             showSnackBar(resources.getString(R.string.snkChangePassSuccess))
         }
     }

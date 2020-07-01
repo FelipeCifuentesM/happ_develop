@@ -6,6 +6,7 @@ import android.content.Context
 import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.response.RegisterResponse
+import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
 import com.jumpitt.happ.utils.isPermissionLocation
 
@@ -18,7 +19,7 @@ class SplashActivityPresenter constructor(private val activity: Activity): Splas
         mInteractor.getUserProfileData(requestPermissions)
     }
 
-    override fun getUserProfileDataOutput(userData: RegisterResponse?, requestPermissions: Boolean) {
+    override fun getUserProfileDataOutput(userData: RegisterData?, requestPermissions: Boolean) {
         if(userData!=null){
             //review permissions
             if(requestPermissions){

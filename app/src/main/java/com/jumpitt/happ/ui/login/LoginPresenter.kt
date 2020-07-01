@@ -10,6 +10,7 @@ import com.jumpitt.happ.network.request.LoginAccessTokenRequest
 import com.jumpitt.happ.network.response.ErrorResponse
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
+import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
 import com.jumpitt.happ.utils.isPermissionLocation
 import com.jumpitt.happ.utils.parseErrJsonResponse
@@ -89,7 +90,10 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     override fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String) {
         mView.hideLoader()
-        mInteractor.saveRegisterProfile(dataLoginResponse, accessToken, refreshToken)
+        val userRealm = RegisterData(dataLoginResponse.rut ,dataLoginResponse.names, dataLoginResponse.lastName,
+            dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.home.id, dataLoginResponse.work.id,
+            accessToken, refreshToken)
+        mInteractor.saveRegisterProfile(userRealm)
         val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
         if(!isRunning) {
             val tcnGenerator = TcnGeneratorImpl(context = activity)

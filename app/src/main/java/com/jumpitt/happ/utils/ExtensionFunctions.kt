@@ -155,6 +155,15 @@ fun FragmentActivity.replaceFragment(
     }
 }
 
+fun FragmentActivity.replaceFrag(
+    fragment: Fragment,
+    frameId: Int
+) {
+    supportFragmentManager.inTransaction {
+        remove(fragment)
+    }
+}
+
 fun AppCompatActivity.replaceFragmentQuestions(
     fragment: Fragment,
     frameId: Int,

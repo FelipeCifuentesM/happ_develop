@@ -7,6 +7,8 @@ interface MainActivityContract {
     interface View{
         fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse)
         fun showTriageAnswerError(messageError: String)
+//        fun showSkeleton()
+//        fun hideSkeleton()
     }
 
     interface Presenter{

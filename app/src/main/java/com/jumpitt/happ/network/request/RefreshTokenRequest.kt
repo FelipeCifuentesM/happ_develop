@@ -11,6 +11,6 @@ data class RequestTokenRequest(
     @SerializedName("client_secret")
     var clientSecret: String = "",
     @SerializedName("refresh_token")
-    var refreshToken: String = "",
+    var refreshToken: String? = "",
     var scope: String = ""
 )

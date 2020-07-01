@@ -19,7 +19,7 @@ interface RecoverPasswordContract {
     }
 
     interface Interactor{
-        fun postForgotPassword(recoverPasswordRequest: RecoverPasswordRequest)
+        fun postForgotPassword(contentType: String, email: String)
     }
 
     interface Router{

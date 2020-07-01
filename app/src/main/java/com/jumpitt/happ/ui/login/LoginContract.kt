@@ -3,6 +3,7 @@ package com.jumpitt.happ.ui.login
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
+import com.jumpitt.happ.realm.RegisterData
 import retrofit2.Response
 
 interface LoginContract {
@@ -23,7 +24,7 @@ interface LoginContract {
     interface Interactor{
         fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, interactorOutput: InteractorOutputs)
         fun getProfile(dataResponseToken: LoginAccessTokenResponse, interactorOutput: InteractorOutputs)
-        fun saveRegisterProfile(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String)
+        fun saveRegisterProfile(userRealm: RegisterData)
     }
 
     interface Router{

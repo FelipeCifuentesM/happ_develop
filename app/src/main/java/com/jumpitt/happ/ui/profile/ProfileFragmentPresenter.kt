@@ -3,6 +3,7 @@ package com.jumpitt.happ.ui.profile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.jumpitt.happ.network.response.RegisterResponse
+import com.jumpitt.happ.realm.RegisterData
 
 class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragmentContract.Presenter, ProfileFragmentContract.InteractorOutputs{
     private var mView: ProfileFragmentContract.View = fragment as ProfileFragmentContract.View
@@ -30,7 +31,7 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
         mRouter.navigateChangePassword(fragment, activity)
     }
 
-    override fun getUserProfileDataOutput(userData: RegisterResponse) {
+    override fun getUserProfileDataOutput(userData: RegisterData?) {
         mView.showUnwrappingValues(userData)
     }
 

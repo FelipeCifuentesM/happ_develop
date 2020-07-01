@@ -1,6 +1,7 @@
 package com.jumpitt.happ.ble
 
 import android.app.*
+import android.app.Service.STOP_FOREGROUND_REMOVE
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -9,13 +10,19 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
+import androidx.core.app.ServiceCompat.STOP_FOREGROUND_REMOVE
+import androidx.core.app.ServiceCompat.stopForeground
 import androidx.core.content.ContextCompat
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.TracingRequest
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TracingResponse
+import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.ui.TracingLogActivity
 import com.jumpitt.happ.ui.main.MainActivity
 import com.orhanobut.hawk.Hawk
+import io.realm.Realm
 import org.tcncoalition.tcnclient.TcnKeys
 import org.tcncoalition.tcnclient.bluetooth.BluetoothStateListener
 import org.tcncoalition.tcnclient.bluetooth.TcnBluetoothService
@@ -34,7 +41,8 @@ interface BleManager {
 
 class BleManagerImpl(
     private val app: Context,
-    private val tcnGenerator: TcnGenerator
+    private val tcnGenerator: TcnGenerator,
+    private val delegateDemo: TcnBluetoothServiceCallbackDemo? = null
 ): BleManager, BluetoothStateListener {
 
     private val intent get() = Intent(app, TcnBluetoothService::class.java)
@@ -62,18 +70,29 @@ class BleManagerImpl(
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
             Log.e("TcnClient", "myTcn: ${myTcn?.toHex()}  tcn found: ${tcn.toHex()} date: $currentDate distance: $estimatedDistance" )
+//            delegateDemo?.onTcnFound(tcn, myTcn, estimatedDistance)
 
-            val userData = Hawk.get<RegisterResponse>("userProfileData")
-            RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = estimatedDistance)).
-            enqueue(object: Callback<TracingResponse> {
-                override fun onFailure(call: Call<TracingResponse>, t: Throwable) {
-                }
+//            val userData = Hawk.get<RegisterResponse>("userProfileData")
 
-                override fun onResponse(call: Call<TracingResponse>, response: Response<TracingResponse>) {
+            val realm = Realm.getDefaultInstance()
+            val userData = realm.where(RegisterData::class.java).findFirst()
+
+            userData?.accessToken?.let {
+                RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = estimatedDistance)).
+                enqueue(object: Callback<TracingResponse> {
+                    override fun onFailure(call: Call<TracingResponse>, t: Throwable) {
+                    }
+
+                    override fun onResponse(call: Call<TracingResponse>, response: Response<TracingResponse>) {
 
 
-                }
-            })
+                    }
+                })
+            }?: run {
+                service?.stopTcnExchange()
+                service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
+            }
+
         }
     }
 
@@ -163,5 +182,7 @@ class TcnGeneratorImpl(context: Context) : TcnGenerator {
         Tcn(tcnKeys.generateTcn())
 }
 
-
+interface TcnBluetoothServiceCallbackDemo{
+    fun onTcnFound(tcn: ByteArray, myTcn: ByteArray?, estimatedDistance: Double?)
+}
 

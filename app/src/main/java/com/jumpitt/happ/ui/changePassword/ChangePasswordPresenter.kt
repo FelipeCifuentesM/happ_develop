@@ -29,9 +29,6 @@ class ChangePasswordPresenter constructor(private val activity: Activity): Chang
     override fun getRecoverPassOutput(changePasswordResponse: ChangePasswordResponse) {
         mView.hideLoader()
         mRouter.navigateReturnProfile()
-//        mView.showChangePasswordResponse(activity.resources.getString(R.string.snkChangePassSuccess))
-
-
     }
 
     override fun getRecoverPassFailureError(){

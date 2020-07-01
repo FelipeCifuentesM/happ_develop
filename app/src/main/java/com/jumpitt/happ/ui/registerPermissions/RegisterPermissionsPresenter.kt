@@ -8,6 +8,7 @@ import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.response.RegisterResponse
+import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
@@ -58,7 +59,10 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         }
 
         mView.hideLoader()
-        mInteractor.saveRegisterProfile(dataRegisterResponse)
+        val userRealm = RegisterData(dataRegisterResponse.profile?.rut ,dataRegisterResponse.profile?.names, dataRegisterResponse.profile?.lastName,
+                dataRegisterResponse.profile?.email, dataRegisterResponse.profile?.phone, dataRegisterResponse.profile?.home?.id, dataRegisterResponse.profile?.work?.id,
+                dataRegisterResponse.accessToken, dataRegisterResponse.refreshToken)
+        mInteractor.saveRegisterProfile(userRealm)
         mRouter.navigateRegisterSuccess()
     }
 

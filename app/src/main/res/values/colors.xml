@@ -23,4 +23,7 @@
     <color name="semaphoreGreen">#15dea9</color>
     <color name="semaphoreRed">#ff4e4e</color>
 
+    <!-- skeleton -->
+    <color name="light_transparent">#AFB2B4</color>
+
 </resources>

@@ -19,8 +19,7 @@ class RecoverPasswordPresenter constructor(private val activity: Activity): Reco
 
     override fun postForgotPassword(email: String) {
         mView.showLoader()
-        val recoverPasswordRequest = RecoverPasswordRequest(email)
-        mInteractor.postForgotPassword(recoverPasswordRequest)
+        mInteractor.postForgotPassword("application/x-www-form-urlencoded", email)
     }
 
     override fun postRecoverPassOutput(response: RecoverPasswordResponse) {

@@ -3,7 +3,9 @@ package com.jumpitt.happ.ui.registerPermissions
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.response.RegisterResponse
+import com.jumpitt.happ.realm.RegisterData
 import com.orhanobut.hawk.Hawk
+import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,9 +44,16 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
         })
     }
 
-    override fun saveRegisterProfile(dataRegisterResponse: RegisterResponse) {
-        val registerProfile = RegisterResponse(profile = dataRegisterResponse.profile, accessToken = dataRegisterResponse.accessToken, refreshToken = dataRegisterResponse.refreshToken)
-        Hawk.put("userProfileData", registerProfile)
+    override fun saveRegisterProfile(userRealm: RegisterData) {
+//        val registerProfile = RegisterResponse(profile = dataRegisterResponse.profile, accessToken = dataRegisterResponse.accessToken, refreshToken = dataRegisterResponse.refreshToken)
+//        Hawk.put("userProfileData", registerProfile)
+
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.delete(RegisterData::class.java)
+        realm.insertOrUpdate(userRealm)
+        realm.commitTransaction()
+        realm.close()
     }
 
 }

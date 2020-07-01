@@ -9,8 +9,8 @@ import retrofit2.Response
 
 class RecoverPasswordInteractor(private val mIOutput: RecoverPasswordContract.InteractorOutputs): RecoverPasswordContract.Interactor {
 
-    override fun postForgotPassword(recoverPasswordRequest: RecoverPasswordRequest) {
-        RestClient.instance.postForgotPassword(recoverPasswordRequest).
+    override fun postForgotPassword(contentType: String, email: String) {
+        RestClient.instance.postForgotPassword("application/json", contentType, email).
         enqueue(object: Callback<RecoverPasswordResponse> {
             override fun onFailure(call: Call<RecoverPasswordResponse>, t: Throwable) {
                 mIOutput.postRecoverPassFailureError()

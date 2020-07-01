@@ -79,19 +79,23 @@ fun Activity.isPermissionBackgroundLocation(): Boolean {
         }
         if (hasBackgroundLocationPermission) {
             // handle location update
+            return true
         } else {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), RequestCode.LOCATION_BACKGROUND)
+            return false
         }
     } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION), RequestCode.LOCATION_BACKGROUND)
+            return false
         }else{
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 RequestCode.ACCESS_FINE_LOCATION)
+            return false
         }
     }
     return true

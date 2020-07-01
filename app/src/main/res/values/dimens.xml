@@ -37,5 +37,7 @@
     <dimen name="cardCornerRadius">32dp</dimen>
     <dimen name="inputCornerRadius">16dp</dimen>
     <dimen name="snackBarCornerRadius">16dp</dimen>
+    <dimen name="sklCornerRadiusText">4dp</dimen>
+    <dimen name="sklCornerRadiusImage">8dp</dimen>
 
 </resources>

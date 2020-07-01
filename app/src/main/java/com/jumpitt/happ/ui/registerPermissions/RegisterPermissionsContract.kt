@@ -2,6 +2,7 @@ package com.jumpitt.happ.ui.registerPermissions
 
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.response.RegisterResponse
+import com.jumpitt.happ.realm.RegisterData
 import retrofit2.Response
 
 interface RegisterPermissionsContract {
@@ -22,7 +23,7 @@ interface RegisterPermissionsContract {
     interface Interactor{
         fun getRegisterData(interactorOutputs: InteractorOutputs)
         fun postRegister(registerRequest: RegisterRequest, interactorOutputs: InteractorOutputs)
-        fun saveRegisterProfile(dataRegisterResponse: RegisterResponse)
+        fun saveRegisterProfile(userRealm: RegisterData)
     }
 
     interface Router{

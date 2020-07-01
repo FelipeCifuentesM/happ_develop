@@ -5,8 +5,10 @@ import com.jumpitt.happ.network.request.LoginAccessTokenRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.network.response.RegisterResponse
+import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.ConstantsApi
 import com.orhanobut.hawk.Hawk
+import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -71,9 +73,16 @@ class LoginInteractor: LoginContract.Interactor {
         })
     }
 
-    override fun saveRegisterProfile(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String) {
-        val dataProfile = RegisterResponse(profile = dataLoginResponse, accessToken = accessToken, refreshToken = refreshToken)
-        Hawk.put("userProfileData", dataProfile)
+    override fun saveRegisterProfile(userRealm: RegisterData) {
+//        val dataProfile = RegisterResponse(profile = dataLoginResponse, accessToken = accessToken, refreshToken = refreshToken)
+//        Hawk.put("userProfileData", dataProfile)
+
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.delete(RegisterData::class.java)
+        realm.insertOrUpdate(userRealm)
+        realm.commitTransaction()
+        realm.close()
     }
 
 }
