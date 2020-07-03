@@ -28,7 +28,8 @@ class RecoverPasswordActivity: ToolbarActivity(), RecoverPasswordContract.View {
             btnRecoverPassword.validateInputs(aValidateInputRecoverPass)
         }
 
-        btnRecoverPassword.setOnClickListener {
+        btnRecoverPassword.setSafeOnClickListener {
+            btnRecoverPassword.disabled()
             mPresenter.postForgotPassword(etMailRecoverPass.text.toString())
         }
 
@@ -53,6 +54,7 @@ class RecoverPasswordActivity: ToolbarActivity(), RecoverPasswordContract.View {
     }
 
     override fun hideLoader() {
+        btnRecoverPassword.enabled()
         pbRecoverPassword.visibility = View.GONE
     }
 

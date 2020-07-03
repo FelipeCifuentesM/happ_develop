@@ -14,7 +14,6 @@ import com.jumpitt.happ.utils.containedStyle
 import com.jumpitt.happ.utils.goToActivity
 import kotlinx.android.synthetic.main.fragment_answer_triage.*
 
-
 class AnswerTriageFragment : Fragment() {
     companion object {
         fun newInstance(): AnswerTriageFragment = AnswerTriageFragment()

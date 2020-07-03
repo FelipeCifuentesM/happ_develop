@@ -5,10 +5,7 @@ import android.os.Bundle
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.ui.ToolbarActivity
-import com.jumpitt.happ.utils.ColorIdResource
-import com.jumpitt.happ.utils.Labelstext
-import com.jumpitt.happ.utils.containedStyle
-import com.jumpitt.happ.utils.goToActivity
+import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.register_success.*
 
 class RegisterSuccess: ToolbarActivity(){
@@ -21,7 +18,7 @@ class RegisterSuccess: ToolbarActivity(){
         btnRegisterSuccess.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
 
 
-        btnRegisterSuccess.setOnClickListener {
+        btnRegisterSuccess.setSafeOnClickListener {
             this.goToActivity<MainActivity>{
                 this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }

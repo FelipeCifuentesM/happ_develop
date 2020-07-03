@@ -16,6 +16,15 @@ open class RegisterData(
     constructor(): this(null)
 }
 
-//class TriageReturnValue: RealmObject(){
-//
-//}
+open class TriageReturnValue(
+    var score: Int? = null,
+    var riskTitle: String? = null,
+    var riskLevel: String? = null,
+    var riskDescription: String? = null,
+    var riskMessage: String? = null,
+    var lastReview: String? = null,
+    var passportTimeRemainingVerbose: String? = null,
+    var passportValidationUrl: String? = null
+): RealmObject(){
+    constructor(): this(null)
+}

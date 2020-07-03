@@ -39,11 +39,11 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         mPresenter.initializeView()
 
 
-        btnCloseSesion.setOnClickListener {
+        btnCloseSesion.setSafeOnClickListener {
             mPresenter.deleteProfileData()
         }
 
-        btnEnterChangePass.setOnClickListener {
+        btnEnterChangePass.setSafeOnClickListener {
             mPresenter.navigateChangePassword(this, activity)
         }
 

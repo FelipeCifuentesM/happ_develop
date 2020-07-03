@@ -5,6 +5,7 @@ import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 
@@ -24,6 +25,7 @@ class ProfileFragmentInteractor(private val mIOutput: ProfileFragmentContract.In
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.delete(RegisterData::class.java)
+        realm.delete(TriageReturnValue::class.java)
         realm.commitTransaction()
         realm.close()
 

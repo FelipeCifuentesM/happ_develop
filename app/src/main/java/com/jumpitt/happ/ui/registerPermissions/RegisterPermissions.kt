@@ -28,11 +28,9 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
         mPresenter = RegisterPermissionsPresenter(this)
         mPresenter.initializeView()
 
-
         bAdapter = BluetoothAdapter.getDefaultAdapter()
 
-        btnNextRegistePermission.setOnClickListener {
-//            mPresenter.navigateRegisterSuccess()
+        btnNextRegistePermission.setSafeOnClickListener {
             onBluetooth()
         }
     }
@@ -45,7 +43,6 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
 
     override fun showRegisterError(messageError: String) {
         showSnackbar(containerRegisterPermission, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
-
     }
 
 

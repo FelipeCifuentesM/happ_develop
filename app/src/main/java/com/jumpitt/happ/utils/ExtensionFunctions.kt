@@ -135,6 +135,7 @@ fun View.hideKeyboard() {
     inputMethodManager?.hideSoftInputFromWindow(this.windowToken, 0)
 }
 
+
 //Fragments
 //TODO: FRAGMENT TRANSACTION
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit = {}) {
@@ -148,20 +149,12 @@ fun FragmentActivity.replaceFragment(
     fragment: Fragment,
     frameId: Int,
     backStackTag: String? = null
-) {
+): Boolean {
     supportFragmentManager.inTransaction {
         replace(frameId, fragment)
         addToBackStack(backStackTag)
     }
-}
-
-fun FragmentActivity.replaceFrag(
-    fragment: Fragment,
-    frameId: Int
-) {
-    supportFragmentManager.inTransaction {
-        remove(fragment)
-    }
+    return true
 }
 
 fun AppCompatActivity.replaceFragmentQuestions(

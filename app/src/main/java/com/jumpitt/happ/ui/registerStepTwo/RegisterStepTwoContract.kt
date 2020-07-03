@@ -6,7 +6,7 @@ interface RegisterStepTwoContract {
 
     interface View{
         fun showInitializeView()
-
+        fun enabledButton()
     }
 
     interface Presenter{

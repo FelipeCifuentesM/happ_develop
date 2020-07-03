@@ -11,6 +11,7 @@ interface RegisterStepOneContract {
         fun showValidateDNIError(messageError: String)
         fun showLoader()
         fun hideLoader()
+        fun enabledButton()
     }
 
     interface Presenter{

@@ -6,7 +6,9 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
+import kotlinx.android.synthetic.main.register_step_one.*
 import kotlinx.android.synthetic.main.register_step_two.*
+import kotlinx.android.synthetic.main.register_step_two.toolbar
 
 class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
     private lateinit var mPresenter: RegisterStepTwoContract.Presenter
@@ -61,7 +63,18 @@ class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
             }
             else{
                 itMailRegister.error = getString(R.string.itMailError)
+                aValidateInputsLogin[2] = false
+            }
+            btnNextRegisterTwo.validateInputs(aValidateInputsLogin)
+        }
+
+        etMailRegister.validateFocus {
+            if(it.isMailValid()) {
+                itMailRegister.isErrorEnabled = false
                 aValidateInputsLogin[2] = true
+            }
+            else{
+                aValidateInputsLogin[2] = false
             }
             btnNextRegisterTwo.validateInputs(aValidateInputsLogin)
         }
@@ -69,18 +82,17 @@ class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
         etPasswordRegister.validateFocus {
             if(it.length > 5) {
                 itPasswordRegister.isErrorEnabled = false
-                aValidateInputsLogin[3] = true
             }
             else{
                 itPasswordRegister.error = getString(R.string.itPasswordError)
-                aValidateInputsLogin[3] = true
             }
 
-            aValidateInputsLogin[3] = !it.isEmpty() && it.length > 6
+            aValidateInputsLogin[3] = it.isNotEmpty() && it.length >= 6
             btnNextRegisterTwo.validateInputs(aValidateInputsLogin)
         }
 
-        btnNextRegisterTwo.setOnClickListener {
+        btnNextRegisterTwo.setSafeOnClickListener {
+            btnNextRegisterTwo.disabled()
             val name = etNameRegister.text.toString()
             val surname = etSurnameRegister.text.toString()
             val mail = etMailRegister.text.toString()
@@ -98,6 +110,15 @@ class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
         tvDataPerson.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         btnNextRegisterTwo.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
         btnNextRegisterTwo.disabled()
+    }
+
+    override fun enabledButton() {
+        btnNextRegisterTwo.enabled()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        btnNextRegisterTwo.validateInputs(aValidateInputsLogin)
     }
 
     override fun onBackPressed() {

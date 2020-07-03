@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
-import com.jumpitt.happ.network.response.TriageAnswerResponse
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.ui.triage.TriageActivity
 import com.jumpitt.happ.utils.*
-import com.orhanobut.hawk.Hawk
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 
@@ -29,17 +29,19 @@ class MyRiskPendingFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+//        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
+        val realm = Realm.getDefaultInstance()
+        val healthCareStatusLocal = realm.where(TriageReturnValue::class.java).findFirst()
 
-        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
         var colorID:ColorIdResource = ColorIdResource.BLACK
         var iconID = 0
 
         //toolbar
-        healthCareStatusLocal.risk?.title?.let { title ->
+        healthCareStatusLocal?.riskTitle?.let { title ->
             val htmlText = HtmlCompat.fromHtml(title.asteriskBold(), HtmlCompat.FROM_HTML_MODE_LEGACY)
             tvMyRiskValueDescription.text = htmlText}
-        healthCareStatusLocal.score?.let { score ->  tvMyRiskValue.text = score.toString()}
-        healthCareStatusLocal.risk?.level?.let { level ->
+        healthCareStatusLocal?.score?.let { score ->  tvMyRiskValue.text = score.toString()}
+        healthCareStatusLocal?.riskLevel?.let { level ->
             when(level){
                 SemaphoreTriage.RISK_LOW.level -> {
                     colorID =  SemaphoreTriage.RISK_LOW.colorResource
@@ -60,9 +62,9 @@ class MyRiskPendingFragment : Fragment() {
         tvMyRiskValue.containedStyle(Labelstext.H2, colorID, font = R.font.dmsans_bold)
         ivMyRiskValue.setImageResource(iconID)
         ivMyRiskValue.setColorFilter(ContextCompat.getColor(ivMyRiskValue.context, colorID.color), PorterDuff.Mode.SRC_IN)
-        healthCareStatusLocal.score?.let { score ->  pbMyRiskValue.progress = score}
+        healthCareStatusLocal?.score?.let { score ->  pbMyRiskValue.progress = score}
         pbMyRiskValue.progressTintList = context?.resources?.getColorStateList(colorID.color, null)
-        healthCareStatusLocal.score?.let { score ->  pbMyRiskValue.progress = score}
+        healthCareStatusLocal?.score?.let { score ->  pbMyRiskValue.progress = score}
         pbMyRiskValue.progressTintList = context?.resources?.getColorStateList(colorID.color, null)
 
         //Card Pending
@@ -70,10 +72,10 @@ class MyRiskPendingFragment : Fragment() {
         tvTitleRiskPending.containedStyle(Labelstext.H3, ColorIdResource.WHITE, font = R.font.dmsans_medium)
         tvDescriptionRiskPending.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.WHITE)
         tvLastCheckRiskPending.containedStyle(Labelstext.CAPTION, ColorIdResource.WHITE, font = R.font.dmsans_medium)
-        healthCareStatusLocal.latestReview?.let { time -> tvLastCheckRiskPending.text = String.format(resources.getString(R.string.lbLastCheckTime), time) }
+        healthCareStatusLocal?.lastReview.let { time -> tvLastCheckRiskPending.text = String.format(resources.getString(R.string.lbLastCheckTime), time) }
 
 
-        btnRiskPending.setOnClickListener {
+        btnRiskPending.setSafeOnClickListener {
             activity?.goToActivity<TriageActivity>()
         }
 

@@ -19,10 +19,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.jumpitt.happ.R
 import com.jumpitt.happ.model.OnBoardSlide
 import com.jumpitt.happ.ui.login.Login
-import com.jumpitt.happ.utils.ColorIdResource
-import com.jumpitt.happ.utils.Labelstext
-import com.jumpitt.happ.utils.containedStyle
-import com.jumpitt.happ.utils.goToActivity
+import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.on_board.*
 
 
@@ -111,7 +108,7 @@ class OnBoard: AppCompatActivity(){
             }
         })
 
-        btnStartOB.setOnClickListener {
+        btnStartOB.setSafeOnClickListener {
             this.goToActivity<Login>()
         }
     }

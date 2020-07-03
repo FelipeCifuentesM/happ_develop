@@ -17,7 +17,9 @@ import com.jumpitt.happ.utils.*
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.orhanobut.hawk.Hawk
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_item_myrisk_pass.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 import java.util.*
@@ -36,16 +38,20 @@ class MyRiskValueFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
+//        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
+        val realm = Realm.getDefaultInstance()
+        val healthCareStatusLocal = realm.where(TriageReturnValue::class.java).findFirst()
+
+
         var colorID:ColorIdResource = ColorIdResource.BLACK
         var iconID = 0
 
         //toolbar
-        healthCareStatusLocal.risk?.title?.let { title ->
+        healthCareStatusLocal?.riskTitle?.let { title ->
             val htmlText = HtmlCompat.fromHtml(title.asteriskBold(), HtmlCompat.FROM_HTML_MODE_LEGACY)
             tvMyRiskValueDescription.text = htmlText}
-        healthCareStatusLocal.score?.let { score ->  tvMyRiskValue.text = score.toString()}
-        healthCareStatusLocal.risk?.level?.let { level ->
+        healthCareStatusLocal?.score?.let { score ->  tvMyRiskValue.text = score.toString()}
+        healthCareStatusLocal?.riskLevel?.let { level ->
             when(level){
                 SemaphoreTriage.RISK_LOW.level -> {
                     colorID =  SemaphoreTriage.RISK_LOW.colorResource
@@ -69,7 +75,7 @@ class MyRiskValueFragment : Fragment() {
         tvMyRiskValue.containedStyle(Labelstext.H2, colorID, font = R.font.dmsans_bold)
         ivMyRiskValue.setImageResource(iconID)
         ivMyRiskValue.setColorFilter(ContextCompat.getColor(ivMyRiskValue.context, colorID.color), PorterDuff.Mode.SRC_IN)
-        healthCareStatusLocal.score?.let { score ->  pbMyRiskValue.progress = score}
+        healthCareStatusLocal?.score?.let { score ->  pbMyRiskValue.progress = score}
         pbMyRiskValue.progressTintList = context?.resources?.getColorStateList(colorID.color, null)
 
         //card risk value
@@ -79,12 +85,12 @@ class MyRiskValueFragment : Fragment() {
         tvMyRiskDurationTitle.containedStyle(Labelstext.BODY2, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvMyRiskPassTime.containedStyle(Labelstext.BUTTON, ColorIdResource.BLACK, font = R.font.dmsans_medium)
 
-        healthCareStatusLocal.risk?.description?.let { description ->  tvMyRiskPassTitle.text = description}
-        healthCareStatusLocal.risk?.message?.let { message ->  tvMyRiskPassDescription.text = message}
-        healthCareStatusLocal.passport?.timeRemainingVerbose?.let { time ->  tvMyRiskPassTime.text = time}
+        healthCareStatusLocal?.riskDescription?.let { description ->  tvMyRiskPassTitle.text = description}
+        healthCareStatusLocal?.riskMessage?.let { message ->  tvMyRiskPassDescription.text = message}
+        healthCareStatusLocal?.passportTimeRemainingVerbose?.let { time ->  tvMyRiskPassTime.text = time}
         cvMyRiskPassTop.setCardBackgroundColor(ResourcesCompat.getColor(resources, colorID.color, null))
 
-        healthCareStatusLocal.passport?.validationUrl?.let { qrValidationUrl -> qrCodeWriter(qrValidationUrl) }
+        healthCareStatusLocal?.passportValidationUrl?.let { qrValidationUrl -> qrCodeWriter(qrValidationUrl) }
 
     }
 

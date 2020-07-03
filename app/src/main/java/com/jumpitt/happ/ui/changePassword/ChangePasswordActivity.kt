@@ -7,6 +7,8 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_change_password.*
+import kotlinx.android.synthetic.main.activity_change_password.toolbar
+import kotlinx.android.synthetic.main.register_step_two.*
 
 class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
     private lateinit var mPresenter: ChangePasswordContract.Presenter
@@ -33,33 +35,53 @@ class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
 
         etNewPassChange.validateFocus {newPass ->
             if(newPass.isNotEmpty()){
-                if(etRepeatNewPassChange.text.toString().isNotEmpty()){
-                    if(newPass.comparePassword(etRepeatNewPassChange.text.toString()) && etNewPassChange.text.toString().isNotEmpty()){
-                        aValidateInputPassword[1] = true
-                        aValidateInputPassword[2] = true
+                if(newPass.length > 5) {
+                    itNewPassChange.isErrorEnabled = false
+                    if(etRepeatNewPassChange.text.toString().isNotEmpty()){
+                        if(newPass.comparePassword(etRepeatNewPassChange.text.toString()) && etNewPassChange.text.toString().isNotEmpty()){
+                            aValidateInputPassword[1] = true
+                            aValidateInputPassword[2] = true
+                        }else{
+                            aValidateInputPassword[1] = false
+                        }
                     }else{
-                        aValidateInputPassword[1] = false
+                        aValidateInputPassword[1] = true
                     }
-                }else{
-                    aValidateInputPassword[1] = true
+                }
+                else{
+                    itNewPassChange.error = getString(R.string.itPasswordError)
+                    aValidateInputPassword[1] = false
                 }
             }else{
+                itNewPassChange.isErrorEnabled = false
                 aValidateInputPassword[1] = false
             }
             btnChangePassword.validateInputs(aValidateInputPassword)
         }
 
         etRepeatNewPassChange.validateFocus{repeatNewPass ->
-            if(repeatNewPass.comparePassword(etNewPassChange.text.toString()) && repeatNewPass.isNotBlank()){
-                aValidateInputPassword[2] = true
-                aValidateInputPassword[1] = true
+            if(repeatNewPass.isNotEmpty()) {
+                if (repeatNewPass.length > 5) {
+                    itRepeatNewPassChange.isErrorEnabled = false
+                    if (repeatNewPass.comparePassword(etNewPassChange.text.toString()) && repeatNewPass.isNotBlank()) {
+                        aValidateInputPassword[2] = true
+                        aValidateInputPassword[1] = true
+                    } else {
+                        aValidateInputPassword[2] = false
+                    }
+                } else {
+                    itRepeatNewPassChange.error = getString(R.string.itPasswordError)
+                    aValidateInputPassword[2] = false
+                }
             }else{
+                itRepeatNewPassChange.isErrorEnabled = false
                 aValidateInputPassword[2] = false
             }
             btnChangePassword.validateInputs(aValidateInputPassword)
         }
 
-        btnChangePassword.setOnClickListener {
+        btnChangePassword.setSafeOnClickListener {
+            btnChangePassword.disabled()
             mPresenter.getAccessTokenProfile(etCurrentPassChange.text.toString(), etRepeatNewPassChange.text.toString())
         }
 
@@ -84,6 +106,7 @@ class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
     }
 
     override fun hideLoader() {
+        btnChangePassword.enabled()
         pbChangePassword.visibility = View.GONE
     }
 }

@@ -71,19 +71,28 @@ fun Activity.isPermissionLocation(): Boolean{
 fun Activity.isPermissionBackgroundLocation(): Boolean {
     val hasForegroundLocationPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     if (hasForegroundLocationPermission) {
-        val hasBackgroundLocationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ActivityCompat.checkSelfPermission(this,
+        val hasBackgroundLocationPermission: Boolean
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            hasBackgroundLocationPermission = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
-        } else {
-            TODO("VERSION.SDK_INT < Q")
+        }else{
+            hasBackgroundLocationPermission = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         }
+
         if (hasBackgroundLocationPermission) {
             // handle location update
             return true
         } else {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), RequestCode.LOCATION_BACKGROUND)
-            return false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), RequestCode.LOCATION_BACKGROUND)
+                return false
+            }else{
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), RequestCode.LOCATION_BACKGROUND)
+                return false
+            }
         }
     } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

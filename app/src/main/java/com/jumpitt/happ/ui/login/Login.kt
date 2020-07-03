@@ -12,6 +12,7 @@ import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login.toolbar
+import kotlinx.android.synthetic.main.register_step_one.*
 import kotlinx.android.synthetic.main.register_step_two.*
 
 class Login: ToolbarActivity(), LoginContract.View{
@@ -29,16 +30,16 @@ class Login: ToolbarActivity(), LoginContract.View{
         mPresenter.initializeView()
 
 
-        btnEnterLogin.setOnClickListener {
+        btnEnterLogin.setSafeOnClickListener {
             val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
             mPresenter.postLoginAccessToken(loginRequest, true)
         }
 
-        btnRecoverPassLogin.setOnClickListener {
+        btnRecoverPassLogin.setSafeOnClickListener {
             mPresenter.navigateRecoverPass()
         }
 
-        btnCreateAccount.setOnClickListener {
+        btnCreateAccount.setSafeOnClickListener {
             mPresenter.navigateRegisterStepOne()
         }
 
@@ -99,11 +100,18 @@ class Login: ToolbarActivity(), LoginContract.View{
     }
 
     override fun showLoader() {
+        btnEnterLogin.disabled()
         pbLoogin.visibility = View.VISIBLE
     }
 
     override fun hideLoader() {
+        btnEnterLogin.enabled()
         pbLoogin.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        btnEnterLogin.validateInputs(aValidateInputsLogin)
     }
 
     override fun onBackPressed() {

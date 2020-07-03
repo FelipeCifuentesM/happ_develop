@@ -29,7 +29,7 @@ class RegisterWorkplace: ToolbarActivity(), RegisterWorkPlaceContract.View{
         mPresenter = RegisterWorkPlacePresenter(this)
         mPresenter.initializeView()
 
-        btnNextWorkPlace.setOnClickListener {
+        btnNextWorkPlace.setSafeOnClickListener {
             val registerDataObject = RegisterRequest(workCommuneId = communeId)
             mPresenter.navigateRegisterWorkplace(registerDataObject)
         }

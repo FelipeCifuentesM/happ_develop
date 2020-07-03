@@ -31,12 +31,14 @@ class RegisterStepOnePresenter constructor(private val activity: Activity): Regi
 
     override fun postValidateDNIOutputError(errorCode: Int, response: Response<ValidateDNIResponse>) {
         mView.hideLoader()
+        mView.enabledButton()
         val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
         mView.showValidateDNIError(messageError)
     }
 
     override fun postValidateDNIFailureError() {
         mView.hideLoader()
+        mView.enabledButton()
         mView.showValidateDNIError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 

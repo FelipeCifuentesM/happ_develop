@@ -13,7 +13,9 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.utils.*
 import com.google.android.material.button.MaterialButton
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.orhanobut.hawk.Hawk
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_triage_result.*
 
 class ResultFragment : Fragment() {
@@ -61,7 +63,10 @@ class ResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var colorID = R.color.iconDisabled
-        val triageReturnValue = Hawk.get<TriageAnswerResponse>("triageReturnValue")
+//        val triageReturnValue = Hawk.get<TriageAnswerResponse>("triageReturnValue")
+        val realm = Realm.getDefaultInstance()
+        val triageReturnValue = realm.where(TriageReturnValue::class.java).findFirst()
+
 
         tvTriageResultTitle.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvTriageResultValue.containedStyle(Labelstext.H1, ColorIdResource.BLACK)
@@ -69,7 +74,7 @@ class ResultFragment : Fragment() {
         tvTriageResultDescription.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
         btnFinishTriageResult.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
 
-        triageReturnValue.risk?.level?.let { level ->
+        triageReturnValue?.riskLevel?.let { level ->
             when(level){
                 SemaphoreTriage.RISK_LOW.level -> {colorID =  SemaphoreTriage.RISK_LOW.colorID}
                 SemaphoreTriage.RISK_MEDIUM.level -> {colorID =  SemaphoreTriage.RISK_MEDIUM.colorID}
@@ -80,9 +85,9 @@ class ResultFragment : Fragment() {
         tvTriageResultValue.setTextColor(ResourcesCompat.getColor(resources, colorID, null))
         cvLevelTriageResult.setCardBackgroundColor(ResourcesCompat.getColor(resources, colorID, null))
         cvLevelTriageResult.background.alpha = 20
-        triageReturnValue.score?.let { score ->  tvTriageResultValue.text = score.toString() }
-        triageReturnValue.risk?.description?.let { description -> tvTriageResultSubtitle.text = description}
-        triageReturnValue.risk?.title?.let {title ->
+        triageReturnValue?.score?.let { score ->  tvTriageResultValue.text = score.toString() }
+        triageReturnValue?.riskDescription?.let { description -> tvTriageResultSubtitle.text = description}
+        triageReturnValue?.riskTitle?.let {title ->
             val htmlText = HtmlCompat.fromHtml(title.asteriskBold(), HtmlCompat.FROM_HTML_MODE_LEGACY)
             tvTriageResultDescription.text = htmlText }
 
@@ -92,8 +97,5 @@ class ResultFragment : Fragment() {
             mDelegate?.onResultButtonPressed()
         }
     }
-
-
-
 
 }

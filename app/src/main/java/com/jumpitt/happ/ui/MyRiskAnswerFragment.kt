@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.triage.TriageActivity
-import com.jumpitt.happ.utils.ColorIdResource
-import com.jumpitt.happ.utils.Labelstext
-import com.jumpitt.happ.utils.containedStyle
-import com.jumpitt.happ.utils.goToActivity
+import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.fragment_answer_triage.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 
@@ -39,7 +36,7 @@ class MyRiskAnswerFragment : Fragment() {
         tvDescriptionTriageQuestion.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
         btnTriageQuestions.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
 
-        btnTriageQuestions.setOnClickListener {
+        btnTriageQuestions.setSafeOnClickListener {
             activity?.goToActivity<TriageActivity>()
         }
 

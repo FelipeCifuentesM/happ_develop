@@ -1,6 +1,7 @@
 package com.jumpitt.happ.ui.registerStepOne
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jumpitt.happ.R
@@ -61,7 +62,8 @@ class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
 
         }
 
-        btnNextRegisterOne.setOnClickListener {
+        btnNextRegisterOne.setSafeOnClickListener {
+            btnNextRegisterOne.disabled()
             val rut = etRutRegister.text.toString().rutFormatOnlyHyphen()
             val documentNumber = etDocumentNumberRegister.text.toString().deletePoints()
             val validateDNIRequest = ValidateDNIRequest(dni= rut, documentNumber= documentNumber)
@@ -90,6 +92,15 @@ class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
 
     override fun hideLoader() {
         pbRegisterStepOne.visibility = View.GONE
+    }
+
+    override fun enabledButton() {
+        btnNextRegisterOne.enabled()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        btnNextRegisterOne.validateInputs(aValidateInputsLogin)
     }
 
     override fun onBackPressed() {

@@ -15,7 +15,7 @@
     <string name="lbDataLive">¿Donde vives?</string>
     <string name="lbDataWork">¿Donde trabajas?</string>
     <string name="lbPermissionTitle">habilita tu bluetooth</string>
-    <string name="lbPermissionDescription">Happ registra los contactos con otros usuarios a traves de Bluetooth Low Energy para poder informarte en caso de exposición </string>
+    <string name="lbPermissionDescription">Happ registra los contactos con otros usuarios a través de Bluetooth Low Energy para poder informarte en caso de exposición </string>
     <string name="lbBluetooth">Bluetooth</string>
     <string name="lbApprovedRegister">¡Ya puedes comenzar!</string>
     <string name="lbNewRiskScore">Tu nuevo puntaje es</string>

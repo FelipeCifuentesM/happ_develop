@@ -4,6 +4,7 @@ import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.ConstantsApi
 import com.orhanobut.hawk.Hawk
 import io.realm.Realm
@@ -51,12 +52,20 @@ class MainActivityInteractor(private val mIOutput: MainActivityContract.Interact
         })
     }
 
-    override fun saveHealthCareStatus(healthCareStatus: TriageAnswerResponse) {
-        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
-        healthCareStatusLocal?.let {
-            Hawk.delete("triageReturnValue")
-        }
-        Hawk.put("triageReturnValue", healthCareStatus)
+    override fun saveHealthCareStatus(healthCareStatusRealm: TriageReturnValue) {
+//        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
+//        healthCareStatusLocal?.let {
+//            Hawk.delete("triageReturnValue")
+//        }
+//        Hawk.put("triageReturnValue", healthCareStatus)
+
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.delete(TriageReturnValue::class.java)
+        realm.insertOrUpdate(healthCareStatusRealm)
+        realm.commitTransaction()
+        realm.close()
+
     }
 
 }

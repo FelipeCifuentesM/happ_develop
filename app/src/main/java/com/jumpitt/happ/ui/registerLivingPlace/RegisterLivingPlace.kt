@@ -30,7 +30,7 @@ class RegisterLivingPlace: ToolbarActivity(), RegisterLivingPlaceContract.View{
         mPresenter = RegisterLivingPlacePresenter(this)
         mPresenter.initializeView()
 
-        btnNextLivingPlace.setOnClickListener {
+        btnNextLivingPlace.setSafeOnClickListener {
             val registerDataObject = RegisterRequest(homeCommuneId = communeId)
             mPresenter.navigateRegisterWorkplace(registerDataObject)
         }
@@ -61,7 +61,6 @@ class RegisterLivingPlace: ToolbarActivity(), RegisterLivingPlaceContract.View{
         tvDataLive.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         btnNextLivingPlace.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
         btnNextLivingPlace.disabled()
-
 
         mPresenter.getRegions()
     }
