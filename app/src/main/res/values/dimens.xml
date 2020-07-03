@@ -39,5 +39,6 @@
     <dimen name="snackBarCornerRadius">16dp</dimen>
     <dimen name="sklCornerRadiusText">4dp</dimen>
     <dimen name="sklCornerRadiusImage">8dp</dimen>
+    <dimen name="sklCornerRadiusOptionTriage">16dp</dimen>
 
 </resources>

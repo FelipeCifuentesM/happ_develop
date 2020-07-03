@@ -103,7 +103,7 @@ fun Activity.isPermissionBackgroundLocation(): Boolean {
         }else{
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                RequestCode.ACCESS_FINE_LOCATION)
+                RequestCode.LOCATION_BACKGROUND)
             return false
         }
     }

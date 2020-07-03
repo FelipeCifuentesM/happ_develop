@@ -31,7 +31,6 @@ class MainActivityPresenter constructor(private val activity: Activity): MainAct
         val healthCareStatusRealm = TriageReturnValue(healthCareStatus.score, healthCareStatus.risk?.title, healthCareStatus.risk?.level, healthCareStatus.risk?.description,
             healthCareStatus.risk?.message, healthCareStatus.latestReview, healthCareStatus.passport?.timeRemainingVerbose, healthCareStatus.passport?.validationUrl)
         mInteractor.saveHealthCareStatus(healthCareStatusRealm)
-//        mView.hideSkeleton()
         mView.loadFragmentMyRisk(healthCareStatus)
 
     }

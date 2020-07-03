@@ -1,15 +1,16 @@
 package com.jumpitt.happ.ui.triage
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.ui.triage.question.QuestionFragment
 import com.jumpitt.happ.ui.triage.result.ResultFragment
-import com.jumpitt.happ.utils.ColorIdResource
-import com.jumpitt.happ.utils.showSnackbar
-import com.jumpitt.happ.utils.transitionActivity
+import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_triage.*
+import kotlinx.android.synthetic.main.activity_triage.toolbar
+import kotlinx.android.synthetic.main.login.*
 
 class TriageActivity : ToolbarActivity(),
     TriageActivityContract.View, QuestionFragment.Delegate, ResultFragment.Delegate{
@@ -48,6 +49,24 @@ class TriageActivity : ToolbarActivity(),
 
     override fun showTriageAnswerError(triageAnswerError: String) {
         showSnackbar(containerTriageActivity, triageAnswerError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+    }
+
+    override fun showSkeleton() {
+        shimmerTriageQuestion.startShimmer()
+        shimmerTriageQuestion.visibility = View.VISIBLE
+    }
+
+    override fun hideSkeleton() {
+        shimmerTriageQuestion.stopShimmer()
+        shimmerTriageQuestion.visibility = View.GONE
+    }
+
+    override fun showLoader() {
+        pbTriageResult.visibility = View.VISIBLE
+    }
+
+    override fun hideLoader() {
+        pbTriageResult.visibility = View.GONE
     }
 
     override fun onBackPressed() {

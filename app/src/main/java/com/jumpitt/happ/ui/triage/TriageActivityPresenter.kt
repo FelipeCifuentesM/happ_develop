@@ -1,10 +1,12 @@
 package com.jumpitt.happ.ui.triage
 
 import android.app.Activity
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.jumpitt.happ.R
 import com.jumpitt.happ.model.Question
 import com.jumpitt.happ.network.response.TriageAnswerResponse
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
 
@@ -13,8 +15,7 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
     private var mInteractor: TriageActivityContract.Interactor =
         TriageActivityInteractor(this)
     private var mView: TriageActivityContract.View = activity as TriageActivityContract.View
-    private var mRouter: TriageActivityContract.Router =
-        TriageActivityRouter(mView as AppCompatActivity)
+    private var mRouter: TriageActivityContract.Router = TriageActivityRouter(mView as AppCompatActivity)
 
 
     override fun onNextQuestionPressed(responses: List<String>, tracing: Boolean) {
@@ -26,6 +27,7 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
     }
 
     override fun getToken() {
+        mView.showSkeleton()
         mInteractor.getToken()
     }
 
@@ -40,8 +42,10 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
     override fun nextQuestion(question: Question?, tracing: Boolean) {
         question?.let {
             mRouter.displayQuestion(it)
+            mView.hideSkeleton()
             return
         }
+        mView.showLoader()
         mInteractor.getAccessTokenProfile(tracing)
     }
 
@@ -50,16 +54,21 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
     }
 
     override fun getTriageAnswerOutput(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
-            mInteractor.saveResult(responseTriageAnswer)
-            mRouter.displayResult(tracing)
+        val healthCareStatusRealm = TriageReturnValue(responseTriageAnswer.score, responseTriageAnswer.risk?.title, responseTriageAnswer.risk?.level, responseTriageAnswer.risk?.description,
+            responseTriageAnswer.risk?.message, responseTriageAnswer.latestReview, responseTriageAnswer.passport?.timeRemainingVerbose, responseTriageAnswer.passport?.validationUrl)
+        mInteractor.saveResult(healthCareStatusRealm)
+        mRouter.displayResult(tracing)
+        mView.hideLoader()
     }
 
     override fun getTriageAnswerOutputError(errorCode: Int, response: Response<TriageAnswerResponse>) {
         val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
+        mView.hideLoader()
         mView.showTriageAnswerError(messageError)
     }
 
     override fun getTriageAnswerFailureError() {
+        mView.hideLoader()
         mView.showTriageAnswerError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 

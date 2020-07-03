@@ -55,6 +55,6 @@
             android:insetBottom="0dp"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
-            android:text="Siguiente" />
+            android:text="@string/btnNext" />
     </RelativeLayout>
 </ScrollView>

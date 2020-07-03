@@ -29,6 +29,10 @@ enum class Labelstext(val sizeText: Int, val font: Int, val letterSpacing: Float
     OVERLINE(R.dimen.overlineTextSize, R.font.dmsans_regular, 0.17f),
 }
 
+enum class ViewState {
+    IDLE, LOADING
+}
+
 enum class TriageQuestionType {
     SIMPLE_SELECTION,
     MULTIPLE_SELECTION

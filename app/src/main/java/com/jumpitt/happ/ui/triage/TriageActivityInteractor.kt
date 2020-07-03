@@ -8,6 +8,7 @@ import com.jumpitt.happ.network.request.TriageAnswerRequest
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.ConstantsApi
 import com.orhanobut.hawk.Hawk
 import io.realm.Realm
@@ -102,9 +103,17 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
         mIOutput.getAccessTokenProfileOutput(tracing, accessToken)
     }
 
-    override fun saveResult(responseTriageAnswer: TriageAnswerResponse) {
+    override fun saveResult(healthCareStatusRealm: TriageReturnValue) {
         //GUARDAR DATOS LOCAL
-        Hawk.put("triageReturnValue", responseTriageAnswer)
+//        Hawk.put("triageReturnValue", responseTriageAnswer)
+
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.delete(TriageReturnValue::class.java)
+        realm.insertOrUpdate(healthCareStatusRealm)
+        realm.commitTransaction()
+        realm.close()
+
     }
 
 

@@ -2,12 +2,17 @@ package com.jumpitt.happ.ui.triage
 
 import com.jumpitt.happ.model.Question
 import com.jumpitt.happ.network.response.TriageAnswerResponse
+import com.jumpitt.happ.realm.TriageReturnValue
 import retrofit2.Response
 
 interface TriageActivityContract {
 
     interface View{
         fun showTriageAnswerError(triageAnswerError: String)
+        fun showSkeleton()
+        fun hideSkeleton()
+        fun showLoader()
+        fun hideLoader()
     }
 
     interface Presenter{
@@ -22,7 +27,7 @@ interface TriageActivityContract {
         fun nextQuestionRequested(responses: List<String>? = null, tracing: Boolean)
         fun sendTriageAnswers(tracing: Boolean, accessToken: String)
         fun getAccessTokenProfile(tracing: Boolean)
-        fun saveResult(responseTriageAnswer: TriageAnswerResponse)
+        fun saveResult(healthCareStatusRealm: TriageReturnValue)
     }
 
     interface Router{
