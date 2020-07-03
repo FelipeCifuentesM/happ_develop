@@ -10,6 +10,8 @@ import com.jumpitt.happ.ui.triage.result.ResultFragment
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_triage.*
 import kotlinx.android.synthetic.main.activity_triage.toolbar
+import kotlinx.android.synthetic.main.fragment_triage_question.*
+import kotlinx.android.synthetic.main.fragment_triage_result.*
 import kotlinx.android.synthetic.main.login.*
 
 class TriageActivity : ToolbarActivity(),
@@ -62,10 +64,12 @@ class TriageActivity : ToolbarActivity(),
     }
 
     override fun showLoader() {
+        next_button.disabled()
         pbTriageResult.visibility = View.VISIBLE
     }
 
     override fun hideLoader() {
+        next_button.enabled()
         pbTriageResult.visibility = View.GONE
     }
 

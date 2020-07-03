@@ -1,15 +1,12 @@
 package com.jumpitt.happ.ui.profile
 
 import android.content.Intent
-import android.util.Log
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.jumpitt.happ.ui.TracingLogActivity
 import com.jumpitt.happ.ui.changePassword.ChangePasswordActivity
 import com.jumpitt.happ.ui.login.Login
 import com.jumpitt.happ.utils.goToActivity
-import com.jumpitt.happ.utils.goToActivityForResult
 
 
 class ProfileFragmentRouter constructor(private val mFragment: Fragment): ProfileFragmentContract.Router{
