@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1039718018474",
+    "firebase_url": "https://happdevelop-a626c.firebaseio.com",
+    "project_id": "happdevelop-a626c",
+    "storage_bucket": "happdevelop-a626c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039718018474:android:70b86650417537c6654fd3",
+        "android_client_info": {
+          "package_name": "com.jumpitt.happ"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039718018474-keqitbsbp4cbhcd10dl49o1hlii0l47m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGx4Tlqv1YOigGGfPOdcVkqHZOa9CJAeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039718018474-keqitbsbp4cbhcd10dl49o1hlii0l47m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

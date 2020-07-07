@@ -5,6 +5,7 @@ apply plugin: 'io.sentry.android.gradle'
 
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
+apply plugin: 'com.google.gms.google-services'
 
 ext {
     baseURL = "\"http://api.keepsafe.jumpittlabs.cl/v1/\""
@@ -20,8 +21,8 @@ android {
         applicationId "com.jumpitt.happ"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 8
-        versionName "8.0"
+        versionCode 9
+        versionName "9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -88,5 +89,10 @@ dependencies {
     // Shimmer - skeleton Facebook
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //Notification push
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-messaging:20.2.1'
+
+    //Swipe refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 }
