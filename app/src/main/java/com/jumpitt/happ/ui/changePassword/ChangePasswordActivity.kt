@@ -93,12 +93,12 @@ class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
 
     override fun showInitializeView() {
         tvChangePasswordTitle.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnChangePassword.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnChangePassword.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         btnChangePassword.disabled()
     }
 
     override fun showChangePasswordResponse(messageError: String) {
-        showSnackbar(containerChangePassword, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(containerChangePassword, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun showLoader() {

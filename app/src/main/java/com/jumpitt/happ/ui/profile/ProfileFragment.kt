@@ -38,7 +38,6 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         mPresenter = ProfileFragmentPresenter(this)
         mPresenter.initializeView()
 
-
         btnCloseSesion.setSafeOnClickListener {
             mPresenter.deleteProfileData()
         }
@@ -67,7 +66,7 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         tvProfileName.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvProfileRut.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
         tvProfileMail.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
-        btnEnterChangePass.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLUE)
+        btnEnterChangePass.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
         btnCloseSesion.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLACK)
 
         mPresenter.getUserProfileData()
@@ -82,7 +81,7 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
     }
 
     override fun showSnackBar(message: String) {
-        activity?.showSnackbar(containerFragmentProfile, message, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        activity?.showSnackbar(containerFragmentProfile, message, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
 

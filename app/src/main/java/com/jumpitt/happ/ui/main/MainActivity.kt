@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         bAdapter?.let { _bAdapter ->
 
         }?: run {
-            showSnackbar(bottomNavigation, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.BLUE, ColorIdResource.WHITE)
+            showSnackbar(bottomNavigation, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         }
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
 
     override fun showTriageAnswerError(messageError: String) {
-        showSnackbar(mainPager, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(mainPager, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun showSkeleton() {
@@ -104,15 +105,26 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 1){
-            val backEntry: FragmentManager.BackStackEntry = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2)
-            val stackId: Int? = backEntry.name?.toInt()
-            stackId?.let { bottomNavigation.menu.getItem(stackId).isChecked = true }
-            supportFragmentManager.popBackStack()
-        }
-        else
+        if(bottomNavigation.menu.getItem(0).isChecked){
             finish()
+        }else{
+            isShowRiskFragment = true
+            bottomNavigation.menu.getItem(0).isChecked = true
+            mainPager.visibility = View.GONE
+            mPresenter.getAccessToken()
+        }
+
+
+//        if (supportFragmentManager.backStackEntryCount > 1){
+//            val backEntry: FragmentManager.BackStackEntry = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2)
+//            val stackId: Int? = backEntry.name?.toInt()
+//            stackId?.let { bottomNavigation.menu.getItem(stackId).isChecked = true }
+//            supportFragmentManager.popBackStack()
+//        }
+//        else
+//            finish()
     }
+
 
     override fun onRestart() {
         super.onRestart()

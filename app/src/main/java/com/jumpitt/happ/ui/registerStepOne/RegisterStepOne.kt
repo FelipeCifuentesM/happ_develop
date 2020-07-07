@@ -77,13 +77,13 @@ class RegisterStepOne: ToolbarActivity(), RegisterStepOneContract.View{
 
     override fun showInitializeView() {
         tvValidateRut.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnNextRegisterOne.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnNextRegisterOne.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         btnNextRegisterOne.disabled()
 
     }
 
     override fun showValidateDNIError(messageError: String) {
-        showSnackbar(containerStepOne, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(containerStepOne, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun showLoader() {

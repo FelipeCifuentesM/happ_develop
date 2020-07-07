@@ -50,7 +50,7 @@ class TriageActivity : ToolbarActivity(),
     }
 
     override fun showTriageAnswerError(triageAnswerError: String) {
-        showSnackbar(containerTriageActivity, triageAnswerError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(containerTriageActivity, triageAnswerError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun showSkeleton() {

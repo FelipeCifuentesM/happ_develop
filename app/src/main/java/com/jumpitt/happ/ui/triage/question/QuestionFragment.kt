@@ -99,7 +99,7 @@ class QuestionFragment : Fragment(), OptionsAdapter.Delegate {
         mNextButton = view.findViewById(R.id.next_button)
 
         mLabelTitle.containedStyle(Labelstext.H6,ColorIdResource.BLACK, 0.87F, R.font.dmsans_medium)
-        mNextButton.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        mNextButton.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         mNextButton.disabled()
 
         mTitle?.let { mLabelTitle.text = HtmlCompat.fromHtml(mTitle.asteriskBold(), HtmlCompat.FROM_HTML_MODE_LEGACY) }

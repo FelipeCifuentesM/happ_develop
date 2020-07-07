@@ -36,7 +36,7 @@ class OnBoard: AppCompatActivity(){
                 OnBoardSlide(
                     resources.getString(R.string.lbOnBoardTitle1),
                     resources.getString(R.string.lbOnBoardDescription1),
-                    R.drawable.ic_family_group
+                    R.drawable.ic_mother_and_son
                 )
 //                OnBoardSlide(
 //                    resources.getString(R.string.lbOnBoardTitle1),
@@ -52,7 +52,7 @@ class OnBoard: AppCompatActivity(){
         )
 
         tvTermsConditions.containedStyle(Labelstext.BODY2, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnStartOB.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnStartOB.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
 
 
         val termsConditionLink = resources.getString(R.string.lbTermsConditions)

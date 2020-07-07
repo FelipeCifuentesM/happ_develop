@@ -89,14 +89,14 @@ class Login: ToolbarActivity(), LoginContract.View{
         cvLogin.background.alpha = 80
         tvLoginTitle.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvCreateAccount.containedStyle(Labelstext.H5, ColorIdResource.BLACK, font = R.font.dmsans_bold)
-        btnEnterLogin.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
-        btnRecoverPassLogin.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLUE, font = R.font.dmsans_medium)
+        btnEnterLogin.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
+        btnRecoverPassLogin.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY, font = R.font.dmsans_medium)
         btnCreateAccount.containedStyle(ColorIdResource.SKYBLUE, ColorIdResource.WHITE, font = R.font.dmsans_medium)
         btnEnterLogin.disabled()
     }
 
     override fun showValidateLoginError(messageError: String) {
-        showSnackbar(containerLogin, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(containerLogin, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun showLoader() {

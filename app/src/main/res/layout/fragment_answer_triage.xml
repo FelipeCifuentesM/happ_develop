@@ -6,89 +6,55 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="30dp" />
-
     <ImageView
         android:id="@+id/ivAnswerTriage"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:elevation="1dp"
-        android:outlineAmbientShadowColor="@color/cardview_shadow_start_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_girl_mask" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <TextView
+        android:id="@+id/tvTitleTriageQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/skyBlue"
-        app:cardCornerRadius="@dimen/cardCornerRadius"
-        app:cardElevation="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_horizontal"
+        android:text="@string/lbAnswerTriageTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivAnswerTriage" />
+
+    <TextView
+        android:id="@+id/tvDescriptionTriageQuestion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_horizontal"
+        android:text="@string/lbAnswerTriageDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleTriageQuestion" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTriageQuestions"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btnHeight"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="44dp"
+        android:text="@string/btnAnswer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="120dp" />
-
-            <TextView
-                android:id="@+id/tvTitleTriageQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="center_horizontal"
-                android:text="Conoce tu riesgo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline3" />
-
-            <TextView
-                android:id="@+id/tvDescriptionTriageQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="center_horizontal"
-                android:text="Responde las siguientes preguntas para obtener tu riesgo de contagio"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitleTriageQuestion" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnTriageQuestions"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnHeight"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="44dp"
-                android:text="@string/btnAnswer"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDescriptionTriageQuestion" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionTriageQuestion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

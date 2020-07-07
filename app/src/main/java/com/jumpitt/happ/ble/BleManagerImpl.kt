@@ -32,6 +32,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 
 interface BleManager {
@@ -67,10 +68,13 @@ class BleManagerImpl(
             tcnGenerator.generateTcn().bytes
 
         override fun onTcnFound(tcn: ByteArray, myTcn: ByteArray?, estimatedDistance: Double?) {
+            var approximateDistance: Double? = null
+            estimatedDistance?.let{ approximateDistance = (estimatedDistance * 100).roundToInt() / 100.0 }
+
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
-            Log.e("TcnClient", "myTcn: ${myTcn?.toHex()}  tcn found: ${tcn.toHex()} date: $currentDate distance: $estimatedDistance" )
-//            delegateDemo?.onTcnFound(tcn, myTcn, estimatedDistance)
+            Log.e("TcnClient", "myTcn: ${myTcn?.toHex()}  tcn found: ${tcn.toHex()} date: $currentDate distance: $approximateDistance" )
+//            delegateDemo?.onTcnFound(tcn, myTcn, approximateDistance)
 
 //            val userData = Hawk.get<RegisterResponse>("userProfileData")
 
@@ -78,7 +82,7 @@ class BleManagerImpl(
             val userData = realm.where(RegisterData::class.java).findFirst()
 
             userData?.accessToken?.let {
-                RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = estimatedDistance)).
+                RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = approximateDistance)).
                 enqueue(object: Callback<TracingResponse> {
                     override fun onFailure(call: Call<TracingResponse>, t: Throwable) {
                     }

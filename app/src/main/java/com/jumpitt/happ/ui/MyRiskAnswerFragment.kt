@@ -32,9 +32,9 @@ class MyRiskAnswerFragment : Fragment() {
 
 
         //Card
-        tvTitleTriageQuestion.containedStyle(Labelstext.H4, ColorIdResource.WHITE, font = R.font.dmsans_medium)
+        tvTitleTriageQuestion.containedStyle(Labelstext.H3, ColorIdResource.PRIMARY, font = R.font.dmsans_medium)
         tvDescriptionTriageQuestion.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
-        btnTriageQuestions.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnTriageQuestions.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
 
         btnTriageQuestions.setSafeOnClickListener {
             activity?.goToActivity<TriageActivity>()

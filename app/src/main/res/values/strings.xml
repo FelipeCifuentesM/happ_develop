@@ -23,6 +23,8 @@
     <string name="lbGetDailyPassDesc">Responde las preguntas para actualizar tu riesgo y obtener tu pase diario</string>
     <string name="lbLastCheckTime">Último chequeo %1$s</string>
     <string name="lbPassDuration">Duración pase</string>
+    <string name="lbAnswerTriageTitle">Conoce tu riesgo</string>
+    <string name="lbAnswerTriageDescription">Responde las siguientes preguntas para obtener tu pase diario</string>
     <string name="lbChangePassTitle">Cambiar contraseña</string>
     <string name="lbRecoverPassTitle">Recuperar contraseña</string>
 

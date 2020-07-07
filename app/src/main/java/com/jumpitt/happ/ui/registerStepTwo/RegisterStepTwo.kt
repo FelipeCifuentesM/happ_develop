@@ -108,7 +108,7 @@ class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
 
     override fun showInitializeView() {
         tvDataPerson.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnNextRegisterTwo.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnNextRegisterTwo.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         btnNextRegisterTwo.disabled()
     }
 

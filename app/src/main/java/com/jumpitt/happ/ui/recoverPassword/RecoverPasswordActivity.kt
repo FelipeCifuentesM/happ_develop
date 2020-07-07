@@ -41,12 +41,12 @@ class RecoverPasswordActivity: ToolbarActivity(), RecoverPasswordContract.View {
 
     override fun showInitializeView() {
         tvRecoverPasswordTitle.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnRecoverPassword.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnRecoverPassword.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         btnRecoverPassword.disabled()
     }
 
     override fun showRecoverPasswordResponse(message: String?) {
-        message?.let { showSnackbar(containerRecoverPassword, message, ColorIdResource.BLUE, ColorIdResource.WHITE) }
+        message?.let { showSnackbar(containerRecoverPassword, message, ColorIdResource.PRIMARY, ColorIdResource.WHITE) }
     }
 
     override fun showLoader() {

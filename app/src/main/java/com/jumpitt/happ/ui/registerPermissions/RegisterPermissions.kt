@@ -38,11 +38,11 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
     override fun showInitializeView() {
         tvPermissionTitle.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvPermissionDescription.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
-        btnNextRegistePermission.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnNextRegistePermission.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun showRegisterError(messageError: String) {
-        showSnackbar(containerRegisterPermission, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(containerRegisterPermission, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
 
@@ -56,7 +56,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
                 startActivityForResult(intent, RequestCode.REQUEST_CODE_ENABLE_BT)
             }
         }?: run {
-            showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.BLUE, ColorIdResource.WHITE)
+            showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         }
 
     }
@@ -69,7 +69,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
                     mPresenter.getRegisterData(true)
                 }else{
                     //Not accept permission
-                    showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothPermissionDenied), ColorIdResource.BLUE, ColorIdResource.WHITE)
+                    showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothPermissionDenied), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
                 }
         }
         super.onActivityResult(requestCode, resultCode, data)

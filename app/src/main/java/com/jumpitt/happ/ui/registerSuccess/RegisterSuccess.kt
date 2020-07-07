@@ -15,7 +15,7 @@ class RegisterSuccess: ToolbarActivity(){
         setContentView(R.layout.register_success)
 
         tvApprovedRegister.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnRegisterSuccess.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnRegisterSuccess.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
 
 
         btnRegisterSuccess.setSafeOnClickListener {

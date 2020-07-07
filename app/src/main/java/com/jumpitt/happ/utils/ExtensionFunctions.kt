@@ -152,7 +152,7 @@ fun FragmentActivity.replaceFragment(
 ): Boolean {
     supportFragmentManager.inTransaction {
         replace(frameId, fragment)
-        addToBackStack(backStackTag)
+//        addToBackStack(backStackTag)
     }
     return true
 }

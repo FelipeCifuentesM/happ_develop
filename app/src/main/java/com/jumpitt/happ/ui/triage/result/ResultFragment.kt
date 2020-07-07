@@ -72,7 +72,7 @@ class ResultFragment : Fragment() {
         tvTriageResultValue.containedStyle(Labelstext.H1, ColorIdResource.BLACK)
         tvTriageResultSubtitle.containedStyle(Labelstext.H4, ColorIdResource.BLACK)
         tvTriageResultDescription.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
-        btnFinishTriageResult.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnFinishTriageResult.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
 
         triageReturnValue?.riskLevel?.let { level ->
             when(level){

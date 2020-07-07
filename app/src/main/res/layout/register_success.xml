@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_check_circle_duotone"
-            android:tint="@color/blue"/>
+            android:tint="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/tvApprovedRegister"

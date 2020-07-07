@@ -5,7 +5,7 @@ import com.jumpitt.happ.R
 enum class ColorIdResource(val color: Int) {
     BLACK(R.color.black),
     WHITE(R.color.white),
-    BLUE(R.color.blue),
+    PRIMARY(R.color.colorPrimary),
     SKYBLUE(R.color.skyBlue),
     SEMAPHOREORANGE(R.color.semaphoreOrange),
     SEMAPHOREGREEN(R.color.semaphoreGreen),

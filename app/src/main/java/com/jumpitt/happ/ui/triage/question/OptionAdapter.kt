@@ -36,7 +36,7 @@ class OptionsAdapter : RecyclerView.Adapter<OptionHolder>() {
         if (selected.contains(choice)) {
             root.check.isInvisible = false
             root.option_card.strokeWidth = 0
-            root.optionValue.setTextColor(ContextCompat.getColor(context, R.color.blue))
+            root.optionValue.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
             root.option_card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.backgroundQuestionSelected))
         } else {
             root.option_card.strokeWidth = 0

@@ -59,7 +59,7 @@ class RegisterLivingPlace: ToolbarActivity(), RegisterLivingPlaceContract.View{
         tiLivingRegion.typeface = ResourcesCompat.getFont(this, R.font.dmsans_regular)
         tiLivingCommune.typeface = ResourcesCompat.getFont(this, R.font.dmsans_regular)
         tvDataLive.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnNextLivingPlace.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnNextLivingPlace.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         btnNextLivingPlace.disabled()
 
         mPresenter.getRegions()
@@ -87,7 +87,7 @@ class RegisterLivingPlace: ToolbarActivity(), RegisterLivingPlaceContract.View{
     }
 
     override fun showLivingPlaceError(messageError: String) {
-        showSnackbar(containerLivingPlace, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(containerLivingPlace, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun onBackPressed() {

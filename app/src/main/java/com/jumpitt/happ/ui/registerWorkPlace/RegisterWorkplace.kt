@@ -55,7 +55,7 @@ class RegisterWorkplace: ToolbarActivity(), RegisterWorkPlaceContract.View{
         tiWorkRegion.typeface = ResourcesCompat.getFont(this, R.font.dmsans_regular)
         tiWorkCommune.typeface = ResourcesCompat.getFont(this, R.font.dmsans_regular)
         tvDataWork.containedStyle(Labelstext.H4, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-        btnNextWorkPlace.containedStyle(ColorIdResource.BLUE, ColorIdResource.WHITE)
+        btnNextWorkPlace.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         btnNextWorkPlace.disabled()
         mPresenter.getRegions()
     }
@@ -82,7 +82,7 @@ class RegisterWorkplace: ToolbarActivity(), RegisterWorkPlaceContract.View{
     }
 
     override fun showWorkPlaceError(messageError: String) {
-        showSnackbar(containerWorkPlace, messageError, ColorIdResource.BLUE, ColorIdResource.WHITE)
+        showSnackbar(containerWorkPlace, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun onBackPressed() {
