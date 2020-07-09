@@ -16,6 +16,7 @@ interface MainActivityContract {
     interface Presenter{
         fun validatePressingDifferent(bottomNavigation: BottomNavigationView, itemId: Int): Boolean
         fun getAccessToken()
+        fun validateBluetoothState()
     }
 
     interface Interactor{
@@ -25,7 +26,7 @@ interface MainActivityContract {
     }
 
     interface Router{
-
+        fun navigateBluetoothPermission()
     }
 
     interface InteractorOutputs{

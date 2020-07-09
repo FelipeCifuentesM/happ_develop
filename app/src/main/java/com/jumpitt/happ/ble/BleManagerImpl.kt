@@ -123,7 +123,7 @@ class BleManagerImpl(
         }else{
             Log.e("Borrar", "BLUETOOTH OFF")
             val bluetoothDisabledIntent = Intent(app, RegisterPermissions::class.java)
-            bluetoothDisabledIntent.putExtra("fromService", true)
+            bluetoothDisabledIntent.putExtra("validateReturnWhitOutPermission", true)
             bluetoothDisabledIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             app.applicationContext.startActivity(bluetoothDisabledIntent)
         }

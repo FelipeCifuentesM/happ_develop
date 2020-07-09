@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 class MainActivity : AppCompatActivity(), MainActivityContract.View {
     private lateinit var mPresenter: MainActivityContract.Presenter
     private lateinit var healthCareStatusCopy: TriageAnswerResponse
-    private var bAdapter: BluetoothAdapter? = null
     private var isShowRiskFragment = true
 
 
@@ -32,13 +31,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
         mPresenter = MainActivityPresenter(this)
         mPresenter.getAccessToken()
+        mPresenter.validateBluetoothState()
 
-        bAdapter = BluetoothAdapter.getDefaultAdapter()
-        bAdapter?.let { _bAdapter ->
-
-        }?: run {
-            showSnackbar(bottomNavigation, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
-        }
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
     }

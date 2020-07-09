@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.register_permissions.*
 class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
     private lateinit var mPresenter: RegisterPermissionsContract.Presenter
     private var bAdapter: BluetoothAdapter? = null
-    private var isFromService: Boolean = false
+    private var isValidateReturn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +71,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
             RequestCode.REQUEST_CODE_ENABLE_BT ->
                 if(resultCode  == Activity.RESULT_OK){
                     //Accept permission
-                    if(!isFromService)
+                    if(!isValidateReturn)
                         mPresenter.getRegisterData(true)
                 }else{
                     //Not accept permission
@@ -125,8 +125,8 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
         Log.e("Borrar", "BLUETOOTH FILTER: "+filter.getAction(0))
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,filter)
 
-        intent.extras?.getBoolean("fromService")?.let { isFromService = it }?: run { isFromService = false }
-        Log.e("Borrar", "BLUETOOTH VIENE DEL SERVICIO: $isFromService")
+        intent.extras?.getBoolean("validateReturnWhitOutPermission")?.let { isValidateReturn = it }?: run { isValidateReturn = false }
+        Log.e("Borrar", "BLUETOOTH VIENE DEL SERVICIO: $isValidateReturn")
 
     }
 
@@ -137,7 +137,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
     }
 
     override fun onBackPressed() {
-        if(isFromService){
+        if(isValidateReturn){
             showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothPermissionDenied), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         }else{
             super.onBackPressed()
