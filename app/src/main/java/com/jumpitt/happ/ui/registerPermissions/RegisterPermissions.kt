@@ -2,12 +2,16 @@ package com.jumpitt.happ.ui.registerPermissions
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
@@ -17,6 +21,7 @@ import kotlinx.android.synthetic.main.register_permissions.*
 class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
     private lateinit var mPresenter: RegisterPermissionsContract.Presenter
     private var bAdapter: BluetoothAdapter? = null
+    private var isFromService: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +71,8 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
             RequestCode.REQUEST_CODE_ENABLE_BT ->
                 if(resultCode  == Activity.RESULT_OK){
                     //Accept permission
-                    mPresenter.getRegisterData(true)
+                    if(!isFromService)
+                        mPresenter.getRegisterData(true)
                 }else{
                     //Not accept permission
                     showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothPermissionDenied), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
@@ -105,8 +111,39 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
         pbPermissions.visibility = View.GONE
     }
 
+    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.e("Borrar", "RECIBIDO")
+            finish()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("Borrar", "BLUETOOTH RESUME")
+        val filter = IntentFilter("action.finish")
+        Log.e("Borrar", "BLUETOOTH FILTER: "+filter.getAction(0))
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,filter)
+
+        intent.extras?.getBoolean("fromService")?.let { isFromService = it }?: run { isFromService = false }
+        Log.e("Borrar", "BLUETOOTH VIENE DEL SERVICIO: $isFromService")
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("Borrar", "BLUETOOTH STOP")
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver)
+    }
+
     override fun onBackPressed() {
-        super.onBackPressed()
-        this.transitionActivity(Transition.RIGHT_TO_LEFT)
+        if(isFromService){
+            showSnackbar(containerRegisterPermission, resources.getString(R.string.snkBluetoothPermissionDenied), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
+        }else{
+            super.onBackPressed()
+            this.transitionActivity(Transition.RIGHT_TO_LEFT)
+        }
+
+
     }
 }

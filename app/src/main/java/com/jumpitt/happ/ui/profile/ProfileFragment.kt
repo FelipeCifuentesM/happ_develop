@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ServiceCompat
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.RegisterResponse

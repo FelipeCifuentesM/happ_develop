@@ -1,7 +1,9 @@
 package com.jumpitt.happ.ble
 
-import android.app.*
-import android.app.Service.STOP_FOREGROUND_REMOVE
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -11,17 +13,15 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.app.ServiceCompat.STOP_FOREGROUND_REMOVE
 import androidx.core.app.ServiceCompat.stopForeground
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.TracingRequest
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TracingResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.ui.TracingLogActivity
 import com.jumpitt.happ.ui.main.MainActivity
-import com.orhanobut.hawk.Hawk
+import com.jumpitt.happ.ui.registerPermissions.RegisterPermissions
 import io.realm.Realm
 import org.tcncoalition.tcnclient.TcnKeys
 import org.tcncoalition.tcnclient.bluetooth.BluetoothStateListener
@@ -101,15 +101,28 @@ class BleManagerImpl(
     }
 
     override fun startService() {
+        Log.e("Borrar", "START SERVICE")
         app.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
         app.startService(intent)
     }
 
     override fun stopService() {
+        Log.e("Borrar", "STOP SERVICE")
         app.stopService(intent)
     }
 
     override fun bluetoothStateChanged(bluetoothOn: Boolean) {
+        if(bluetoothOn){
+            Log.e("Borrar", "BLUETOOTH ON")
+            val intent1 = Intent("action.finish")
+            LocalBroadcastManager.getInstance(app).sendBroadcast(intent1)
+        }else{
+            Log.e("Borrar", "BLUETOOTH OFF")
+            val bluetoothDisabledIntent = Intent(app, RegisterPermissions::class.java)
+            bluetoothDisabledIntent.putExtra("fromService", true)
+            bluetoothDisabledIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            app.applicationContext.startActivity(bluetoothDisabledIntent)
+        }
     }
 
     private fun foregroundNotification(): Notification {
