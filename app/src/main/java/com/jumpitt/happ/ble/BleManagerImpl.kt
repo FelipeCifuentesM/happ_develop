@@ -59,7 +59,11 @@ class BleManagerImpl(
             }
         }
 
-        override fun onServiceDisconnected(name: ComponentName?) {}
+        override fun onServiceDisconnected(name: ComponentName?) {
+            this@BleManagerImpl.service?.stopTcnExchange()
+            this@BleManagerImpl.service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
+            app.stopService(intent)
+        }
     }
     inner class BluetoothServiceCallback : TcnBluetoothServiceCallback
 
@@ -102,7 +106,7 @@ class BleManagerImpl(
 
     override fun startService() {
         Log.e("Borrar", "START SERVICE")
-        app.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+        app.bindService(intent, serviceConnection, Context.BIND_NOT_FOREGROUND)
         app.startService(intent)
     }
 
