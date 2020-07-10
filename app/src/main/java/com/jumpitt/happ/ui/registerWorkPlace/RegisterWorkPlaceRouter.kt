@@ -7,7 +7,9 @@ import com.jumpitt.happ.utils.goToActivity
 class RegisterWorkPlaceRouter constructor(private val activity: Activity): RegisterWorkPlaceContract.Router{
 
     override fun navigateRegisterPermissions() {
-        activity.goToActivity<RegisterPermissions>()
+        activity.goToActivity<RegisterPermissions>{
+            putExtra("fromRegister", true)
+        }
     }
 
 }

@@ -29,18 +29,6 @@ class MainActivityPresenter constructor(private val activity: Activity): MainAct
         mInteractor.getAccessToken()
     }
 
-    override fun validateBluetoothState() {
-        var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-        bAdapter?.let { _bAdapter ->
-            if(!_bAdapter.isEnabled){
-                Log.e("Borrar", "DEShabilitado")
-                mRouter.navigateBluetoothPermission()
-            }
-        }?: run {
-//            showSnackbar(bottomNavigation, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
-        }
-    }
-
     override fun getAccesTokenOutput(accessToken: String) {
         mInteractor.getHealthCare(accessToken)
     }

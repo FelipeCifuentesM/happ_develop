@@ -11,6 +11,7 @@ interface SplashActivityContract {
     interface Presenter{
         fun getUserProfileData(requestPermissions: Boolean)
         fun getUserProfileDataOutput(userData: RegisterData?, requestPermissions: Boolean)
+        fun validateBluetoothState()
     }
 
     interface Interactor{
@@ -21,6 +22,7 @@ interface SplashActivityContract {
     interface Router{
         fun navigateMainActivity()
         fun navigateOnBoard()
+        fun navigatePermissionBluetooth()
     }
 
     interface InteractorOutputs{

@@ -17,7 +17,9 @@ interface RegisterPermissionsContract {
     interface Presenter{
         fun initializeView()
         fun navigateRegisterSuccess()
+        fun navigateMainActivity()
         fun getRegisterData(requestPermissions: Boolean)
+        fun validateTcn()
     }
 
     interface Interactor{
@@ -28,6 +30,7 @@ interface RegisterPermissionsContract {
 
     interface Router{
         fun navigateRegisterSuccess()
+        fun navigateMainActivity()
     }
 
     interface InteractorOutputs{

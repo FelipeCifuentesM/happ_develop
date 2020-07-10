@@ -29,9 +29,15 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.e("Borrar", "MAIIIN")
         mPresenter = MainActivityPresenter(this)
         mPresenter.getAccessToken()
-        mPresenter.validateBluetoothState()
+
+        var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+        bAdapter?.let { _bAdapter ->
+        }?: run {
+            showSnackbar(bottomNavigation, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
+        }
 
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 

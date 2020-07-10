@@ -27,6 +27,10 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         mRouter.navigateRegisterSuccess()
     }
 
+    override fun navigateMainActivity() {
+        mRouter.navigateMainActivity()
+    }
+
     override fun getRegisterData(requestPermissions: Boolean) {
         //review permissions
         if(requestPermissions){
@@ -38,6 +42,18 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         }else{
             mView.showLoader()
             mInteractor.getRegisterData(this)
+        }
+    }
+
+    override fun validateTcn() {
+        val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+        if(!isRunning) {
+            val tcnGenerator = TcnGeneratorImpl(context = activity)
+            val bleManagerImpl = BleManagerImpl(
+                app = activity.applicationContext,
+                tcnGenerator = tcnGenerator
+            )
+            bleManagerImpl.startService()
         }
     }
 

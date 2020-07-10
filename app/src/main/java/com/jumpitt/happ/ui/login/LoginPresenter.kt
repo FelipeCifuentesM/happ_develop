@@ -2,6 +2,7 @@ package com.jumpitt.happ.ui.login
 
 import android.app.Activity
 import android.app.ActivityManager
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ble.BleManagerImpl
@@ -12,10 +13,10 @@ import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
-import com.jumpitt.happ.utils.isPermissionLocation
 import com.jumpitt.happ.utils.parseErrJsonResponse
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
+
 
 class LoginPresenter constructor(private val activity: Activity): LoginContract.Presenter, LoginContract.InteractorOutputs {
     private var mInteractor: LoginContract.Interactor = LoginInteractor()
@@ -25,6 +26,27 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     override fun initializeView() {
         mView.showInitializeView()
     }
+
+
+    override fun validateBluetoothState() {
+        val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        if (mBluetoothAdapter.isEnabled){
+            val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+            if(!isRunning) {
+                val tcnGenerator = TcnGeneratorImpl(context = activity)
+                val bleManagerImpl = BleManagerImpl(
+                    app = activity.applicationContext,
+                    tcnGenerator = tcnGenerator
+                )
+                bleManagerImpl.startService()
+            }
+            mRouter.navigateMain()
+        }else{
+            mRouter.navigatePermissionBluetooth()
+        }
+
+    }
+
 
     override fun navigateRegisterStepOne() {
         mRouter.navigateRegisterStepOne()
@@ -63,7 +85,6 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         mRouter.navigateRecoverPass()
     }
 
-
     override fun postLoginAccessTokenOutput(dataResponseToken: LoginAccessTokenResponse) {
         mInteractor.getProfile(dataResponseToken, this)
     }
@@ -94,16 +115,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
             dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.home.id, dataLoginResponse.work.id,
             accessToken, refreshToken)
         mInteractor.saveRegisterProfile(userRealm)
-        val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-        if(!isRunning) {
-            val tcnGenerator = TcnGeneratorImpl(context = activity)
-            val bleManagerImpl = BleManagerImpl(
-                app = activity.applicationContext,
-                tcnGenerator = tcnGenerator
-            )
-            bleManagerImpl.startService()
-        }
-        mRouter.navigateMain()
+        validateBluetoothState()
     }
 
     override fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>) {
