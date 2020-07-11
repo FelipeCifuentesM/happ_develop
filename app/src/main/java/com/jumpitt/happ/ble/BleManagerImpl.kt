@@ -80,8 +80,6 @@ class BleManagerImpl(
             Log.e("TcnClient", "myTcn: ${myTcn?.toHex()}  tcn found: ${tcn.toHex()} date: $currentDate distance: $approximateDistance" )
 //            delegateDemo?.onTcnFound(tcn, myTcn, approximateDistance)
 
-//            val userData = Hawk.get<RegisterResponse>("userProfileData")
-
             val realm = Realm.getDefaultInstance()
             val userData = realm.where(RegisterData::class.java).findFirst()
 

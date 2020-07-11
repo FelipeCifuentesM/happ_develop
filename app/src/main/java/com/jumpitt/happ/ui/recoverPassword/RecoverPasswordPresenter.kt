@@ -2,7 +2,6 @@ package com.jumpitt.happ.ui.recoverPassword
 
 import android.app.Activity
 import com.jumpitt.happ.R
-import com.jumpitt.happ.network.request.RecoverPasswordRequest
 import com.jumpitt.happ.network.response.RecoverPasswordResponse
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response

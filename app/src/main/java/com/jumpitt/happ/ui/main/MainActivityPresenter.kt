@@ -1,18 +1,11 @@
 package com.jumpitt.happ.ui.main
 
 import android.app.Activity
-import android.bluetooth.BluetoothAdapter
-import android.content.Intent
-import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.TriageReturnValue
-import com.jumpitt.happ.ui.registerPermissions.RegisterPermissions
-import com.jumpitt.happ.utils.ColorIdResource
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
-import com.jumpitt.happ.utils.showSnackbar
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 
 class MainActivityPresenter constructor(private val activity: Activity): MainActivityContract.Presenter, MainActivityContract.InteractorOutputs {

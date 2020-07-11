@@ -1,12 +1,10 @@
 package com.jumpitt.happ.ui.main
 
 import com.jumpitt.happ.network.RestClient
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.ConstantsApi
-import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,8 +13,6 @@ import retrofit2.Response
 class MainActivityInteractor(private val mIOutput: MainActivityContract.InteractorOutputs): MainActivityContract.Interactor {
 
     override fun getAccessToken() {
-//        var accessToken = Hawk.get<RegisterResponse>("userProfileData").accessToken
-
         val realm = Realm.getDefaultInstance()
         var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
 
@@ -53,11 +49,7 @@ class MainActivityInteractor(private val mIOutput: MainActivityContract.Interact
     }
 
     override fun saveHealthCareStatus(healthCareStatusRealm: TriageReturnValue) {
-//        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
-//        healthCareStatusLocal?.let {
-//            Hawk.delete("triageReturnValue")
-//        }
-//        Hawk.put("triageReturnValue", healthCareStatus)
+
 
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()

@@ -78,7 +78,6 @@ class OnBoard: AppCompatActivity(){
 
         val clickSpanPrivacy = object : ClickableSpan(){
             override fun onClick(widget: View) {
-                Log.e("Borrar", "dos")
                 goToActivity<WebViewActivity>{
                     putExtra("urlWebView", "https://drive.google.com/file/d/1ELB17XPw62Hk0tHuGmvv_2ut1pAsDYEz/view")
                     putExtra("titleBar", resources.getString(R.string.tbPrivacy))

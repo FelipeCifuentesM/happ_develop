@@ -5,12 +5,10 @@ import com.jumpitt.happ.model.Triage
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.ChoiceID
 import com.jumpitt.happ.network.request.TriageAnswerRequest
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.ConstantsApi
-import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,8 +22,6 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
     private var mIndex = -1
 
     override fun getToken(){
-//        var accessToken = Hawk.get<RegisterResponse>("userProfileData").accessToken
-
         val realm = Realm.getDefaultInstance()
         var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
 
@@ -93,8 +89,6 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
     }
 
     override fun getAccessTokenProfile(tracing: Boolean){
-//        var accessToken = Hawk.get<RegisterResponse>("userProfileData").accessToken
-
         val realm = Realm.getDefaultInstance()
         var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
 
@@ -105,8 +99,6 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
 
     override fun saveResult(healthCareStatusRealm: TriageReturnValue) {
         //GUARDAR DATOS LOCAL
-//        Hawk.put("triageReturnValue", responseTriageAnswer)
-
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.delete(TriageReturnValue::class.java)

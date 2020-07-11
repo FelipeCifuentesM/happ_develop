@@ -95,6 +95,14 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
             200 -> {
                 mView.showValidateLoginError(activity.resources.getString(R.string.snkDataNullError))
             }
+            401 -> {
+                val errorResponse = response.parseErrJsonResponse<ErrorResponse>()
+                errorResponse.errorMessage?.let {messageError ->
+                    mView.showValidateLoginError(messageError)
+                }?: run{
+                    mView.showValidateLoginError(activity.resources.getString(R.string.snkDefaultApiError))
+                }
+            }
             422 -> {
                 val errorResponse = response.parseErrJsonResponse<ErrorResponse>()
                 errorResponse.errorMessage?.let {messageError ->

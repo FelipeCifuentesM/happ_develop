@@ -29,7 +29,6 @@ class MyRiskPendingFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
         val realm = Realm.getDefaultInstance()
         val healthCareStatusLocal = realm.where(TriageReturnValue::class.java).findFirst()
 

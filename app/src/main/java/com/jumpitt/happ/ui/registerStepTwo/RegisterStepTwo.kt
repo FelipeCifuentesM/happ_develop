@@ -6,7 +6,6 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
-import kotlinx.android.synthetic.main.register_step_one.*
 import kotlinx.android.synthetic.main.register_step_two.*
 import kotlinx.android.synthetic.main.register_step_two.toolbar
 

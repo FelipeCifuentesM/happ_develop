@@ -1,14 +1,12 @@
 package com.jumpitt.happ.ui.registerStepOne
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.request.ValidateDNIRequest
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
-import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.register_step_one.*
 import kotlinx.android.synthetic.main.register_step_one.toolbar
 

@@ -6,10 +6,8 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
-import com.jumpitt.happ.utils.isPermissionLocation
 
 class SplashActivityPresenter constructor(private val activity: Activity): SplashActivityContract.Presenter, SplashActivityContract.InteractorOutputs {
     private var mInteractor: SplashActivityContract.Interactor = SplashActivityInteractor(this)

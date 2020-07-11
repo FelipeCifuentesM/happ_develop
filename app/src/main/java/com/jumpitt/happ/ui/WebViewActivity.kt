@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.webkit.*
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import com.jumpitt.happ.R
 import kotlinx.android.synthetic.main.activity_web_view.*
 

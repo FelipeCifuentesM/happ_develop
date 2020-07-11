@@ -10,10 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
-import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.*
-import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_item_myrisk_high.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
@@ -31,7 +29,6 @@ class MyRiskValueHighFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
         val realm = Realm.getDefaultInstance()
         val healthCareStatusLocal = realm.where(TriageReturnValue::class.java).findFirst()
 

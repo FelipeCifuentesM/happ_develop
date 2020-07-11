@@ -1,6 +1,5 @@
 package com.jumpitt.happ.ui.splash
 
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
 
 interface SplashActivityContract {

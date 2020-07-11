@@ -13,8 +13,6 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.jumpitt.happ.R
-import com.jumpitt.happ.ble.BleManagerImpl
-import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.register_permissions.*
@@ -122,7 +120,6 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            Log.e("Borrar", "RECIBIDO")
             if(isFromService)
                 finish()
             if(isFromSplash){
@@ -134,9 +131,7 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
 
     override fun onResume() {
         super.onResume()
-        Log.e("Borrar", "BLUETOOTH RESUME")
         val filter = IntentFilter("action.finish")
-        Log.e("Borrar", "BLUETOOTH FILTER: "+filter.getAction(0))
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,filter)
 
         intent.extras?.getBoolean("validateReturnWhitOutPermission")?.let { isValidateReturn = it }?: run { isValidateReturn = false }
@@ -148,7 +143,6 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
 
     override fun onStop() {
         super.onStop()
-        Log.e("Borrar", "BLUETOOTH STOP")
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver)
     }
 
