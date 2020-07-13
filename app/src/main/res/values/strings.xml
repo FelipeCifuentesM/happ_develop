@@ -82,6 +82,8 @@
     <string name="snkDefaultApiError">Falló la comunicación con el servidor</string>
     <string name="snkDataNullError">No se encontraron datos</string>
     <string name="snkChangePassSuccess">Contraseña cambiada con éxito</string>
+    <string name="snkTryAgainLater">Ha ocurrido un error, por favor inténtelo más tarde</string>
+    <string name="snkMinimumVersion">La versión de android del dispositivo es inferior a la mínima requerida</string>
 
     <!-- Errors input -->
     <string name="itRutError">Rut inválido</string>

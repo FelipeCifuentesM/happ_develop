@@ -120,7 +120,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     override fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String) {
         mView.hideLoader()
         val userRealm = RegisterData(dataLoginResponse.rut ,dataLoginResponse.names, dataLoginResponse.lastName,
-            dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.home.id, dataLoginResponse.work.id,
+            dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.home?.id, dataLoginResponse.work?.id,
             accessToken, refreshToken)
         mInteractor.saveRegisterProfile(userRealm)
         validateBluetoothState()

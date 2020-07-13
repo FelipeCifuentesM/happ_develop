@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
     override fun getRegisterData(interactorOutputs: RegisterPermissionsContract.InteractorOutputs) {
-        val registerData = Hawk.get<RegisterRequest>("registerData")
+        val registerData:RegisterRequest? = Hawk.get<RegisterRequest>("registerData")
         interactorOutputs.getRegisterDataOutput(registerData)
     }
 

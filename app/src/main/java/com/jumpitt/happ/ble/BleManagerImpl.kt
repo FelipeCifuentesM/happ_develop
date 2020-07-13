@@ -1,9 +1,6 @@
 package com.jumpitt.happ.ble
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -60,9 +57,12 @@ class BleManagerImpl(
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            this@BleManagerImpl.service?.stopTcnExchange()
-            this@BleManagerImpl.service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
-            app.stopService(intent)
+            val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+            if(isRunning){
+                this@BleManagerImpl.service?.let { service -> service.stopTcnExchange() }
+                this@BleManagerImpl.service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
+                app.stopService(intent)
+            }
         }
     }
     inner class BluetoothServiceCallback : TcnBluetoothServiceCallback
@@ -95,7 +95,7 @@ class BleManagerImpl(
                     }
                 })
             }?: run {
-                service?.stopTcnExchange()
+                service?.let { service -> service.stopTcnExchange() }
                 service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
             }
 
@@ -165,6 +165,16 @@ class BleManagerImpl(
     companion object {
         private const val CHANNEL_ID = "CoEpiBluetoothContactChannel"
         const val NOTIFICATION_ID = 1
+    }
+
+    fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+        val manager = app.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
     }
 }
 

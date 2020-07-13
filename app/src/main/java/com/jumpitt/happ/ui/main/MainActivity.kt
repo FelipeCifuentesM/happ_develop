@@ -119,9 +119,15 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
 
 
+    override fun onPause() {
+        super.onPause()
+        isShowRiskFragment = false
+    }
+
     override fun onRestart() {
         super.onRestart()
         if(bottomNavigation.menu.findItem(R.id.navigationRisk).isChecked ){
+            isShowRiskFragment = true
             mainPager.visibility = View.GONE
             mPresenter.getAccessToken()
         }

@@ -3,12 +3,13 @@ package com.jumpitt.happ.ui.registerWorkPlace
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.response.RegionsResponse
+import com.jumpitt.happ.ui.registerStepTwo.RegisterStepTwoContract
 import com.orhanobut.hawk.Hawk
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RegisterWorkPlaceInteractor : RegisterWorkPlaceContract.Interactor{
+class RegisterWorkPlaceInteractor(private val mIOutput: RegisterWorkPlaceContract.InteractorOutputs) : RegisterWorkPlaceContract.Interactor{
     override fun getRegions(interactorOutputs: RegisterWorkPlaceContract.InteractorOutputs) {
         RestClient.instance.getRegions().
         enqueue(object: Callback<RegionsResponse> {
@@ -37,8 +38,13 @@ class RegisterWorkPlaceInteractor : RegisterWorkPlaceContract.Interactor{
         })
     }
 
-    override fun saveRegisterData(registerDataObject: RegisterRequest) {
-        val registerData = Hawk.get<RegisterRequest>("registerData")
+    override fun getRegisterData(registerDataObject: RegisterRequest) {
+        val registerData:RegisterRequest? = Hawk.get<RegisterRequest>("registerData")
+        mIOutput.getRegisterDataOutputs(registerData, registerDataObject)
+
+    }
+
+    override fun saveRegisterData(registerData: RegisterRequest, registerDataObject: RegisterRequest) {
         registerData.workCommuneId = registerDataObject.workCommuneId
         Hawk.put("registerData", registerData)
     }

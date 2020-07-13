@@ -57,8 +57,14 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         }
     }
 
-    override fun getRegisterDataOutput(registerData: RegisterRequest) {
-        mInteractor.postRegister(registerData, this)
+    override fun getRegisterDataOutput(registerData: RegisterRequest?) {
+        registerData?.let {
+            mInteractor.postRegister(registerData, this)
+        }?: run{
+            mView.hideLoader()
+            mView.showRegisterError(activity.resources.getString(R.string.snkTryAgainLater))
+        }
+
     }
 
 

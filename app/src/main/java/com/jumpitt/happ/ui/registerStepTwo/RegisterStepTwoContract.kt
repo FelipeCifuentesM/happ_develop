@@ -7,6 +7,7 @@ interface RegisterStepTwoContract {
     interface View{
         fun showInitializeView()
         fun enabledButton()
+        fun showRegisterError(messageError: String)
     }
 
     interface Presenter{
@@ -15,7 +16,8 @@ interface RegisterStepTwoContract {
     }
 
     interface Interactor{
-        fun saveRegisterData(registerDataObject: RegisterRequest)
+        fun getRegisterData(registerDataObject: RegisterRequest)
+        fun saveRegisterData(registerData: RegisterRequest, registerDataObject: RegisterRequest)
     }
 
     interface Router{
@@ -23,7 +25,7 @@ interface RegisterStepTwoContract {
     }
 
     interface InteractorOutputs{
-
+        fun getRegisterDataOutput(registerData: RegisterRequest?, registerDataObject: RegisterRequest)
     }
 
 }

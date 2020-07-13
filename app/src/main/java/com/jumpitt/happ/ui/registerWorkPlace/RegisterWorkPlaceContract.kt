@@ -22,7 +22,8 @@ interface RegisterWorkPlaceContract {
 
     interface Interactor{
         fun getRegions(interactorOutputs: InteractorOutputs)
-        fun saveRegisterData(registerDataObject: RegisterRequest)
+        fun getRegisterData(registerDataObject: RegisterRequest)
+        fun saveRegisterData(registerData: RegisterRequest, registerDataObject: RegisterRequest)
     }
 
     interface Router{
@@ -31,6 +32,7 @@ interface RegisterWorkPlaceContract {
 
     interface InteractorOutputs{
         fun getRegionsOutput(regionsList: List<RegionsResponse.DataRegions>)
+        fun getRegisterDataOutputs(registerData: RegisterRequest?, registerDataObject: RegisterRequest)
         fun getRegionsOutputError(errorCode: Int, response: Response<RegionsResponse>)
         fun getRegionsFailureError()
     }

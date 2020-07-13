@@ -8,7 +8,7 @@ import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
 
 class RegisterLivingPlacePresenter constructor(private val activity: Activity): RegisterLivingPlaceContract.Presenter, RegisterLivingPlaceContract.InteractorOutputs{
-    private var mInteractor: RegisterLivingPlaceContract.Interactor = RegisterLivingPlaceInteractor()
+    private var mInteractor: RegisterLivingPlaceContract.Interactor = RegisterLivingPlaceInteractor(this)
     private var mView: RegisterLivingPlaceContract.View = activity as RegisterLivingPlaceContract.View
     private var mRouter: RegisterLivingPlaceContract.Router = RegisterLivingPlaceRouter(activity)
 
@@ -29,8 +29,7 @@ class RegisterLivingPlacePresenter constructor(private val activity: Activity): 
     }
 
     override fun navigateRegisterWorkplace(registerDataObject: RegisterRequest) {
-        mInteractor.saveRegisterData(registerDataObject)
-        mRouter.navigateRegisterWorkplace()
+        mInteractor.getRegisterData(registerDataObject)
     }
 
     override fun getRegionsOutput(regionsList: List<RegionsResponse.DataRegions>) {
@@ -47,9 +46,17 @@ class RegisterLivingPlacePresenter constructor(private val activity: Activity): 
         mView.showLivingPlaceError(messageError)
     }
 
+    override fun getRegisterDataOutputs(registerData: RegisterRequest?, registerDataObject: RegisterRequest) {
+        registerData?.let { _registerData ->
+            mInteractor.saveRegisterData(_registerData, registerDataObject)
+            mRouter.navigateRegisterWorkplace()
+        }?: run{
+            mView.showLivingPlaceError(activity.resources.getString(R.string.snkTryAgainLater))
+        }
+    }
+
     override fun getRegionsFailureError() {
         mView.showLivingPlaceError(activity.resources.getString(R.string.snkDefaultApiError))
     }
-
 
 }

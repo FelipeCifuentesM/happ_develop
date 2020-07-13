@@ -34,7 +34,7 @@ interface RegisterPermissionsContract {
     }
 
     interface InteractorOutputs{
-        fun getRegisterDataOutput(registerData: RegisterRequest)
+        fun getRegisterDataOutput(registerData: RegisterRequest?)
         fun postRegisterOutput(dataRegisterResponse: RegisterResponse)
         fun postRegisterOutputError(errorCode: Int, response: Response<RegisterResponse>)
         fun postRegisterFailureError()

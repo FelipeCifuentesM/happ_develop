@@ -1,5 +1,6 @@
 package com.jumpitt.happ.network
 
+import com.jumpitt.happ.context
 import com.jumpitt.happ.network.request.RequestTokenRequest
 import com.jumpitt.happ.network.response.RefreshTokenResponse
 import com.jumpitt.happ.realm.RegisterData
@@ -13,11 +14,16 @@ import java.io.IOException
 
 
 class CustomAuthenticator : Authenticator{
-    private val realm = Realm.getDefaultInstance()
-    private val registerResponse = realm.where(RegisterData::class.java).findFirst()
+//    private val realm:Realm = Realm.getDefaultInstance()
+//    private val registerResponse = realm.where(RegisterData::class.java).findFirst()
 
     @Throws(IOException::class)
     override fun authenticate(route: Route?, responseAuthenticate: Response): Request? {
+
+        Realm.init(context)
+        val realm = Realm.getDefaultInstance()
+        val registerResponse = realm.where(RegisterData::class.java).findFirst()
+        realm.close()
 
         registerResponse?.accessToken
         registerResponse?.refreshToken
