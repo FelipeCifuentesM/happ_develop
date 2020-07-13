@@ -12,13 +12,11 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
-import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.utils.*
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.jumpitt.happ.realm.TriageReturnValue
-import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_item_myrisk_pass.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
@@ -38,7 +36,6 @@ class MyRiskValueFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        val healthCareStatusLocal = Hawk.get<TriageAnswerResponse>("triageReturnValue")
         val realm = Realm.getDefaultInstance()
         val healthCareStatusLocal = realm.where(TriageReturnValue::class.java).findFirst()
 

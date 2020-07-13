@@ -2,17 +2,12 @@ package com.jumpitt.happ.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.ui.TracingLogActivity
-import com.jumpitt.happ.ui.changePassword.ChangePasswordActivity
-import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_rounded_toolbar.*

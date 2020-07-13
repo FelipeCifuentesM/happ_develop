@@ -3,12 +3,13 @@ package com.jumpitt.happ.ui.registerLivingPlace
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.response.RegionsResponse
+import com.jumpitt.happ.ui.registerStepTwo.RegisterStepTwoContract
 import com.orhanobut.hawk.Hawk
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RegisterLivingPlaceInteractor: RegisterLivingPlaceContract.Interactor{
+class RegisterLivingPlaceInteractor(private val mIOutput: RegisterLivingPlaceContract.InteractorOutputs): RegisterLivingPlaceContract.Interactor{
 
     override fun getRegions(interactorOutputs: RegisterLivingPlaceContract.InteractorOutputs) {
         RestClient.instance.getRegions().
@@ -37,8 +38,12 @@ class RegisterLivingPlaceInteractor: RegisterLivingPlaceContract.Interactor{
         })
     }
 
-    override fun saveRegisterData(registerDataObject: RegisterRequest) {
-        val registerData = Hawk.get<RegisterRequest>("registerData")
+    override fun getRegisterData(registerDataObject: RegisterRequest) {
+        val registerData:RegisterRequest? = Hawk.get<RegisterRequest>("registerData")
+        mIOutput.getRegisterDataOutputs(registerData, registerDataObject)
+    }
+
+    override fun saveRegisterData(registerData: RegisterRequest, registerDataObject: RegisterRequest) {
         registerData.homeCommuneId = registerDataObject.homeCommuneId
         Hawk.put("registerData", registerData)
     }

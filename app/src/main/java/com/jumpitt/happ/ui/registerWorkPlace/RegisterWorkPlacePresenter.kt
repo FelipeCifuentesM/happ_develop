@@ -8,7 +8,7 @@ import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
 
 class RegisterWorkPlacePresenter constructor(private val activity: Activity): RegisterWorkPlaceContract.Presenter, RegisterWorkPlaceContract.InteractorOutputs{
-    private var mInteractor: RegisterWorkPlaceContract.Interactor = RegisterWorkPlaceInteractor()
+    private var mInteractor: RegisterWorkPlaceContract.Interactor = RegisterWorkPlaceInteractor(this)
     private var mView: RegisterWorkPlaceContract.View = activity as RegisterWorkPlaceContract.View
     private var mRouter: RegisterWorkPlaceContract.Router = RegisterWorkPlaceRouter(activity)
 
@@ -29,8 +29,7 @@ class RegisterWorkPlacePresenter constructor(private val activity: Activity): Re
     }
 
     override fun navigateRegisterWorkplace(registerDataObject: RegisterRequest) {
-        mInteractor.saveRegisterData(registerDataObject)
-        mRouter.navigateRegisterPermissions()
+        mInteractor.getRegisterData(registerDataObject)
     }
 
     override fun getRegionsOutput(regionsList: List<RegionsResponse.DataRegions>) {
@@ -40,6 +39,15 @@ class RegisterWorkPlacePresenter constructor(private val activity: Activity): Re
         }
 
         mView.loadRegions(regionsNameList, regionsList)
+    }
+
+    override fun getRegisterDataOutputs(registerData: RegisterRequest?, registerDataObject: RegisterRequest) {
+        registerData?.let { _registerData ->
+            mInteractor.saveRegisterData(_registerData, registerDataObject)
+            mRouter.navigateRegisterPermissions()
+        }?: run{
+            mView.showWorkPlaceError(activity.resources.getString(R.string.snkTryAgainLater))
+        }
     }
 
     override fun getRegionsOutputError(errorCode: Int, response: Response<RegionsResponse>) {

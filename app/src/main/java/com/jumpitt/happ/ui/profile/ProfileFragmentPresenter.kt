@@ -2,7 +2,6 @@ package com.jumpitt.happ.ui.profile
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
 
 class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragmentContract.Presenter, ProfileFragmentContract.InteractorOutputs{

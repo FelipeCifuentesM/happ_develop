@@ -10,11 +10,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
-import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.utils.*
 import com.google.android.material.button.MaterialButton
 import com.jumpitt.happ.realm.TriageReturnValue
-import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_triage_result.*
 
@@ -63,7 +61,7 @@ class ResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var colorID = R.color.iconDisabled
-//        val triageReturnValue = Hawk.get<TriageAnswerResponse>("triageReturnValue")
+
         val realm = Realm.getDefaultInstance()
         val triageReturnValue = realm.where(TriageReturnValue::class.java).findFirst()
 

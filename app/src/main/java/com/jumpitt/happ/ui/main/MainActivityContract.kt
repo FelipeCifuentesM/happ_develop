@@ -25,7 +25,6 @@ interface MainActivityContract {
     }
 
     interface Router{
-
     }
 
     interface InteractorOutputs{

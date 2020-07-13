@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
     override fun getRegisterData(interactorOutputs: RegisterPermissionsContract.InteractorOutputs) {
-        val registerData = Hawk.get<RegisterRequest>("registerData")
+        val registerData:RegisterRequest? = Hawk.get<RegisterRequest>("registerData")
         interactorOutputs.getRegisterDataOutput(registerData)
     }
 
@@ -45,9 +45,6 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
     }
 
     override fun saveRegisterProfile(userRealm: RegisterData) {
-//        val registerProfile = RegisterResponse(profile = dataRegisterResponse.profile, accessToken = dataRegisterResponse.accessToken, refreshToken = dataRegisterResponse.refreshToken)
-//        Hawk.put("userProfileData", registerProfile)
-
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.delete(RegisterData::class.java)

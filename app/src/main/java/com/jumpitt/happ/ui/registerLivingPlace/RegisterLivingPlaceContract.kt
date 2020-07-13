@@ -23,7 +23,8 @@ interface RegisterLivingPlaceContract {
 
     interface Interactor{
         fun getRegions(interactorOutputs: InteractorOutputs)
-        fun saveRegisterData(registerDataObject: RegisterRequest)
+        fun getRegisterData(registerDataObject: RegisterRequest)
+        fun saveRegisterData(registerData: RegisterRequest, registerDataObject: RegisterRequest)
     }
 
     interface Router{
@@ -33,6 +34,7 @@ interface RegisterLivingPlaceContract {
     interface InteractorOutputs{
         fun getRegionsOutput(regionsList: List<RegionsResponse.DataRegions>)
         fun getRegionsOutputError(errorCode: Int, response: Response<RegionsResponse>)
+        fun getRegisterDataOutputs(registerData:RegisterRequest?, registerDataObject:RegisterRequest)
         fun getRegionsFailureError()
     }
 }

@@ -8,7 +8,6 @@ import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_change_password.*
 import kotlinx.android.synthetic.main.activity_change_password.toolbar
-import kotlinx.android.synthetic.main.register_step_two.*
 
 class ChangePasswordActivity : ToolbarActivity(), ChangePasswordContract.View{
     private lateinit var mPresenter: ChangePasswordContract.Presenter

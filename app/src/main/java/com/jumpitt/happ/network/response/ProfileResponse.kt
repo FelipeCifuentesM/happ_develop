@@ -13,8 +13,8 @@ data class ProfileResponse(
     val email: String?,
     val phone: String?,
     val status: String?,
-    val home: Home,
-    val work: Work
+    val home: Home?,
+    val work: Work?
 )
 
 data class Home(

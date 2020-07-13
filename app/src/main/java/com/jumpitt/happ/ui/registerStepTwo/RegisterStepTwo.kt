@@ -6,7 +6,7 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
-import kotlinx.android.synthetic.main.register_step_one.*
+import kotlinx.android.synthetic.main.register_permissions.*
 import kotlinx.android.synthetic.main.register_step_two.*
 import kotlinx.android.synthetic.main.register_step_two.toolbar
 
@@ -104,6 +104,10 @@ class RegisterStepTwo: ToolbarActivity(), RegisterStepTwoContract.View{
         containerContentStepTwo.setOnClickListener {containerView ->
             containerView.hideKeyboard()
         }
+    }
+
+    override fun showRegisterError(messageError: String) {
+        showSnackbar(containerRegisterPermission, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
     override fun showInitializeView() {

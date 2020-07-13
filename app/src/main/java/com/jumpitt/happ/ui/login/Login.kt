@@ -12,8 +12,6 @@ import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login.toolbar
-import kotlinx.android.synthetic.main.register_step_one.*
-import kotlinx.android.synthetic.main.register_step_two.*
 
 class Login: ToolbarActivity(), LoginContract.View{
     private lateinit var mPresenter: LoginContract.Presenter

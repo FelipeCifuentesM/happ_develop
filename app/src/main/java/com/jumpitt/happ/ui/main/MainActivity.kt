@@ -1,29 +1,23 @@
 package com.jumpitt.happ.ui.main
 
 import android.bluetooth.BluetoothAdapter
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.fragment.app.FragmentManager
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.ui.*
-import com.jumpitt.happ.ui.changePassword.ChangePasswordActivity
-import com.jumpitt.happ.ui.triage.question.OptionsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 class MainActivity : AppCompatActivity(), MainActivityContract.View {
     private lateinit var mPresenter: MainActivityContract.Presenter
     private lateinit var healthCareStatusCopy: TriageAnswerResponse
-    private var bAdapter: BluetoothAdapter? = null
     private var isShowRiskFragment = true
 
 
@@ -37,12 +31,13 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         //Notificacion borrar
         FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
 
-        bAdapter = BluetoothAdapter.getDefaultAdapter()
+        var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
         bAdapter?.let { _bAdapter ->
 
         }?: run {
             showSnackbar(bottomNavigation, resources.getString(R.string.snkBluetoothNotAvailable), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
         }
+
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
     }
@@ -130,9 +125,15 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
 
 
+    override fun onPause() {
+        super.onPause()
+        isShowRiskFragment = false
+    }
+
     override fun onRestart() {
         super.onRestart()
         if(bottomNavigation.menu.findItem(R.id.navigationRisk).isChecked ){
+            isShowRiskFragment = true
             mainPager.visibility = View.GONE
             mPresenter.getAccessToken()
         }

@@ -6,7 +6,6 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 
 class MainActivityPresenter constructor(private val activity: Activity): MainActivityContract.Presenter, MainActivityContract.InteractorOutputs {

@@ -1,6 +1,5 @@
 package com.jumpitt.happ.ui.recoverPassword
 
-import com.jumpitt.happ.network.request.RecoverPasswordRequest
 import com.jumpitt.happ.network.response.RecoverPasswordResponse
 import retrofit2.Response
 

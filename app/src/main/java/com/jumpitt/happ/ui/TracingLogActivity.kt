@@ -38,7 +38,6 @@ class TracingLogActivity: AppCompatActivity(), TcnBluetoothServiceCallbackDemo {
     }
 
     override fun onTcnFound(tcn: ByteArray, myTcn: ByteArray?, estimatedDistance: Double?) {
-        Log.e("Borrar", "-------TCN------------")
     }
 
 }

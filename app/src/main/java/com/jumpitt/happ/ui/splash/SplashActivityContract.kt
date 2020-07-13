@@ -1,6 +1,5 @@
 package com.jumpitt.happ.ui.splash
 
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
 
 interface SplashActivityContract {
@@ -11,6 +10,7 @@ interface SplashActivityContract {
     interface Presenter{
         fun getUserProfileData(requestPermissions: Boolean)
         fun getUserProfileDataOutput(userData: RegisterData?, requestPermissions: Boolean)
+        fun validateBluetoothState()
     }
 
     interface Interactor{
@@ -21,6 +21,7 @@ interface SplashActivityContract {
     interface Router{
         fun navigateMainActivity()
         fun navigateOnBoard()
+        fun navigatePermissionBluetooth()
     }
 
     interface InteractorOutputs{

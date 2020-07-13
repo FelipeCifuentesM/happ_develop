@@ -1,6 +1,7 @@
 package com.jumpitt.happ.ui
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -20,6 +21,7 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.model.OnBoardSlide
 import com.jumpitt.happ.ui.login.Login
 import com.jumpitt.happ.utils.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.on_board.*
 
 
@@ -78,7 +80,6 @@ class OnBoard: AppCompatActivity(){
 
         val clickSpanPrivacy = object : ClickableSpan(){
             override fun onClick(widget: View) {
-                Log.e("Borrar", "dos")
                 goToActivity<WebViewActivity>{
                     putExtra("urlWebView", "https://drive.google.com/file/d/1ELB17XPw62Hk0tHuGmvv_2ut1pAsDYEz/view")
                     putExtra("titleBar", resources.getString(R.string.tbPrivacy))
@@ -107,6 +108,11 @@ class OnBoard: AppCompatActivity(){
                 setCurrentIndicator(position )
             }
         })
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            showSnackbar(containerOnBoard, resources.getString(R.string.snkMinimumVersion), ColorIdResource.PRIMARY, ColorIdResource.WHITE)
+            btnStartOB.disabled()
+        }
 
         btnStartOB.setSafeOnClickListener {
             this.goToActivity<Login>()

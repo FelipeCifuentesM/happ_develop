@@ -74,7 +74,7 @@
                     android:text="@string/lbPermissionDescription" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNextRegistePermission"
+                    android:id="@+id/btnNextRegisterPermission"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/btnHeight"
                     android:layout_marginTop="36dp"

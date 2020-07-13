@@ -1,6 +1,5 @@
 package com.jumpitt.happ.ui.profile
 
-
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jumpitt.happ.R

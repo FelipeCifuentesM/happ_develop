@@ -1,7 +1,6 @@
 package com.jumpitt.happ.ble
 
 import android.app.*
-import android.app.Service.STOP_FOREGROUND_REMOVE
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -11,17 +10,15 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.app.ServiceCompat.STOP_FOREGROUND_REMOVE
 import androidx.core.app.ServiceCompat.stopForeground
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.TracingRequest
-import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TracingResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.ui.TracingLogActivity
 import com.jumpitt.happ.ui.main.MainActivity
-import com.orhanobut.hawk.Hawk
+import com.jumpitt.happ.ui.registerPermissions.RegisterPermissions
 import io.realm.Realm
 import org.tcncoalition.tcnclient.TcnKeys
 import org.tcncoalition.tcnclient.bluetooth.BluetoothStateListener
@@ -59,7 +56,14 @@ class BleManagerImpl(
             }
         }
 
-        override fun onServiceDisconnected(name: ComponentName?) {}
+        override fun onServiceDisconnected(name: ComponentName?) {
+            val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+            if(isRunning){
+                this@BleManagerImpl.service?.let { service -> service.stopTcnExchange() }
+                this@BleManagerImpl.service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
+                app.stopService(intent)
+            }
+        }
     }
     inner class BluetoothServiceCallback : TcnBluetoothServiceCallback
 
@@ -76,8 +80,6 @@ class BleManagerImpl(
             Log.e("TcnClient", "myTcn: ${myTcn?.toHex()}  tcn found: ${tcn.toHex()} date: $currentDate distance: $approximateDistance" )
 //            delegateDemo?.onTcnFound(tcn, myTcn, approximateDistance)
 
-//            val userData = Hawk.get<RegisterResponse>("userProfileData")
-
             val realm = Realm.getDefaultInstance()
             val userData = realm.where(RegisterData::class.java).findFirst()
 
@@ -93,7 +95,7 @@ class BleManagerImpl(
                     }
                 })
             }?: run {
-                service?.stopTcnExchange()
+                service?.let { service -> service.stopTcnExchange() }
                 service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
             }
 
@@ -101,15 +103,29 @@ class BleManagerImpl(
     }
 
     override fun startService() {
-        app.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+        Log.e("Borrar", "START SERVICE")
+        app.bindService(intent, serviceConnection, Context.BIND_NOT_FOREGROUND)
         app.startService(intent)
     }
 
     override fun stopService() {
+        Log.e("Borrar", "STOP SERVICE")
         app.stopService(intent)
     }
 
     override fun bluetoothStateChanged(bluetoothOn: Boolean) {
+        if(bluetoothOn){
+            Log.e("Borrar", "BLUETOOTH ON")
+            val intent1 = Intent("action.finish")
+            LocalBroadcastManager.getInstance(app).sendBroadcast(intent1)
+        }else{
+            Log.e("Borrar", "BLUETOOTH OFF")
+            val bluetoothDisabledIntent = Intent(app, RegisterPermissions::class.java)
+            bluetoothDisabledIntent.putExtra("validateReturnWhitOutPermission", true)
+            bluetoothDisabledIntent.putExtra("fromService", true)
+            bluetoothDisabledIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            app.applicationContext.startActivity(bluetoothDisabledIntent)
+        }
     }
 
     private fun foregroundNotification(): Notification {
@@ -149,6 +165,16 @@ class BleManagerImpl(
     companion object {
         private const val CHANNEL_ID = "CoEpiBluetoothContactChannel"
         const val NOTIFICATION_ID = 1
+    }
+
+    fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+        val manager = app.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
     }
 }
 
