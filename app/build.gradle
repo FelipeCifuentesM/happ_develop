@@ -90,8 +90,8 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     //Notification push
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
-    implementation 'com.google.firebase:firebase-messaging:20.2.1'
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+    implementation 'com.google.firebase:firebase-messaging:20.2.3'
 
     //Swipe refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"

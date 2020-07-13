@@ -13,6 +13,7 @@ import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.ui.*
 import com.jumpitt.happ.ui.changePassword.ChangePasswordActivity
 import com.jumpitt.happ.ui.triage.question.OptionsAdapter
@@ -32,6 +33,9 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
         mPresenter = MainActivityPresenter(this)
         mPresenter.getAccessToken()
+
+        //Notificacion borrar
+        FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
 
         bAdapter = BluetoothAdapter.getDefaultAdapter()
         bAdapter?.let { _bAdapter ->
