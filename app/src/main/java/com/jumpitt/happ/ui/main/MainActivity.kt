@@ -11,7 +11,6 @@ import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.ui.*
 import kotlinx.android.synthetic.main.activity_main.*
 

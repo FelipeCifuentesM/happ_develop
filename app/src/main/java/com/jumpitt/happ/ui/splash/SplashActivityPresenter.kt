@@ -36,20 +36,25 @@ class SplashActivityPresenter constructor(private val activity: Activity): Splas
 
     override fun validateBluetoothState() {
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        if (mBluetoothAdapter.isEnabled){
-            val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-            if(!isRunning) {
-                val tcnGenerator = TcnGeneratorImpl(context = activity)
-                val bleManagerImpl = BleManagerImpl(
-                    app = activity.applicationContext,
-                    tcnGenerator = tcnGenerator
-                )
-                bleManagerImpl.startService()
+        mBluetoothAdapter?.let {
+            if (mBluetoothAdapter.isEnabled){
+                val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+                if(!isRunning) {
+                    val tcnGenerator = TcnGeneratorImpl(context = activity)
+                    val bleManagerImpl = BleManagerImpl(
+                        app = activity.applicationContext,
+                        tcnGenerator = tcnGenerator
+                    )
+                    bleManagerImpl.startService()
+                }
+                mRouter.navigateMainActivity()
+            }else{
+                mRouter.navigatePermissionBluetooth()
             }
-            mRouter.navigateMainActivity()
-        }else{
-            mRouter.navigatePermissionBluetooth()
+        }?: run{
+            mRouter.navigateOnBoard()
         }
+
 
     }
 

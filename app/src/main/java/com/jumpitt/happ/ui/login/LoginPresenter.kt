@@ -30,20 +30,25 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     override fun validateBluetoothState() {
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        if (mBluetoothAdapter.isEnabled){
-            val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-            if(!isRunning) {
-                val tcnGenerator = TcnGeneratorImpl(context = activity)
-                val bleManagerImpl = BleManagerImpl(
-                    app = activity.applicationContext,
-                    tcnGenerator = tcnGenerator
-                )
-                bleManagerImpl.startService()
+        mBluetoothAdapter?.let {
+            if (mBluetoothAdapter.isEnabled){
+                val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+                if(!isRunning) {
+                    val tcnGenerator = TcnGeneratorImpl(context = activity)
+                    val bleManagerImpl = BleManagerImpl(
+                        app = activity.applicationContext,
+                        tcnGenerator = tcnGenerator
+                    )
+                    bleManagerImpl.startService()
+                }
+                mRouter.navigateMain()
+            }else{
+                mRouter.navigatePermissionBluetooth()
             }
-            mRouter.navigateMain()
-        }else{
-            mRouter.navigatePermissionBluetooth()
+        }?: run{
+            mView.showValidateLoginError(activity.resources.getString(R.string.snkBluetoothNotAvailable))
         }
+
 
     }
 
