@@ -12,6 +12,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import java.text.NumberFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 
@@ -174,6 +175,46 @@ fun String.asteriskBold(): String{
         formattedString = this
     }
     return formattedString
+}
+
+fun dateDifferenceSeconds(initialDate: Date, finalDate: Date): Long{
+    val diffInMs: Long = finalDate.time - initialDate.time
+    var seconds:Long = 0
+    if(diffInMs>0){
+        seconds = diffInMs / 1000
+        Log.e("Borrar", "REALM segundos: "+seconds)
+    }
+    return seconds
+}
+
+fun dateTotalTimeMinute(initialDate: Date, finalDate: Date): Long{
+    val diffInMs: Long = finalDate.time - initialDate.time
+    var minutes:Long = 0
+    if(diffInMs>0){
+        minutes = (diffInMs / 1000) / 60
+        Log.e("Borrar", "REALM minutos: "+minutes)
+    }
+    return minutes
+}
+
+fun dateDifferenceHMS(initialDate: Date, finalDate: Date): String{
+    val diffInMs: Long = finalDate.time - initialDate.time
+    val hoursString:String
+    val minutesString:String
+    val secondsString:String
+    var timeHMS = "00:00:00"
+    if(diffInMs>0){
+        val hours: Long = TimeUnit.MILLISECONDS.toHours(diffInMs) % 24
+        val minutes: Long = TimeUnit.MILLISECONDS.toMinutes(diffInMs) % 60
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(diffInMs) % 60
+
+        hoursString = if (hours<10) "0$hours" else "$hours"
+        minutesString = if (hours<10) "0$minutes" else "$minutes"
+        secondsString = if (hours<10) "0$seconds" else "$seconds"
+
+        timeHMS = "$hoursString:$minutesString:$secondsString"
+    }
+    return timeHMS
 }
 
 //Triage Inicio
