@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         mPresenter = MainActivityPresenter(this)
         mPresenter.getAccessToken()
 
-        //Notificacion borrar
+        //Notificacion borrar_
         FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
 
         var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()

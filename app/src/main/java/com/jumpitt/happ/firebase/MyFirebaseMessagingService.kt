@@ -26,8 +26,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         if(remoteMessage.data.isNotEmpty()){
             showNotification(remoteMessage.data["title"], remoteMessage.data["text"])
             Log.e("Borrar", "DATA: "+ (remoteMessage.data["data"]))
-            val answer = JSONObject(remoteMessage.data["data"])
-            Log.e("Borrar", "COD TYPE: "+ answer["cod_type"])
+//            val answer = JSONObject(remoteMessage.data["data"])
+//            Log.e("Borrar", "COD TYPE: "+ answer["cod_type"])
         }
 
         remoteMessage.notification?.let { notification ->
@@ -35,6 +35,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         }
     }
 
+    @SuppressLint("WrongConstant")
     private fun showNotification(title: String?, message: String?){
         Log.e("Borrar", "Notificacion 01")
         val intent = Intent(this, SplashActivity::class.java)
@@ -52,7 +53,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            var notificationChannel = NotificationChannel("01", "notification", NotificationManager.IMPORTANCE_HIGH)
+            var notificationChannel = NotificationChannel("01", "notification", NotificationManager.IMPORTANCE_MAX)
             notificationManager.createNotificationChannel(notificationChannel)
         }
         notificationManager.notify(0, builder.build())
