@@ -7,15 +7,17 @@ import retrofit2.Response
 
 interface MainActivityContract {
     interface View{
-        fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse)
+        fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse, isButtonEnabled: Boolean = true)
         fun showTriageAnswerError(messageError: String)
         fun showSkeleton()
         fun hideSkeleton()
+        fun showLoader()
+        fun hideLoader()
     }
 
     interface Presenter{
         fun validatePressingDifferent(bottomNavigation: BottomNavigationView, itemId: Int): Boolean
-        fun getAccessToken()
+        fun getAccessToken(isShowSkeleton: Boolean = true)
     }
 
     interface Interactor{

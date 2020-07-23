@@ -2,6 +2,7 @@ package com.jumpitt.happ.ui
 
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,11 @@ import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 
 class MyRiskPendingFragment : Fragment() {
+    private var buttonEnabled: Boolean = false
     companion object {
-        fun newInstance(): MyRiskPendingFragment = MyRiskPendingFragment()
+        fun newInstance(isButtonEnabled: Boolean): MyRiskPendingFragment = MyRiskPendingFragment().apply {
+            buttonEnabled = isButtonEnabled
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,6 +77,9 @@ class MyRiskPendingFragment : Fragment() {
         tvLastCheckRiskPending.containedStyle(Labelstext.CAPTION, ColorIdResource.WHITE, font = R.font.dmsans_medium)
         healthCareStatusLocal?.lastReview.let { time -> tvLastCheckRiskPending.text = String.format(resources.getString(R.string.lbLastCheckTime), time) }
 
+        if(!buttonEnabled){
+            btnRiskPending.disabled()
+        }
 
         btnRiskPending.setSafeOnClickListener {
             activity?.goToActivity<TriageActivity>()

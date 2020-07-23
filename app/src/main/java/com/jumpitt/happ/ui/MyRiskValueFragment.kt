@@ -19,6 +19,7 @@ import com.google.zxing.qrcode.QRCodeWriter
 import com.jumpitt.happ.realm.TriageReturnValue
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_item_myrisk_pass.*
+import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 import java.util.*
 

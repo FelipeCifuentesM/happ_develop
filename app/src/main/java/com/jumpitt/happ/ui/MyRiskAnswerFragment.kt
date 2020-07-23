@@ -9,11 +9,15 @@ import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.triage.TriageActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.fragment_answer_triage.*
+import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 
 class MyRiskAnswerFragment : Fragment() {
+    private var buttonEnabled: Boolean = false
     companion object {
-        fun newInstance(): MyRiskAnswerFragment = MyRiskAnswerFragment()
+        fun newInstance(isButtonEnabled: Boolean): MyRiskAnswerFragment = MyRiskAnswerFragment().apply {
+            buttonEnabled = isButtonEnabled
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,6 +39,10 @@ class MyRiskAnswerFragment : Fragment() {
         tvTitleTriageQuestion.containedStyle(Labelstext.H3, ColorIdResource.PRIMARY, font = R.font.dmsans_medium)
         tvDescriptionTriageQuestion.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
         btnTriageQuestions.containedStyle(ColorIdResource.PRIMARY, ColorIdResource.WHITE)
+
+        if(!buttonEnabled){
+            btnTriageQuestions.disabled()
+        }
 
         btnTriageQuestions.setSafeOnClickListener {
             activity?.goToActivity<TriageActivity>()

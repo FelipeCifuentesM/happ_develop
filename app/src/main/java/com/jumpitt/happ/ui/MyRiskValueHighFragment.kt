@@ -3,6 +3,7 @@ package com.jumpitt.happ.ui
 
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.*
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_item_myrisk_high.*
+import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 
 class MyRiskValueHighFragment : Fragment() {

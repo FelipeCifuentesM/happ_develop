@@ -17,9 +17,14 @@ class MainActivityPresenter constructor(private val activity: Activity): MainAct
         return bottomNavigation.menu.findItem(itemId).isChecked
     }
 
-    override fun getAccessToken() {
-        mView.showSkeleton()
-        mInteractor.getAccessToken()
+    override fun getAccessToken(isShowSkeleton: Boolean) {
+        if(isShowSkeleton){
+            mView.showSkeleton()
+            mInteractor.getAccessToken()
+        }else{
+            mView.showLoader()
+            mInteractor.getAccessToken()
+        }
     }
 
     override fun getAccesTokenOutput(accessToken: String) {
@@ -37,11 +42,13 @@ class MainActivityPresenter constructor(private val activity: Activity): MainAct
     override fun getHealthCareOutputError(errorCode: Int, response: Response<TriageAnswerResponse>) {
         val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
         mView.hideSkeleton()
+        mView.hideLoader()
         mView.showTriageAnswerError(messageError)
     }
 
     override fun getHealthCareFailureError() {
         mView.hideSkeleton()
+        mView.hideLoader()
         mView.showTriageAnswerError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 

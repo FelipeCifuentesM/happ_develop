@@ -13,10 +13,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.ui.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
 
 class MainActivity : AppCompatActivity(), MainActivityContract.View {
     private lateinit var mPresenter: MainActivityContract.Presenter
-    private lateinit var healthCareStatusCopy: TriageAnswerResponse
+    private var healthCareStatusCopy: TriageAnswerResponse? = null
     private var isShowRiskFragment = true
 
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         mPresenter = MainActivityPresenter(this)
         mPresenter.getAccessToken()
 
-        //Notificacion borrar_
+        //Notificacion borrar___
         FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
 
         var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
@@ -47,14 +48,17 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             when (menuItem.itemId) {
                 R.id.navigationRisk -> {
                     isShowRiskFragment = true
-                    mainPager.visibility = View.GONE
-                    mPresenter.getAccessToken()
+                    healthCareStatusCopy?.let {
+                        loadFragmentMyRisk(it, false)
+                    }
+                    mPresenter.getAccessToken(false)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigationProfile -> {
                     isShowRiskFragment = false
                     this.replaceFragment(ProfileFragment.newInstance(), R.id.mainPager, "1")
                     hideSkeleton()
+                    hideLoader()
                     mainPager.visibility = View.VISIBLE
                     return@OnNavigationItemSelectedListener true
                 }
@@ -66,13 +70,13 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         }
     }
 
-    override fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse) {
+    override fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse, isButtonEnabled: Boolean) {
         healthCareStatusCopy = healthCareStatus
 
         if(isShowRiskFragment){
             when(healthCareStatus.triageStatus){
-                TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(), R.id.mainPager, "0")
-                TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(), R.id.mainPager, "0")
+                TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
+                TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
                 TriageStatus.TRIAGE_COMPLETED -> {
                     healthCareStatus.risk?.level?.let {level ->
                         if( level == SemaphoreTriage.RISK_HIGH.name)
@@ -84,6 +88,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                 }
             }
             hideSkeleton()
+            hideLoader()
             mainPager.visibility = View.VISIBLE
         }
     }
@@ -93,6 +98,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
 
     override fun showSkeleton() {
+        mainPager.visibility = View.GONE
         shimmerMyRisk.startShimmer()
         shimmerMyRisk.visibility = View.VISIBLE
     }
@@ -102,14 +108,25 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         shimmerMyRisk.visibility = View.GONE
     }
 
+    override fun showLoader() {
+        pbMainCircle.visibility = View.VISIBLE
+    }
+
+    override fun hideLoader() {
+        pbMainCircle.visibility = View.GONE
+    }
+
     override fun onBackPressed() {
         if(bottomNavigation.menu.getItem(0).isChecked){
             finish()
         }else{
             isShowRiskFragment = true
             bottomNavigation.menu.getItem(0).isChecked = true
-            mainPager.visibility = View.GONE
-            mPresenter.getAccessToken()
+            healthCareStatusCopy?.let {
+                loadFragmentMyRisk(it, false)
+            }
+//            mainPager.visibility = View.GONE
+            mPresenter.getAccessToken(false)
         }
 
 
