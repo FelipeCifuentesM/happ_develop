@@ -1,7 +1,9 @@
 package com.jumpitt.happ.ui.profile
 
 import androidx.fragment.app.FragmentActivity
+import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.ui.login.LoginContract
 
 interface ProfileFragmentContract {
     interface View{
@@ -20,6 +22,8 @@ interface ProfileFragmentContract {
 
     interface Interactor{
         fun getUserProfileData()
+        fun deleteRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest)
+        fun getAccessToken()
         fun deleteProfileData()
     }
 
@@ -31,5 +35,8 @@ interface ProfileFragmentContract {
 
     interface InteractorOutputs{
         fun getUserProfileDataOutput(userData: RegisterData?)
+        fun getAccesTokenOutput(accessToken: String)
+        fun postRegisterTokenFCMFailureError()
+        fun postRegisterTokenFCMOutput()
     }
 }

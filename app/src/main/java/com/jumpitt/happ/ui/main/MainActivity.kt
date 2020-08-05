@@ -5,15 +5,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.InstanceIdResult
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
+import com.jumpitt.happ.ui.MyRiskAnswerFragment
+import com.jumpitt.happ.ui.MyRiskPendingFragment
+import com.jumpitt.happ.ui.MyRiskValueFragment
+import com.jumpitt.happ.ui.MyRiskValueHighFragment
 import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.messaging.FirebaseMessaging
-import com.jumpitt.happ.ui.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
+
 
 class MainActivity : AppCompatActivity(), MainActivityContract.View {
     private lateinit var mPresenter: MainActivityContract.Presenter
@@ -30,6 +36,13 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
         //Notificacion borrar___
         FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
+
+//        FirebaseInstanceId.getInstance().instanceId
+//            .addOnSuccessListener(this, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
+//                    val mToken = instanceIdResult.token
+//                    Log.e("Borrar", "Token dispositivo: "+mToken)
+//                })
+
 
         var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
         bAdapter?.let { _bAdapter ->

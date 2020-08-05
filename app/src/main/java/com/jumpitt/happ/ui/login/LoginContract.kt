@@ -1,6 +1,7 @@
 package com.jumpitt.happ.ui.login
 
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
+import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.realm.RegisterData
@@ -19,13 +20,14 @@ interface LoginContract {
         fun navigateRegisterStepOne()
         fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, requestPermissions: Boolean)
         fun navigateRecoverPass()
-        fun validateBluetoothState()
+        fun validateBluetoothState(accessToken: String)
     }
 
     interface Interactor{
         fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, interactorOutput: InteractorOutputs)
         fun getProfile(dataResponseToken: LoginAccessTokenResponse, interactorOutput: InteractorOutputs)
         fun saveRegisterProfile(userRealm: RegisterData)
+        fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutput: InteractorOutputs)
     }
 
     interface Router{
@@ -40,6 +42,8 @@ interface LoginContract {
         fun postLoginAccessTokenOutputError(errorCode: Int, response: Response<LoginAccessTokenResponse>)
         fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String)
         fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>)
+        fun postRegisterTokenFCMFailureError()
+        fun postRegisterTokenFCMOutput()
         fun LoginFailureError()
     }
 }

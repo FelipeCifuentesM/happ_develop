@@ -7,6 +7,7 @@ import com.jumpitt.happ.network.response.*
 import retrofit2.Call
 import retrofit2.http.*
 
+
 interface ApiService {
 
     @GET("places")
@@ -45,4 +46,14 @@ interface ApiService {
 
     @PUT("password")
     fun putChangePassword(@Header("Authorization") accessToken: String, @Body changePasswordRequest: ChangePasswordRequest): Call<ChangePasswordResponse>
+
+    @POST("devices/token")
+    fun postRegisterTokenFCM(@Header("Authorization") accessToken: String, @Body requestTokenFCM: TokenFCMRequest): Call<TokenFCMResponse>
+
+    @DELETE("devices/token")
+    fun deleteRegisterTokenFCM(@Header("Authorization") accessToken: String, @Body requestTokenFCM: TokenFCMRequest): Call<TokenFCMResponse>
+
+    @HTTP(method = "DELETE", path = "devices/token", hasBody = true)
+    fun deleteRegisterTokenFCM2(@Header("Authorization") accessToken: String, @Body requestTokenFCM: TokenFCMRequest): Call<TokenFCMResponse>
+
 }

@@ -1,9 +1,13 @@
 package com.jumpitt.happ.ui.login
 
+import android.util.Log
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
+import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
+import com.jumpitt.happ.network.response.TokenFCMResponse
+import com.jumpitt.happ.network.response.ValidateDNIResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.ConstantsApi
 import io.realm.Realm
@@ -78,6 +82,24 @@ class LoginInteractor: LoginContract.Interactor {
         realm.insertOrUpdate(userRealm)
         realm.commitTransaction()
         realm.close()
+    }
+
+    override fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutput: LoginContract.InteractorOutputs) {
+        Log.e("Borrar", "token diospositivo: "+tokenFCMRequest.token)
+        RestClient.instance.postRegisterTokenFCM(accessToken, tokenFCMRequest).
+        enqueue(object: Callback<TokenFCMResponse> {
+            override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {
+                interactorOutput.postRegisterTokenFCMFailureError()
+            }
+
+            override fun onResponse(call: Call<TokenFCMResponse>, response: Response<TokenFCMResponse>) {
+                val responseCode = response.code()
+                val responseData = response.body()
+
+                interactorOutput.postRegisterTokenFCMOutput()
+
+            }
+        })
     }
 
 }
