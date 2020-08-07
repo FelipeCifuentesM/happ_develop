@@ -4,10 +4,14 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import com.jumpitt.happ.R
 import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.utils.ColorIdResource
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
+import com.jumpitt.happ.utils.showSnackbar
+import kotlinx.android.synthetic.main.login.*
 
 class SplashActivityPresenter constructor(private val activity: Activity): SplashActivityContract.Presenter, SplashActivityContract.InteractorOutputs {
     private var mInteractor: SplashActivityContract.Interactor = SplashActivityInteractor(this)
@@ -36,21 +40,24 @@ class SplashActivityPresenter constructor(private val activity: Activity): Splas
 
     override fun validateBluetoothState() {
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        if (mBluetoothAdapter.isEnabled){
-            val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-            if(!isRunning) {
-                val tcnGenerator = TcnGeneratorImpl(context = activity)
-                val bleManagerImpl = BleManagerImpl(
-                    app = activity.applicationContext,
-                    tcnGenerator = tcnGenerator
-                )
-                bleManagerImpl.startService()
+        mBluetoothAdapter?.let {
+            if (mBluetoothAdapter.isEnabled){
+                val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+                if(!isRunning) {
+                    val tcnGenerator = TcnGeneratorImpl(context = activity)
+                    val bleManagerImpl = BleManagerImpl(
+                        app = activity.applicationContext,
+                        tcnGenerator = tcnGenerator
+                    )
+                    bleManagerImpl.startService()
+                }
+                mRouter.navigateMainActivity()
+            }else{
+                mRouter.navigatePermissionBluetooth()
             }
-            mRouter.navigateMainActivity()
-        }else{
-            mRouter.navigatePermissionBluetooth()
+        }?: run {
+            mRouter.navigateOnBoard()
         }
-
     }
 
     fun isMyServiceRunning(

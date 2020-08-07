@@ -4,7 +4,7 @@ import com.jumpitt.happ.realm.RegisterData
 
 interface SplashActivityContract {
     interface View{
-
+        fun showSplashError(messageError: String)
     }
 
     interface Presenter{

@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.jumpitt.happ.R
+import com.jumpitt.happ.utils.ColorIdResource
 import com.jumpitt.happ.utils.RequestCode
+import com.jumpitt.happ.utils.showSnackbar
+import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.splash_activity.*
 
 class SplashActivity: AppCompatActivity(), SplashActivityContract.View{
@@ -43,6 +46,10 @@ class SplashActivity: AppCompatActivity(), SplashActivityContract.View{
                 // Ignore all other requests.
             }
         }
+    }
+
+    override fun showSplashError(messageError: String) {
+        showSnackbar(containerSplash, messageError, ColorIdResource.PRIMARY, ColorIdResource.WHITE)
     }
 
 }

@@ -12,9 +12,8 @@ import com.jumpitt.happ.network.response.ErrorResponse
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.utils.isPermissionBackgroundLocation
-import com.jumpitt.happ.utils.parseErrJsonResponse
-import com.jumpitt.happ.utils.qualifyResponseErrorDefault
+import com.jumpitt.happ.utils.*
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 
 
@@ -28,23 +27,27 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
 
-    override fun validateBluetoothState() {
-        val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        if (mBluetoothAdapter.isEnabled){
-            val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-            if(!isRunning) {
-                val tcnGenerator = TcnGeneratorImpl(context = activity)
-                val bleManagerImpl = BleManagerImpl(
-                    app = activity.applicationContext,
-                    tcnGenerator = tcnGenerator
-                )
-                bleManagerImpl.startService()
+    override fun validateBluetoothState(userRealm: RegisterData) {
+        val mBluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+        mBluetoothAdapter?.let { bluetoothAdapter ->
+            mInteractor.saveRegisterProfile(userRealm)
+            if (bluetoothAdapter.isEnabled){
+                val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+                if(!isRunning) {
+                    val tcnGenerator = TcnGeneratorImpl(context = activity)
+                    val bleManagerImpl = BleManagerImpl(
+                        app = activity.applicationContext,
+                        tcnGenerator = tcnGenerator
+                    )
+                    bleManagerImpl.startService()
+                }
+                mRouter.navigateMain()
+            }else{
+                mRouter.navigatePermissionBluetooth()
             }
-            mRouter.navigateMain()
-        }else{
-            mRouter.navigatePermissionBluetooth()
+        }?: run {
+            mView.showValidateLoginError(activity.resources.getString(R.string.snkBluetoothNotAvailable))
         }
-
     }
 
 
@@ -122,8 +125,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         val userRealm = RegisterData(dataLoginResponse.rut ,dataLoginResponse.names, dataLoginResponse.lastName,
             dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.home?.id, dataLoginResponse.work?.id,
             accessToken, refreshToken)
-        mInteractor.saveRegisterProfile(userRealm)
-        validateBluetoothState()
+        validateBluetoothState(userRealm)
     }
 
     override fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>) {

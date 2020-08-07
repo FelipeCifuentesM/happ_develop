@@ -19,7 +19,7 @@ interface LoginContract {
         fun navigateRegisterStepOne()
         fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, requestPermissions: Boolean)
         fun navigateRecoverPass()
-        fun validateBluetoothState()
+        fun validateBluetoothState(userRealm: RegisterData)
     }
 
     interface Interactor{
