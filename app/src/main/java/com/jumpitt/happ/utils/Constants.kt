@@ -71,4 +71,8 @@ object RequestCode{
     const val FROM_PROFILE_FRAGMENT = 2
 }
 
+object Constants{
+    const val MAXIMUM_TIME_APART_SECONDS = 30
+}
+
 

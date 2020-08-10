@@ -17,9 +17,16 @@ import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.TracingRequest
 import com.jumpitt.happ.network.response.TracingResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.realm.RiskTime
 import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.ui.registerPermissions.RegisterPermissions
+import com.jumpitt.happ.utils.Constants
+import com.jumpitt.happ.utils.dateDifferenceHMS
+import com.jumpitt.happ.utils.dateDifferenceSeconds
+import com.jumpitt.happ.utils.dateTotalTimeMinute
 import io.realm.Realm
+import io.realm.RealmResults
+import io.realm.Sort
 import org.tcncoalition.tcnclient.TcnKeys
 import org.tcncoalition.tcnclient.bluetooth.BluetoothStateListener
 import org.tcncoalition.tcnclient.bluetooth.TcnBluetoothService
@@ -84,6 +91,7 @@ class BleManagerImpl(
             val userData = realm.where(RegisterData::class.java).findFirst()
 
             userData?.accessToken?.let {
+                saveRiskTime(myTcn?.toHex(), tcn.toHex(), currentDate, approximateDistance)
                 RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = approximateDistance)).
                 enqueue(object: Callback<TracingResponse> {
                     override fun onFailure(call: Call<TracingResponse>, t: Throwable) {
@@ -175,6 +183,48 @@ class BleManagerImpl(
             }
         }
         return false
+    }
+
+    private fun saveRiskTime(myTcn: String?, tcnFound: String?, currentDate: String, distance: Double?){
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val realm = Realm.getDefaultInstance()
+        val riskTime: RealmResults<RiskTime> = realm.where(RiskTime::class.java).equalTo("myTcn",myTcn).equalTo("tcnFound",tcnFound).sort("dateLastContact", Sort.DESCENDING).findAll()
+        realm.beginTransaction()
+
+        if(riskTime.size>0) {
+            var lastSavedDate:Date? = null
+            var firstSavedDate:Date? = null
+            riskTime[0]?.dateLastContact?.let { lastSavedDate = sdf.parse(it) }
+            val currentFormatDate = sdf.parse(currentDate)
+            if(lastSavedDate!=null && currentFormatDate!=null){
+                val secondsDifference = dateDifferenceSeconds(lastSavedDate!!, currentFormatDate)
+                if(secondsDifference <= Constants.MAXIMUM_TIME_APART_SECONDS){
+                    Log.e("Borrar", "REALM actualizo datos")
+                    riskTime[0]?.dateFirstContact?.let { firstSavedDate = sdf.parse(it) }
+                    firstSavedDate?.let { firstSaveDate ->
+                        val totalTime = dateDifferenceHMS(firstSaveDate, currentFormatDate)
+                        riskTime[0]?.totalTime = totalTime
+                    }
+                    riskTime[0]?.dateLastContact = currentDate
+                }else{
+                    Log.e("Borrar", "REALM nueva fila")
+                    var firstSavedDate:Date? = null
+                    riskTime[0]?.dateFirstContact?.let { firstSavedDate = sdf.parse(it) }
+                    firstSavedDate?.let {firstSaveDate ->
+                        val riskTimeNew = RiskTime(myTcn, tcnFound, currentDate, currentDate, "0:00:00")
+                        realm.insertOrUpdate(riskTimeNew)
+                    }
+                }
+            }
+        }else{
+            Log.e("Borrar", "REALM nueva fila - primera")
+            val riskTimeNew = RiskTime(myTcn, tcnFound, currentDate, currentDate, "0:00:00")
+            realm.insertOrUpdate(riskTimeNew)
+        }
+
+        realm.commitTransaction()
+        realm.close()
+
     }
 }
 

@@ -51,11 +51,9 @@ class SplashActivityPresenter constructor(private val activity: Activity): Splas
             }else{
                 mRouter.navigatePermissionBluetooth()
             }
-        }?: run{
+        }?: run {
             mRouter.navigateOnBoard()
         }
-
-
     }
 
     fun isMyServiceRunning(

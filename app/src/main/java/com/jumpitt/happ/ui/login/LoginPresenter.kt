@@ -19,6 +19,7 @@ import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.network.response.TokenFCMResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.*
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 
 
@@ -32,9 +33,10 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
 
-    override fun validateBluetoothState(accessToken: String) {
-        val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        mBluetoothAdapter?.let {
+    override fun validateBluetoothState(userRealm: RegisterData) {
+        val mBluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+        mBluetoothAdapter?.let { bluetoothAdapter ->
+            mInteractor.saveRegisterProfile(userRealm)
             if (mBluetoothAdapter.isEnabled){
                 val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
                 if(!isRunning) {
@@ -47,24 +49,22 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
                 }
                 //Get device id for notifications
                 FirebaseInstanceId.getInstance().instanceId
-                .addOnSuccessListener(activity, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
-                    val mToken: String? = instanceIdResult.token
-                    Log.e("Borrar", "Token dispositivo2: "+mToken)
-                    mToken?.let {deviceToken ->
-                        val tokenFCMRequest = TokenFCMRequest(deviceToken)
-                        mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} $accessToken", tokenFCMRequest, this)
-                    }?: run {
-                        mRouter.navigateMain()
-                    }
-                })
+                    .addOnSuccessListener(activity, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
+                        val mToken: String? = instanceIdResult.token
+                        Log.e("Borrar", "Token dispositivo2: "+mToken)
+                        mToken?.let {deviceToken ->
+                            val tokenFCMRequest = TokenFCMRequest(deviceToken)
+                            mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} $accessToken", tokenFCMRequest, this)
+                        }?: run {
+                            mRouter.navigateMain()
+                        }
+                    })
             }else{
                 mRouter.navigatePermissionBluetooth()
             }
-        }?: run{
+        }?: run {
             mView.showValidateLoginError(activity.resources.getString(R.string.snkBluetoothNotAvailable))
         }
-
-
     }
 
 
@@ -142,8 +142,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         val userRealm = RegisterData(dataLoginResponse.rut ,dataLoginResponse.names, dataLoginResponse.lastName,
             dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.home?.id, dataLoginResponse.work?.id,
             accessToken, refreshToken)
-        mInteractor.saveRegisterProfile(userRealm)
-        validateBluetoothState(accessToken)
+        validateBluetoothState(userRealm)
     }
 
     override fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>) {

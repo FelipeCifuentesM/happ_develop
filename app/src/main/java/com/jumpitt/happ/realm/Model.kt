@@ -28,3 +28,13 @@ open class TriageReturnValue(
 ): RealmObject(){
     constructor(): this(null)
 }
+
+open class RiskTime(
+  var myTcn: String? = null,
+  var tcnFound: String? = null,
+  var dateFirstContact: String? = null,
+  var dateLastContact: String? = null,
+  var totalTime: String? = null
+): RealmObject(){
+    constructor(): this(null)
+}
