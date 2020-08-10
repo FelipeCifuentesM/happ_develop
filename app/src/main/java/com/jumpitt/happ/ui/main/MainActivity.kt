@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         mPresenter = MainActivityPresenter(this)
         mPresenter.getAccessToken()
 
-        //Notificacion borrar___
+        //Notificacion borrar__.._
         FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
 
 //        FirebaseInstanceId.getInstance().instanceId
