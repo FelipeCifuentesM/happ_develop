@@ -39,6 +39,7 @@ class SplashActivityPresenter constructor(private val activity: Activity): Splas
     }
 
     override fun validateBluetoothState() {
+        //develop2
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         mBluetoothAdapter?.let {
             if (mBluetoothAdapter.isEnabled){
