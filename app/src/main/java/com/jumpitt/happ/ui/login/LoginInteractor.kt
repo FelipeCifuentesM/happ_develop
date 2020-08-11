@@ -7,7 +7,6 @@ import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.network.response.TokenFCMResponse
-import com.jumpitt.happ.network.response.ValidateDNIResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.ConstantsApi
 import io.realm.Realm
@@ -97,7 +96,6 @@ class LoginInteractor: LoginContract.Interactor {
                 val responseData = response.body()
 
                 interactorOutput.postRegisterTokenFCMOutput()
-
             }
         })
     }

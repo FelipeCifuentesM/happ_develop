@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         mPresenter.getAccessToken()
 
         //Notificacion borrar__.._
-        FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
+//        FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
 
 //        FirebaseInstanceId.getInstance().instanceId
 //            .addOnSuccessListener(this, OnSuccessListener<InstanceIdResult> { instanceIdResult ->

@@ -54,7 +54,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
                         Log.e("Borrar", "Token dispositivo2: "+mToken)
                         mToken?.let {deviceToken ->
                             val tokenFCMRequest = TokenFCMRequest(deviceToken)
-                            mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} $accessToken", tokenFCMRequest, this)
+                            mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${userRealm.accessToken}", tokenFCMRequest, this)
                         }?: run {
                             mRouter.navigateMain()
                         }
