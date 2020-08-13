@@ -53,4 +53,10 @@ interface ApiService {
     @HTTP(method = "DELETE", path = "devices/token", hasBody = true)
     fun deleteRegisterTokenFCM2(@Header("Authorization") accessToken: String, @Body requestTokenFCM: TokenFCMRequest): Call<TokenFCMResponse>
 
+//    @GET("v3/c7c5f811-ed54-4abe-bb26-02115d5d079e")
+//    fun getNotificationHistory(): Call<NotificationHistoryResponse>
+
+    @GET("v3/f91e9a5b-6c7a-4fc9-9f1d-980f8ac37645")
+    fun getNotificationHistory(): Call<NotificationHistoryResponse>
+
 }

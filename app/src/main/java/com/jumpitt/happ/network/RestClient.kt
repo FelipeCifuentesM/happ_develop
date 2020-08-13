@@ -35,4 +35,14 @@ object RestClient{
         retrofit.create(ApiService::class.java)
     }
 
+    val instanceRetrofit: ApiService by lazy{
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://run.mocky.io/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        retrofit.create(ApiService::class.java)
+    }
+
 }

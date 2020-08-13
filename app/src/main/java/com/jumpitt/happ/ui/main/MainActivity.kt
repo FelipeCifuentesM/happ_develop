@@ -16,6 +16,7 @@ import com.jumpitt.happ.ui.MyRiskAnswerFragment
 import com.jumpitt.happ.ui.MyRiskPendingFragment
 import com.jumpitt.happ.ui.MyRiskValueFragment
 import com.jumpitt.happ.ui.MyRiskValueHighFragment
+import com.jumpitt.happ.ui.notifications.NotificationsFragment
 import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -65,6 +66,14 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                         loadFragmentMyRisk(it, false)
                     }
                     mPresenter.getAccessToken(false)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigationNotification ->{
+                    isShowRiskFragment = false
+                    this.replaceFragment(NotificationsFragment.newInstance(), R.id.mainPager, "1")
+                    hideSkeleton()
+                    hideLoader()
+                    mainPager.visibility = View.VISIBLE
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigationProfile -> {

@@ -62,6 +62,7 @@
     <string name="tbPermissions">Permisos</string>
     <string name="tbTriage">Mi riesgo</string>
     <string name="tbProfile">Mi perfil</string>
+    <string name="tbNotifications">Notificaciones</string>
     <string name="tbChangePass">Contraseña</string>
     <string name="tbTermsConditions">Términos de uso</string>
     <string name="tbPrivacy">Politicas de privacidad</string>
@@ -70,6 +71,7 @@
     <!-- Bottom Navigation Bar -->
     <string name="navFragmentExposition">Exposición</string>
     <string name="navFragmentRisk">Mi riesgo</string>
+    <string name="navFragmentNotifications">Notificaciones</string>
     <string name="navFragmentProfile">Perfil</string>
 
     <!-- Errors snackbar -->
