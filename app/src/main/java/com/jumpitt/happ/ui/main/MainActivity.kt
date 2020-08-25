@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     private var healthCareStatusCopy: TriageAnswerResponse? = null
     private var isShowRiskFragment = true
 
-
+    //sin triage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
