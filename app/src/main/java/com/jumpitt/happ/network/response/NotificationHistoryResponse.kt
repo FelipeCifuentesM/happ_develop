@@ -17,6 +17,7 @@ data class Data(
     val title: String?,
     val body: String?,
     val type: String?,
+    val time: String?,
     @SerializedName("created_at")
     val createdAt: String?
 )

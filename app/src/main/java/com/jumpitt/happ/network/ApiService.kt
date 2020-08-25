@@ -56,7 +56,7 @@ interface ApiService {
 //    @GET("v3/c7c5f811-ed54-4abe-bb26-02115d5d079e")
 //    fun getNotificationHistory(): Call<NotificationHistoryResponse>
 
-    @GET("v3/f91e9a5b-6c7a-4fc9-9f1d-980f8ac37645")
+    @GET("v3/c62a79ff-6f42-4911-bdd9-c1dac2f314fe")
     fun getNotificationHistory(): Call<NotificationHistoryResponse>
 
 }

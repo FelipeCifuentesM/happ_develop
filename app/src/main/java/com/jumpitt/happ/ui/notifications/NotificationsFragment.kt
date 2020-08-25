@@ -33,14 +33,19 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
 
         mPresenter = NotificationPresenter(this)
         mPresenter.initializeView()
+
+        srNotiHistory.setOnRefreshListener {
+            mPresenter.initializeView()
+        }
     }
 
     override fun setAdapterNotifications(responseNotificationHistory: NotificationHistoryResponse?) {
         Log.e("Borrar", "pasa aca!!: "+responseNotificationHistory.toString())
         responseNotificationHistory?.notifications?.let { notificationList ->
             rvNotificationsHistory?.let {_rvNotificationsHistory ->
+                srNotiHistory.isRefreshing = false
                 _rvNotificationsHistory.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL ,false)
-                _rvNotificationsHistory.adapter = AdapterNotifications(requireActivity(), notificationList)
+                _rvNotificationsHistory.adapter = AdapterNotifications(requireActivity(), notificationList, shimmerNotificationHistory)
             }
         }
 

@@ -27,6 +27,7 @@
     <string name="lbAnswerTriageDescription">Responde las siguientes preguntas para obtener tu pase diario</string>
     <string name="lbChangePassTitle">Cambiar contraseña</string>
     <string name="lbRecoverPassTitle">Recuperar contraseña</string>
+    <string name="lbNotiHistoryEmpty">No hay notificaciones</string>
 
     <!-- Input Text fields -->
     <string name="itRut">Rut</string>

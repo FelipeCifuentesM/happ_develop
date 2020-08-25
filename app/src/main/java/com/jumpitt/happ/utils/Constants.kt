@@ -10,7 +10,9 @@ enum class ColorIdResource(val color: Int) {
     SEMAPHOREORANGE(R.color.semaphoreOrange),
     SEMAPHOREGREEN(R.color.semaphoreGreen),
     SEMAPHORERED(R.color.semaphoreRed),
-    TEXTCOLORLINK(R.color.textColorLink)
+    TEXTCOLORLINK(R.color.textColorLink),
+    LIGHTDISABLED(R.color.iconDisabled)
+
 }
 
 enum class Labelstext(val sizeText: Int, val font: Int, val letterSpacing: Float) {
@@ -69,6 +71,15 @@ object RequestCode{
     const val ACCESS_FINE_LOCATION = 44
     const val LOCATION_BACKGROUND = 1001
     const val FROM_PROFILE_FRAGMENT = 2
+}
+
+object ItemRecyclerview{
+    const val EMPTY = 1
+}
+
+object TypeNotification{
+    const val SOCIAL_DISTANCE = "SOCIAL_DISTANCE"
+    const val HEALTHCARE_RISK = "HEALTHCARE_RISK"
 }
 
 object Constants{
