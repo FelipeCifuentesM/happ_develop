@@ -2,7 +2,6 @@ package com.jumpitt.happ.utils
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -13,14 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.tasks.OnSuccessListener
 import com.jumpitt.happ.R
 import com.jumpitt.happ.context
 import com.jumpitt.happ.network.response.ErrorResponse
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.iid.InstanceIdResult
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
@@ -138,17 +134,6 @@ fun View.hideKeyboard() {
     val inputMethodManager = context.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     inputMethodManager?.hideSoftInputFromWindow(this.windowToken, 0)
 }
-fun Activity.getFirebaseInstanceId(): String?{
-    var mToken: String? = null
-    FirebaseInstanceId.getInstance().instanceId
-        .addOnSuccessListener(this, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
-            instanceIdResult.token?.let { token -> mToken = token }
-
-            Log.e("Borrar", "Token dispositivo extension: "+mToken)
-        })
-    return mToken
-}
-
 
 //Fragments
 //TODO: FRAGMENT TRANSACTION

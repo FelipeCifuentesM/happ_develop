@@ -2,21 +2,15 @@ package com.jumpitt.happ.ui.main
 
 import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.iid.InstanceIdResult
-import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.ui.MyRiskAnswerFragment
 import com.jumpitt.happ.ui.MyRiskPendingFragment
 import com.jumpitt.happ.ui.MyRiskValueFragment
 import com.jumpitt.happ.ui.MyRiskValueHighFragment
-import com.jumpitt.happ.ui.notifications.NotificationsFragment
 import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -66,14 +60,6 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                         loadFragmentMyRisk(it, false)
                     }
                     mPresenter.getAccessToken(false)
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigationNotification ->{
-                    isShowRiskFragment = false
-                    this.replaceFragment(NotificationsFragment.newInstance(), R.id.mainPager, "1")
-                    hideSkeleton()
-                    hideLoader()
-                    mainPager.visibility = View.VISIBLE
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigationProfile -> {

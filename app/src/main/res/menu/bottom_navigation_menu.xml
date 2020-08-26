@@ -5,10 +5,6 @@
         android:icon="@drawable/ic_user_pass"
         android:title="@string/navFragmentRisk" />
     <item
-        android:id="@+id/navigationNotification"
-        android:icon="@drawable/ic_bell_noti"
-        android:title="@string/navFragmentNotifications" />
-    <item
         android:id="@+id/navigationProfile"
         android:icon="@drawable/ic_user_circle_solid"
         android:title="@string/navFragmentProfile" />

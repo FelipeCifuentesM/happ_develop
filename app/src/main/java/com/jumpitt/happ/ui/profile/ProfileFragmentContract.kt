@@ -22,7 +22,6 @@ interface ProfileFragmentContract {
 
     interface Interactor{
         fun getUserProfileData()
-        fun deleteRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest)
         fun getAccessToken()
         fun deleteProfileData()
     }
@@ -36,7 +35,5 @@ interface ProfileFragmentContract {
     interface InteractorOutputs{
         fun getUserProfileDataOutput(userData: RegisterData?)
         fun getAccesTokenOutput(accessToken: String)
-        fun postRegisterTokenFCMFailureError()
-        fun postRegisterTokenFCMOutput()
     }
 }

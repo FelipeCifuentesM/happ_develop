@@ -3,18 +3,12 @@ package com.jumpitt.happ.ui.registerPermissions
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
-import android.util.Log
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.iid.InstanceIdResult
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.request.RegisterRequest
-import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.utils.ConstantsApi
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
@@ -66,12 +60,9 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
             mView.hideLoader()
             mView.showRegisterError(activity.resources.getString(R.string.snkTryAgainLater))
         }
-
     }
 
-
     override fun postRegisterOutput(dataRegisterResponse: RegisterResponse) {
-
         val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
         if(!isRunning) {
             val tcnGenerator = TcnGeneratorImpl(context = activity)
@@ -86,20 +77,8 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
                 dataRegisterResponse.profile?.email, dataRegisterResponse.profile?.phone, dataRegisterResponse.profile?.home?.id, dataRegisterResponse.profile?.work?.id,
                 dataRegisterResponse.accessToken, dataRegisterResponse.refreshToken)
         mInteractor.saveRegisterProfile(userRealm)
-
-        //Get device id for notifications
-        FirebaseInstanceId.getInstance().instanceId
-            .addOnSuccessListener(activity, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
-                val mToken: String? = instanceIdResult.token
-                Log.e("Borrar", "Token dispositivo2: "+mToken)
-                mToken?.let {deviceToken ->
-                    val tokenFCMRequest = TokenFCMRequest(deviceToken)
-                    mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${dataRegisterResponse.accessToken}", tokenFCMRequest, this)
-                }?: run {
-                    mView.hideLoader()
-                    mRouter.navigateRegisterSuccess()
-                }
-            })
+        mView.hideLoader()
+        mRouter.navigateRegisterSuccess()
     }
 
     override fun postRegisterOutputError(errorCode: Int, response: Response<RegisterResponse>) {
@@ -111,16 +90,6 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
     override fun postRegisterFailureError() {
         mView.hideLoader()
         mView.showRegisterError(activity.resources.getString(R.string.snkDefaultApiError))
-    }
-
-    override fun postRegisterTokenFCMFailureError() {
-        mView.hideLoader()
-        mRouter.navigateRegisterSuccess()
-    }
-
-    override fun postRegisterTokenFCMOutput() {
-        mView.hideLoader()
-        mRouter.navigateRegisterSuccess()
     }
 
     private fun isMyServiceRunning(

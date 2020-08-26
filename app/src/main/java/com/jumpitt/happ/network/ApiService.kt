@@ -47,11 +47,6 @@ interface ApiService {
     @PUT("password")
     fun putChangePassword(@Header("Authorization") accessToken: String, @Body changePasswordRequest: ChangePasswordRequest): Call<ChangePasswordResponse>
 
-    @POST("devices/token")
-    fun postRegisterTokenFCM(@Header("Authorization") accessToken: String, @Body requestTokenFCM: TokenFCMRequest): Call<TokenFCMResponse>
-
-    @HTTP(method = "DELETE", path = "devices/token", hasBody = true)
-    fun deleteRegisterTokenFCM2(@Header("Authorization") accessToken: String, @Body requestTokenFCM: TokenFCMRequest): Call<TokenFCMResponse>
 
 //    @GET("v3/c7c5f811-ed54-4abe-bb26-02115d5d079e")
 //    fun getNotificationHistory(): Call<NotificationHistoryResponse>

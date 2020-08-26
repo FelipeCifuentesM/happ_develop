@@ -1,11 +1,8 @@
 package com.jumpitt.happ.ui.registerPermissions
 
-import android.util.Log
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.RegisterRequest
-import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.RegisterResponse
-import com.jumpitt.happ.network.response.TokenFCMResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.orhanobut.hawk.Hawk
 import io.realm.Realm
@@ -54,24 +51,6 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
         realm.insertOrUpdate(userRealm)
         realm.commitTransaction()
         realm.close()
-    }
-
-    override fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutputs: RegisterPermissionsContract.InteractorOutputs){
-        Log.e("Borrar", "token diospositivo: "+tokenFCMRequest.token)
-        RestClient.instance.postRegisterTokenFCM(accessToken, tokenFCMRequest).
-        enqueue(object: Callback<TokenFCMResponse> {
-            override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {
-                interactorOutputs.postRegisterTokenFCMFailureError()
-            }
-
-            override fun onResponse(call: Call<TokenFCMResponse>, response: Response<TokenFCMResponse>) {
-                val responseCode = response.code()
-                val responseData = response.body()
-
-                interactorOutputs.postRegisterTokenFCMOutput()
-
-            }
-        })
     }
 
 }

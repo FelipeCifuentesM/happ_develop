@@ -1,10 +1,8 @@
 package com.jumpitt.happ.ui.registerPermissions
 
 import com.jumpitt.happ.network.request.RegisterRequest
-import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.ui.login.LoginContract
 import retrofit2.Response
 
 interface RegisterPermissionsContract {
@@ -13,7 +11,6 @@ interface RegisterPermissionsContract {
         fun showRegisterError(messageError: String)
         fun showLoader()
         fun hideLoader()
-
     }
 
     interface Presenter{
@@ -27,7 +24,6 @@ interface RegisterPermissionsContract {
         fun getRegisterData(interactorOutputs: InteractorOutputs)
         fun postRegister(registerRequest: RegisterRequest, interactorOutputs: InteractorOutputs)
         fun saveRegisterProfile(userRealm: RegisterData)
-        fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutputs: InteractorOutputs)
     }
 
     interface Router{
@@ -40,8 +36,5 @@ interface RegisterPermissionsContract {
         fun postRegisterOutput(dataRegisterResponse: RegisterResponse)
         fun postRegisterOutputError(errorCode: Int, response: Response<RegisterResponse>)
         fun postRegisterFailureError()
-        fun postRegisterTokenFCMFailureError()
-        fun postRegisterTokenFCMOutput()
-
     }
 }
