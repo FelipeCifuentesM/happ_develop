@@ -58,6 +58,7 @@ object TriageStatus{
     const val TRIAGE_NOT_STARTED = "TRIAGE_NOT_STARTED"
     const val TRIAGE_PENDING = "TRIAGE_PENDING"
     const val TRIAGE_COMPLETED = "TRIAGE_COMPLETED"
+    const val WITHOUT_TRIAGE = "WITHOUT_TRIAGE"
 }
 
 object Transition{
