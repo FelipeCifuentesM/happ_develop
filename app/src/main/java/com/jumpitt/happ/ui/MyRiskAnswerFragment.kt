@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.triage.TriageActivity
 import com.jumpitt.happ.utils.*
-import kotlinx.android.synthetic.main.fragment_answer_triage.*
+import kotlinx.android.synthetic.main.fragment_item_answer_triage.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_pending.*
 import kotlinx.android.synthetic.main.fragment_item_myrisk_value.*
 
@@ -33,7 +33,6 @@ class MyRiskAnswerFragment : Fragment() {
         tvMyRiskValueDescription.visibility = View.GONE
         pbMyRiskValue.visibility = View.GONE
         tvMyRiskValueTitle.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
-
 
         //Card
         tvTitleTriageQuestion.containedStyle(Labelstext.H3, ColorIdResource.PRIMARY, font = R.font.dmsans_medium)

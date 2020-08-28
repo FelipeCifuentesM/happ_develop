@@ -44,12 +44,14 @@ class MainActivityPresenter constructor(private val activity: Activity): MainAct
         mView.hideSkeleton()
         mView.hideLoader()
         mView.showTriageAnswerError(messageError)
+        mView.loadFragmentMyRiskFailure(errorCode)
     }
 
     override fun getHealthCareFailureError() {
         mView.hideSkeleton()
         mView.hideLoader()
         mView.showTriageAnswerError(activity.resources.getString(R.string.snkDefaultApiError))
+        mView.loadFragmentMyRiskFailure(0)
     }
 
 }

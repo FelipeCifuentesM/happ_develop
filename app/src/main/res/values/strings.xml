@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">Happ</string>
 
-
     <!-- Labels -->
     <string name="lbOnBoardTitle1">Protege tu salud</string>
-    <string name="lbOnBoardDescription1">Happ te cuida día a día a ti y a los que más te importan.</string>
+    <string name="lbOnBoardDescription1">Controla de forma segura tu exposición para mantenerte saludable y mantener saludable a otros.</string>
     <string name="lbPhraseTermsConditions">Al hacer click en comenzar, %1$s y %2$s</string>
     <string name="lbTermsConditions">aceptas los términos de uso</string>
     <string name="lbPrivacy">política de privacidad</string>
@@ -25,6 +24,8 @@
     <string name="lbPassDuration">Duración pase</string>
     <string name="lbAnswerTriageTitle">Conoce tu riesgo</string>
     <string name="lbAnswerTriageDescription">Responde las siguientes preguntas para obtener tu pase diario</string>
+    <string name="lbWithoutTriageTitle">Salgamos adelante juntos</string>
+    <string name="lbWithoutTriageDescription">Volver a la normalidad es posible. Con Happ, podremos lograrlo antes y sin renunciar a nuestra privacidad</string>
     <string name="lbChangePassTitle">Cambiar contraseña</string>
     <string name="lbRecoverPassTitle">Recuperar contraseña</string>
     <string name="lbNotiHistoryEmpty">No hay notificaciones</string>
@@ -95,6 +96,8 @@
     <string name="itNameError">El nombre debe tener mínimo 3 caracteres</string>
     <string name="itSurNameError">El apellido debe tener mínimo 3 caracteres</string>
 
-
+    <!-- Errors Sentry -->
+    <string name="errSentryUnknownStatus">Estado no registrado en el código (healthCareStatus.triageStatus): %1$s</string>
+    <string name="errSentryLoadApiFailedMyRisk">Carga del fragment MyRisk falló (api healthcare). Código error: %1$d</string>
 
 </resources>

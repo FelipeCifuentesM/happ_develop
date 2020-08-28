@@ -6,15 +6,15 @@ data class TriageAnswerResponse(
     @SerializedName("triage_status")
     val triageStatus: String?,
     @SerializedName("score")
-    val score: Int?,
+    val score: Int? = null,
     @SerializedName("risk")
-    val risk: Risk?,
+    val risk: Risk? = null,
     @SerializedName("latest_review")
-    val latestReview: String?,
+    val latestReview: String? = null,
     @SerializedName("created_at")
-    val createdAt: String?,
+    val createdAt: String? = null,
     @SerializedName("passport")
-    val passport: Passport?
+    val passport: Passport? = null
 )
 
 data class Risk(

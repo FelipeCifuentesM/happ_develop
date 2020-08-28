@@ -8,6 +8,7 @@ import retrofit2.Response
 interface MainActivityContract {
     interface View{
         fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse, isButtonEnabled: Boolean = true)
+        fun loadFragmentMyRiskFailure(errorCode: Int)
         fun showTriageAnswerError(messageError: String)
         fun showSkeleton()
         fun hideSkeleton()

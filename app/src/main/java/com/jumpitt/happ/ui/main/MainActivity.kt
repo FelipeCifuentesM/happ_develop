@@ -12,13 +12,11 @@ import com.google.firebase.iid.InstanceIdResult
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
-import com.jumpitt.happ.ui.MyRiskAnswerFragment
-import com.jumpitt.happ.ui.MyRiskPendingFragment
-import com.jumpitt.happ.ui.MyRiskValueFragment
-import com.jumpitt.happ.ui.MyRiskValueHighFragment
+import com.jumpitt.happ.ui.*
 import com.jumpitt.happ.ui.notifications.NotificationsFragment
 import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
+import io.sentry.Sentry
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -97,6 +95,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
         if(isShowRiskFragment){
             when(healthCareStatus.triageStatus){
+                TriageStatus.WITHOUT_TRIAGE -> this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
                 TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
                 TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
                 TriageStatus.TRIAGE_COMPLETED -> {
@@ -106,9 +105,23 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                         else
                             this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainPager, "0")
                     }
-
+                }
+                else -> {
+                    this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
+                    Sentry.capture(String.format(resources.getString(R.string.errSentryUnknownStatus), healthCareStatus.triageStatus))
                 }
             }
+            hideSkeleton()
+            hideLoader()
+            mainPager.visibility = View.VISIBLE
+        }
+    }
+
+    override fun loadFragmentMyRiskFailure(errorCode: Int) {
+        healthCareStatusCopy = TriageAnswerResponse(TriageStatus.WITHOUT_TRIAGE)
+        if(isShowRiskFragment){
+            this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
+            Sentry.capture(String.format(resources.getString(R.string.errSentryLoadApiFailedMyRisk), errorCode))
             hideSkeleton()
             hideLoader()
             mainPager.visibility = View.VISIBLE

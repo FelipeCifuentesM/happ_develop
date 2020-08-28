@@ -159,7 +159,6 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         mRouter.navigateMain()
     }
 
-
     override fun LoginFailureError() {
         mView.hideLoader()
         mView.showValidateLoginError(activity.resources.getString(R.string.snkDefaultApiError))

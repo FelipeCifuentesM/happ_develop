@@ -1,6 +1,7 @@
 package com.jumpitt.happ.ui.main
 
 import com.jumpitt.happ.network.RestClient
+import com.jumpitt.happ.network.response.NotificationHistoryResponse
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.realm.TriageReturnValue
