@@ -40,7 +40,6 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
     }
 
     override fun setAdapterNotifications(responseNotificationHistory: NotificationHistoryResponse?) {
-        Log.e("Borrar", "pasa aca!!: "+responseNotificationHistory.toString())
         responseNotificationHistory?.notifications?.let { notificationList ->
             rvNotificationsHistory?.let {_rvNotificationsHistory ->
                 srNotiHistory.isRefreshing = false

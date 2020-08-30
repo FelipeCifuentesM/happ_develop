@@ -66,14 +66,14 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                     mPresenter.getAccessToken(false)
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigationNotification ->{
-                    isShowRiskFragment = false
-                    this.replaceFragment(NotificationsFragment.newInstance(), R.id.mainPager, "1")
-                    hideSkeleton()
-                    hideLoader()
-                    mainPager.visibility = View.VISIBLE
-                    return@OnNavigationItemSelectedListener true
-                }
+//                R.id.navigationNotification ->{
+//                    isShowRiskFragment = false
+//                    this.replaceFragment(NotificationsFragment.newInstance(), R.id.mainPager, "1")
+//                    hideSkeleton()
+//                    hideLoader()
+//                    mainPager.visibility = View.VISIBLE
+//                    return@OnNavigationItemSelectedListener true
+//                }
                 R.id.navigationProfile -> {
                     isShowRiskFragment = false
                     this.replaceFragment(ProfileFragment.newInstance(), R.id.mainPager, "1")
