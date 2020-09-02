@@ -51,7 +51,6 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
                 FirebaseInstanceId.getInstance().instanceId
                     .addOnSuccessListener(activity, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
                         val mToken: String? = instanceIdResult.token
-                        Log.e("Borrar", "Token dispositivo2: "+mToken)
                         mToken?.let {deviceToken ->
                             val tokenFCMRequest = TokenFCMRequest(deviceToken)
                             mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${userRealm.accessToken}", tokenFCMRequest, this)

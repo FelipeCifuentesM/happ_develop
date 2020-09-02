@@ -84,7 +84,6 @@ class LoginInteractor: LoginContract.Interactor {
     }
 
     override fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutput: LoginContract.InteractorOutputs) {
-        Log.e("Borrar", "token diospositivo: "+tokenFCMRequest.token)
         RestClient.instance.postRegisterTokenFCM(accessToken, tokenFCMRequest).
         enqueue(object: Callback<TokenFCMResponse> {
             override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {

@@ -32,7 +32,6 @@ class ProfileFragmentInteractor(private val mIOutput: ProfileFragmentContract.In
     }
 
     override fun deleteRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest) {
-        Log.e("Borrar", "token diospositivo6: "+tokenFCMRequest.token)
         RestClient.instance.deleteRegisterTokenFCM2(accessToken, tokenFCMRequest).
         enqueue(object: Callback<TokenFCMResponse> {
             override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {

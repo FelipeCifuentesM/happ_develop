@@ -104,6 +104,9 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                             this.replaceFragment(MyRiskValueHighFragment.newInstance(), R.id.mainPager, "0")
                         else
                             this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainPager, "0")
+                    }?: run{
+                        this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
+                        Sentry.capture(resources.getString(R.string.errSentryMyRiskLevelNull))
                     }
                 }
                 else -> {

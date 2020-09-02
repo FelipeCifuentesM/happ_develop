@@ -91,7 +91,6 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         FirebaseInstanceId.getInstance().instanceId
             .addOnSuccessListener(activity, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
                 val mToken: String? = instanceIdResult.token
-                Log.e("Borrar", "Token dispositivo2: "+mToken)
                 mToken?.let {deviceToken ->
                     val tokenFCMRequest = TokenFCMRequest(deviceToken)
                     mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${dataRegisterResponse.accessToken}", tokenFCMRequest, this)

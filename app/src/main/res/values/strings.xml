@@ -99,5 +99,6 @@
     <!-- Errors Sentry -->
     <string name="errSentryUnknownStatus">Estado no registrado en el código (healthCareStatus.triageStatus): %1$s</string>
     <string name="errSentryLoadApiFailedMyRisk">Carga del fragment MyRisk falló (api healthcare). Código error: %1$d</string>
+    <string name="errSentryMyRiskLevelNull">My risk, API healthcare trae el campo risk null</string>
 
 </resources>

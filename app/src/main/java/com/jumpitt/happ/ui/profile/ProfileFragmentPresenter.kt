@@ -39,7 +39,6 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
         FirebaseInstanceId.getInstance().instanceId
             .addOnSuccessListener(OnSuccessListener<InstanceIdResult> { instanceIdResult ->
                 val mToken: String? = instanceIdResult.token
-                Log.e("Borrar", "Token dispositivo5: "+mToken)
                 mToken?.let {deviceToken ->
                     val tokenFCMRequest = TokenFCMRequest(deviceToken)
                     mInteractor.deleteRegisterTokenFCM("${ConstantsApi.BEARER} $accessToken", tokenFCMRequest)

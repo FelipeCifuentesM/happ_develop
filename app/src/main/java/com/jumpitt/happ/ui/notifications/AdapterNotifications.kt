@@ -57,8 +57,8 @@ class AdapterNotifications(
         fun bindItemsEmpty(shimmerNotificationHistory: ShimmerFrameLayout){
             tvEmptyNotiHistory.containedStyle(Labelstext.BODY1, ColorIdResource.LIGHTDISABLED, font =  R.font.dmsans_medium)
 
-            shimmerNotificationHistory.stopShimmer()
-            shimmerNotificationHistory.visibility = View.GONE
+//            shimmerNotificationHistory.stopShimmer()
+//            shimmerNotificationHistory.visibility = View.GONE
         }
 
         fun bindItems(itemNotification: Notification, viewPool: RecyclerView.RecycledViewPool){
