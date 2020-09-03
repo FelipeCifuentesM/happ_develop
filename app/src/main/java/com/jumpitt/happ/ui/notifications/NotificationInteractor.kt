@@ -33,8 +33,6 @@ class NotificationInteractor(private val mIOutput: NotificationContract.Interact
                 val responseCode = response.code()
                 val responseNotificationHistory = response.body()
 
-                mIOutput.getNotificationOutput(responseNotificationHistory)
-
                 when (responseCode) {
                     200 -> {
                         responseNotificationHistory?.let { _responseNotificationHistory ->
