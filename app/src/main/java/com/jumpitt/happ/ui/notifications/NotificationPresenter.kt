@@ -15,14 +15,17 @@ class NotificationPresenter constructor(val fragment: Fragment): NotificationCon
         mView.showInitializeView()
         mView.showSkeleton()
         mInteractor.getAccessToken()
-
     }
 
-    override fun getAccesTokenOutput(accessToken: String) {
-        mInteractor.getNotificationHistory(accessToken)
+    override fun loadNextPage(isLoaderSkeleton: Boolean) {
+        mInteractor.getAccessToken(isLoaderSkeleton)
     }
 
-    override fun getNotificationOutput(responseNotificationHistory: NotificationHistoryResponse?) {
+    override fun getAccesTokenOutput(isLoaderSkeleton: Boolean, accessToken: String) {
+        mInteractor.getNotificationHistory(isLoaderSkeleton, accessToken)
+    }
+
+    override fun getNotificationOutput(responseNotificationHistory: NotificationHistoryResponse?, isLoaderSkeleton: Boolean) {
         mView.setAdapterNotifications(responseNotificationHistory)
         mView.hideSkeleton()
     }

@@ -13,17 +13,43 @@ import retrofit2.Response
 
 class NotificationInteractor(private val mIOutput: NotificationContract.InteractorOutputs): NotificationContract.Interactor {
 
-    override fun getAccessToken() {
+    override fun getAccessToken(isLoaderSkeleton: Boolean) {
         val realm = Realm.getDefaultInstance()
         var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
 
         if(accessToken.isNullOrBlank())
             accessToken = ""
-        mIOutput.getAccesTokenOutput(accessToken)
+        mIOutput.getAccesTokenOutput(isLoaderSkeleton, accessToken)
     }
 
-    override fun getNotificationHistory(accessToken: String) {
-        RestClient.instance.getNotificationHistory("${ConstantsApi.BEARER} $accessToken").
+    override fun getNotificationHistory(isLoaderSkeleton: Boolean, accessToken: String) {
+//        RestClient.instance.getNotificationHistory("${ConstantsApi.BEARER} $accessToken").
+//        enqueue(object: Callback<NotificationHistoryResponse> {
+//            override fun onFailure(call: Call<NotificationHistoryResponse>, t: Throwable) {
+//                mIOutput.getNotificationFailureError()
+//            }
+//
+//            override fun onResponse(x: Call<NotificationHistoryResponse>, response: Response<NotificationHistoryResponse>) {
+//                val responseCode = response.code()
+//                val responseNotificationHistory = response.body()
+//
+//                when (responseCode) {
+//                    200 -> {
+//                        responseNotificationHistory?.let { _responseNotificationHistory ->
+//                            mIOutput.getNotificationOutput(_responseNotificationHistory)
+//                        }?: run {
+//                            mIOutput.getNotificationOutputError(responseCode, response)
+//                        }
+//                    }
+//                    else -> {
+//                        mIOutput.getNotificationOutputError(responseCode, response)
+//                    }
+//                }
+//            }
+//
+//        })
+
+        RestClient.instanceRetrofit.getNotificationHistory().
         enqueue(object: Callback<NotificationHistoryResponse> {
             override fun onFailure(call: Call<NotificationHistoryResponse>, t: Throwable) {
                 mIOutput.getNotificationFailureError()
@@ -33,12 +59,12 @@ class NotificationInteractor(private val mIOutput: NotificationContract.Interact
                 val responseCode = response.code()
                 val responseNotificationHistory = response.body()
 
-                mIOutput.getNotificationOutput(responseNotificationHistory)
+//                mIOutput.getNotificationOutput(responseNotificationHistory, isLoaderSkeleton)
 
                 when (responseCode) {
                     200 -> {
                         responseNotificationHistory?.let { _responseNotificationHistory ->
-                            mIOutput.getNotificationOutput(_responseNotificationHistory)
+                            mIOutput.getNotificationOutput(_responseNotificationHistory, isLoaderSkeleton)
                         }?: run {
                             mIOutput.getNotificationOutputError(responseCode, response)
                         }
@@ -50,6 +76,7 @@ class NotificationInteractor(private val mIOutput: NotificationContract.Interact
             }
 
         })
+
     }
 
 }

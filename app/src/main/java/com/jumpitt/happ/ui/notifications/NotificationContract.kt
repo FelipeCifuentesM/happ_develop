@@ -20,11 +20,12 @@ interface NotificationContract {
 
     interface Presenter{
         fun initializeView()
+        fun loadNextPage(isLoaderSkeleton: Boolean)
     }
 
     interface Interactor{
-        fun getAccessToken()
-        fun getNotificationHistory(accessToken: String)
+        fun getAccessToken(isLoaderSkeleton: Boolean = true)
+        fun getNotificationHistory(isLoaderSkeleton: Boolean, accessToken: String)
     }
 
     interface Router{
@@ -32,8 +33,8 @@ interface NotificationContract {
     }
 
     interface InteractorOutputs{
-        fun getAccesTokenOutput(accessToken: String)
-        fun getNotificationOutput(responseNotificationHistory: NotificationHistoryResponse?)
+        fun getAccesTokenOutput(isLoaderSkeleton: Boolean, accessToken: String)
+        fun getNotificationOutput(responseNotificationHistory: NotificationHistoryResponse?, isLoaderSkeleton: Boolean)
         fun getNotificationFailureError()
         fun getNotificationOutputError(errorCode: Int, response: Response<NotificationHistoryResponse>)
     }
