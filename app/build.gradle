@@ -9,6 +9,7 @@ apply plugin: 'com.google.gms.google-services'
 
 ext {
     baseURL = "\"http://api.keepsafe.jumpittlabs.cl/v1/\""
+    baseURLDev = "\"http://api-dev.happ.cl:9000/v1/\""
     URL_PRIVACY_POLICIES = "\"https://drive.google.com/file/d/1ELB17XPw62Hk0tHuGmvv_2ut1pAsDYEz/view\""
     URL_BASE_GOOGLE_DOC = "\"http://drive.google.com/viewerng/viewer?embedded=true&url=\""
 }
@@ -21,8 +22,8 @@ android {
         applicationId "com.jumpitt.happ"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 17
-        versionName "17.0"
+        versionCode 3
+        versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,7 +43,7 @@ android {
             buildConfigField "String", "URL_PRIVACY_POLICIES", "${URL_PRIVACY_POLICIES}"
         }
         debug{
-            buildConfigField "String", "BASE_URL", "${baseURL}"
+            buildConfigField "String", "BASE_URL", "${baseURLDev}"
             buildConfigField "String", "URL_PRIVACY_POLICIES", "${URL_PRIVACY_POLICIES}"
         }
     }
