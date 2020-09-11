@@ -58,48 +58,25 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
                 historyNotificationAdapter = AdapterNotifications(requireActivity(), listFull, shimmerNotificationHistory)
                 _rvNotificationsHistory.adapter = historyNotificationAdapter
 
-
-
-
-
-                nsNotificationHistory.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-                    if(scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight ){
-                        Log.e("Borrar", "cargar mas datos")
-                        mPresenter.loadNextPage(false)
+                responseNotificationHistory.currentPage.let { currentPage ->
+                    if(currentPage == responseNotificationHistory.lastPage){
+                        pbPaginationNotiHistory.visibility = View.GONE
                     }
                 }
 
-//                _rvNotificationsHistory.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-//                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                        if(dy > 0){
-//                            var childItem = layoutManager.childCount
-//                            var findItem = layoutManager.findFirstVisibleItemPosition()
-//                            var count = layoutManager.itemCount
-//
-//                            Log.e("Borrar", "$childItem + $findItem >= $count\n")
-//
-//
-//                                if(childItem + findItem >= count){
-////                                    Log.e("Borrar", "final lista")
-////                                    cargarData()
-//                                }
-//
-//
-//
-//                        }
-//                        super.onScrolled(recyclerView, dx, dy)
-//                    }
-//                })
+
+                nsNotificationHistory.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+                    if(scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight && responseNotificationHistory.currentPage < responseNotificationHistory.lastPage){
+                        Log.e("Borrar", "cargar mas datos")
+                        responseNotificationHistory.currentPage.let { currentPage ->
+                            val currentPageNext = currentPage+1
+                            mPresenter.loadNextPage(false, currentPageNext)
+                        }
+                    }
+                }
+
             }
         }
-
-
-
-    }
-
-    fun cargarData(){
-        Log.e("Borrar", "carga nuevos datos")
-        isLoading = true
     }
 
     override fun showInitializeView() {
@@ -115,6 +92,9 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
         shimmerNotificationHistory?.let {
             shimmerNotificationHistory.startShimmer()
             shimmerNotificationHistory.visibility = View.VISIBLE
+            srNotiHistory.isEnabled = false
+            pbPaginationNotiHistory.visibility = View.VISIBLE
+            llContainerRecycler?.let { it.visibility = View.GONE }
         }
     }
 
@@ -122,6 +102,21 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
         shimmerNotificationHistory?.let {
             shimmerNotificationHistory.stopShimmer()
             shimmerNotificationHistory.visibility = View.GONE
+            srNotiHistory?.let { it.isEnabled = true }
+            llContainerRecycler?.let { it.visibility = View.VISIBLE }
+        }
+    }
+
+    override fun showLoaderBottom() {
+        pbPaginationNotiHistory?.let {
+            pbPaginationNotiHistory.visibility = View.VISIBLE
+        }
+
+    }
+
+    override fun hideLoaderBottom() {
+        pbPaginationNotiHistory?.let {
+            pbPaginationNotiHistory.visibility = View.GONE
         }
     }
 

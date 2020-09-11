@@ -9,6 +9,7 @@ apply plugin: 'com.google.gms.google-services'
 
 ext {
     baseURL = "\"http://api.keepsafe.jumpittlabs.cl/v1/\""
+    baseURLDev = "\"http://api-dev.happ.cl:9000/v1/\""
     URL_PRIVACY_POLICIES = "\"https://drive.google.com/file/d/1ELB17XPw62Hk0tHuGmvv_2ut1pAsDYEz/view\""
     URL_BASE_GOOGLE_DOC = "\"http://drive.google.com/viewerng/viewer?embedded=true&url=\""
 }

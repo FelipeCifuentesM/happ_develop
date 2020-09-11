@@ -17,15 +17,16 @@ class NotificationPresenter constructor(val fragment: Fragment): NotificationCon
         mInteractor.getAccessToken()
     }
 
-    override fun loadNextPage(isLoaderSkeleton: Boolean) {
-        mInteractor.getAccessToken(isLoaderSkeleton)
+    override fun loadNextPage(isLoaderSkeleton: Boolean, currentPage: Int) {
+        mInteractor.getAccessToken(isLoaderSkeleton, currentPage)
     }
 
-    override fun getAccesTokenOutput(isLoaderSkeleton: Boolean, accessToken: String) {
-        mInteractor.getNotificationHistory(isLoaderSkeleton, accessToken)
+    override fun getAccesTokenOutput(isLoaderSkeleton: Boolean, accessToken: String, currentPage: Int) {
+        mInteractor.getNotificationHistory(isLoaderSkeleton, accessToken, currentPage)
     }
 
     override fun getNotificationOutput(responseNotificationHistory: NotificationHistoryResponse?, isLoaderSkeleton: Boolean) {
+//        mView.hideLoaderBottom()
         mView.setAdapterNotifications(responseNotificationHistory)
         mView.hideSkeleton()
     }
@@ -35,6 +36,7 @@ class NotificationPresenter constructor(val fragment: Fragment): NotificationCon
         Sentry.capture("Error al cargar API de notificaciones (notifications), error: Failure")
         mView.setAdapterNotifications(notificationHistoryEmpty)
         mView.hideSkeleton()
+//        mView.hideLoaderBottom()
     }
 
     override fun getNotificationOutputError(errorCode: Int, response: Response<NotificationHistoryResponse>) {
@@ -42,6 +44,7 @@ class NotificationPresenter constructor(val fragment: Fragment): NotificationCon
         Sentry.capture("Error al cargar API de notificaciones (notifications), error: $errorCode")
         mView.setAdapterNotifications(notificationHistoryEmpty)
         mView.hideSkeleton()
+//        mView.hideLoaderBottom()
     }
 
 }

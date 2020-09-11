@@ -16,16 +16,18 @@ interface NotificationContract {
         fun showUnwrappingValues()
         fun showSkeleton()
         fun hideSkeleton()
+        fun showLoaderBottom()
+        fun hideLoaderBottom()
     }
 
     interface Presenter{
         fun initializeView()
-        fun loadNextPage(isLoaderSkeleton: Boolean)
+        fun loadNextPage(isLoaderSkeleton: Boolean, currentPage: Int)
     }
 
     interface Interactor{
-        fun getAccessToken(isLoaderSkeleton: Boolean = true)
-        fun getNotificationHistory(isLoaderSkeleton: Boolean, accessToken: String)
+        fun getAccessToken(isLoaderSkeleton: Boolean = true, currentPage: Int = 1)
+        fun getNotificationHistory(isLoaderSkeleton: Boolean, accessToken: String, currentPage: Int)
     }
 
     interface Router{
@@ -33,7 +35,7 @@ interface NotificationContract {
     }
 
     interface InteractorOutputs{
-        fun getAccesTokenOutput(isLoaderSkeleton: Boolean, accessToken: String)
+        fun getAccesTokenOutput(isLoaderSkeleton: Boolean, accessToken: String, currentPage: Int)
         fun getNotificationOutput(responseNotificationHistory: NotificationHistoryResponse?, isLoaderSkeleton: Boolean)
         fun getNotificationFailureError()
         fun getNotificationOutputError(errorCode: Int, response: Response<NotificationHistoryResponse>)
