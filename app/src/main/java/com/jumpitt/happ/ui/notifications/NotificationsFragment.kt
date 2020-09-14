@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jumpitt.happ.R
+import com.jumpitt.happ.network.response.Data
 import com.jumpitt.happ.network.response.Notification
 import com.jumpitt.happ.network.response.NotificationHistoryResponse
 import com.jumpitt.happ.utils.ColorIdResource
 import com.jumpitt.happ.utils.Labelstext
+import com.jumpitt.happ.utils.addPaginationListValidatingLastDay
 import com.jumpitt.happ.utils.containedStyle
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
@@ -25,7 +27,6 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
     private lateinit var mPresenter: NotificationContract.Presenter
     private lateinit var historyNotificationAdapter: AdapterNotifications
     private var layoutManager = LinearLayoutManager(activity)
-    var isLoading = false
     private var listFull: List<Notification> = emptyList()
 
     companion object {
@@ -51,7 +52,24 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
     override fun setAdapterNotifications(responseNotificationHistory: NotificationHistoryResponse?) {
         responseNotificationHistory?.notifications?.let { notificationList ->
             rvNotificationsHistory?.let {_rvNotificationsHistory ->
-                listFull = listFull + notificationList
+
+                listFull = listFull.addPaginationListValidatingLastDay(notificationList)
+//                if(!listFull.isNullOrEmpty() && listFull.last().dateVerbose == notificationList.first().dateVerbose){
+//                    //same day pagination
+//                    val listFullMutable = listFull.last().data?.toMutableList()
+//
+//                    notificationList.first().data?.forEach {
+//                        listFullMutable?.add(it)
+//                    }
+//                    listFull.last().data = listFullMutable
+//                }else{
+//                    //pagination different days
+//                    listFull = listFull + notificationList
+//                }
+
+                if(listFull.isNullOrEmpty())
+                    hideLoaderBottom()
+
                 srNotiHistory.isRefreshing = false
                 layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL ,false)
                 _rvNotificationsHistory.layoutManager = layoutManager

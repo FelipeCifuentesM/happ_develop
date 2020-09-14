@@ -24,6 +24,7 @@ import com.google.firebase.iid.InstanceIdResult
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
+import com.jumpitt.happ.network.response.Notification
 import retrofit2.Response
 
 import java.lang.Exception
@@ -148,6 +149,26 @@ fun Activity.getFirebaseInstanceId(): String?{
         })
     return mToken
 }
+
+//Hide or show day in different page - Loader pagination
+fun List<Notification>.addPaginationListValidatingLastDay(notificationList: List<Notification>): List<Notification>{
+    var listFull = this
+    if(!this.isNullOrEmpty() && listFull.last().dateVerbose == notificationList.first().dateVerbose){
+        //same day pagination
+        val listFullMutable = listFull.last().data?.toMutableList()
+
+        notificationList.first().data?.forEach {
+            listFullMutable?.add(it)
+        }
+        listFull.last().data = listFullMutable
+    }else{
+        //pagination different days
+        listFull = listFull + notificationList
+    }
+    return listFull
+}
+
+
 
 
 //Fragments

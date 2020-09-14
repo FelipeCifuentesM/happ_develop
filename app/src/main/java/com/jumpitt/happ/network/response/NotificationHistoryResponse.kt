@@ -18,7 +18,7 @@ data class Notification(
     val date: String?,
     @SerializedName("date_verbose")
     val dateVerbose: String?,
-    val data: List<Data>?
+    var data: List<Data>?
 )
 
 data class Data(

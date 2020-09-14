@@ -26,7 +26,6 @@ class NotificationPresenter constructor(val fragment: Fragment): NotificationCon
     }
 
     override fun getNotificationOutput(responseNotificationHistory: NotificationHistoryResponse?, isLoaderSkeleton: Boolean) {
-//        mView.hideLoaderBottom()
         mView.setAdapterNotifications(responseNotificationHistory)
         mView.hideSkeleton()
     }
@@ -36,7 +35,7 @@ class NotificationPresenter constructor(val fragment: Fragment): NotificationCon
         Sentry.capture("Error al cargar API de notificaciones (notifications), error: Failure")
         mView.setAdapterNotifications(notificationHistoryEmpty)
         mView.hideSkeleton()
-//        mView.hideLoaderBottom()
+        mView.hideLoaderBottom()
     }
 
     override fun getNotificationOutputError(errorCode: Int, response: Response<NotificationHistoryResponse>) {
@@ -44,7 +43,7 @@ class NotificationPresenter constructor(val fragment: Fragment): NotificationCon
         Sentry.capture("Error al cargar API de notificaciones (notifications), error: $errorCode")
         mView.setAdapterNotifications(notificationHistoryEmpty)
         mView.hideSkeleton()
-//        mView.hideLoaderBottom()
+        mView.hideLoaderBottom()
     }
 
 }
