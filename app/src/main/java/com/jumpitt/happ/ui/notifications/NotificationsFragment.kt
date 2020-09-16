@@ -10,17 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jumpitt.happ.R
-import com.jumpitt.happ.network.response.Data
 import com.jumpitt.happ.network.response.Notification
 import com.jumpitt.happ.network.response.NotificationHistoryResponse
 import com.jumpitt.happ.utils.ColorIdResource
 import com.jumpitt.happ.utils.Labelstext
-import com.jumpitt.happ.utils.addPaginationListValidatingLastDay
 import com.jumpitt.happ.utils.containedStyle
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
-import kotlinx.android.synthetic.main.item_rounded_toolbar.*
-import java.util.stream.Stream
+
 
 
 class NotificationsFragment : Fragment(), NotificationContract.View {
@@ -41,34 +37,17 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
         super.onViewCreated(view, savedInstanceState)
 
         mPresenter = NotificationPresenter(this)
-        mPresenter.initializeView()
+        mPresenter.initializeView(listFull)
 
         srNotiHistory.setOnRefreshListener {
             listFull = emptyList()
-            mPresenter.initializeView()
+            mPresenter.initializeView(listFull)
         }
     }
 
-    override fun setAdapterNotifications(responseNotificationHistory: NotificationHistoryResponse?) {
-        responseNotificationHistory?.notifications?.let { notificationList ->
+    override fun setAdapterNotifications(responseNotificationHistory: NotificationHistoryResponse?, listFull: List<Notification>) {
+        responseNotificationHistory?.let { responseNH ->
             rvNotificationsHistory?.let {_rvNotificationsHistory ->
-
-                listFull = listFull.addPaginationListValidatingLastDay(notificationList)
-//                if(!listFull.isNullOrEmpty() && listFull.last().dateVerbose == notificationList.first().dateVerbose){
-//                    //same day pagination
-//                    val listFullMutable = listFull.last().data?.toMutableList()
-//
-//                    notificationList.first().data?.forEach {
-//                        listFullMutable?.add(it)
-//                    }
-//                    listFull.last().data = listFullMutable
-//                }else{
-//                    //pagination different days
-//                    listFull = listFull + notificationList
-//                }
-
-                if(listFull.isNullOrEmpty())
-                    hideLoaderBottom()
 
                 srNotiHistory.isRefreshing = false
                 layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL ,false)
@@ -76,23 +55,22 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
                 historyNotificationAdapter = AdapterNotifications(requireActivity(), listFull, shimmerNotificationHistory)
                 _rvNotificationsHistory.adapter = historyNotificationAdapter
 
-                responseNotificationHistory.currentPage.let { currentPage ->
-                    if(currentPage == responseNotificationHistory.lastPage){
+                responseNH.currentPage.let { currentPage ->
+                    if(currentPage == responseNH.lastPage){
                         pbPaginationNotiHistory.visibility = View.GONE
                     }
                 }
 
 
                 nsNotificationHistory.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-                    if(scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight && responseNotificationHistory.currentPage < responseNotificationHistory.lastPage){
+                    if(scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight && responseNH.currentPage < responseNH.lastPage){
                         Log.e("Borrar", "cargar mas datos")
-                        responseNotificationHistory.currentPage.let { currentPage ->
+                        responseNH.currentPage.let { currentPage ->
                             val currentPageNext = currentPage+1
-                            mPresenter.loadNextPage(false, currentPageNext)
+                            mPresenter.loadNextPage(false, currentPageNext, listFull)
                         }
                     }
                 }
-
             }
         }
     }

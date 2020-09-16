@@ -153,7 +153,7 @@ fun Activity.getFirebaseInstanceId(): String?{
 //Hide or show day in different page - Loader pagination
 fun List<Notification>.addPaginationListValidatingLastDay(notificationList: List<Notification>): List<Notification>{
     var listFull = this
-    if(!this.isNullOrEmpty() && listFull.last().dateVerbose == notificationList.first().dateVerbose){
+    if(!listFull.isNullOrEmpty() && listFull.last().dateVerbose == notificationList.first().dateVerbose){
         //same day pagination
         val listFullMutable = listFull.last().data?.toMutableList()
 
