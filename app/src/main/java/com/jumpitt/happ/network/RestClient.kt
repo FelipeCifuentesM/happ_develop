@@ -1,7 +1,9 @@
 package com.jumpitt.happ.network
 
 import com.jumpitt.happ.BuildConfig
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,6 +21,7 @@ object RestClient{
 
     private val okHttpClient = OkHttpClient().newBuilder()
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(HeaderInterceptor())
         .authenticator(CustomAuthenticator())
         .connectTimeout(CONNECT_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .writeTimeout(WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -45,4 +48,13 @@ object RestClient{
         retrofit.create(ApiService::class.java)
     }
 
+    private class HeaderInterceptor(): Interceptor{
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val request = chain.request()
+            val newRequest = request.newBuilder()
+
+            newRequest.addHeader("Accept", "application/json")
+            return chain.proceed(newRequest.build())
+        }
+    }
 }
