@@ -38,3 +38,10 @@ open class RiskTime(
 ): RealmObject(){
     constructor(): this(null)
 }
+
+open class TraceProximityNotification(
+  var firstRegisterTrace: String? = null,
+  var lastRegisterTrace: String? = null
+): RealmObject(){
+    constructor(): this(null)
+}

@@ -69,6 +69,10 @@
     <string name="tbTermsConditions">Términos de uso</string>
     <string name="tbPrivacy">Politicas de privacidad</string>
 
+    <!-- Notifications -->
+    <string name="notiSocialDistancingTitle">Distanciamiento social</string>
+    <string name="notiSocialDistancingMessage">Estás rompiendo el distanciamiento, por favor cuídate</string>
+
 
     <!-- Bottom Navigation Bar -->
     <string name="navFragmentExposition">Exposición</string>

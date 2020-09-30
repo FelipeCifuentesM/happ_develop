@@ -49,15 +49,12 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
 
-//        builder.setContent(getCustomDesign(title, message))  //NOTIFICATION STYLE
-
         val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            var notificationChannel = NotificationChannel("01", "notification", NotificationManager.IMPORTANCE_MAX)
+            val notificationChannel = NotificationChannel("01", "notification", NotificationManager.IMPORTANCE_MAX)
             notificationManager.createNotificationChannel(notificationChannel)
         }
         notificationManager.notify(0, builder.build())
-
     }
 
 }

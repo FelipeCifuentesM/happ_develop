@@ -1,5 +1,9 @@
 package com.jumpitt.happ.utils
 
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,8 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.jumpitt.happ.R
+import com.jumpitt.happ.context
 import java.text.NumberFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -86,10 +94,10 @@ fun String.comparePassword(passwordOrigin: String): Boolean{
 fun String.isCheckDigitRut() : Boolean{
     try {
         var rut = this.toUpperCase()
-        rut= rut.replace(".","")
-        rut= rut.replace("-","")
+        rut= rut.replace(".", "")
+        rut= rut.replace("-", "")
         var rutAux = rut.substring(0, rut.length - 1).toInt()
-        val dv = rut.get(rut.length-1)
+        val dv = rut.get(rut.length - 1)
 
         var m = 0
         var s = 1
@@ -101,7 +109,7 @@ fun String.isCheckDigitRut() : Boolean{
 
         s = if(s != 0)  s + 47 else 75
         if(dv == s.toChar()) return true
-    }catch (e : Exception){
+    }catch (e: Exception){
 
     }
     return false
@@ -109,17 +117,17 @@ fun String.isCheckDigitRut() : Boolean{
 
 //Delete points between string
 fun String.deletePoints(): String{
-    return this.replace(".","")
+    return this.replace(".", "")
 }
 
 //Rut Format 123456789-1
 fun String.rutFormatOnlyHyphen(): String{
     var rut = this.toLowerCase()
-    rut= rut.replace(".","")
-    rut= rut.replace("-","")
-    rut = rut.replace(" ","")
+    rut= rut.replace(".", "")
+    rut= rut.replace("-", "")
+    rut = rut.replace(" ", "")
     val rutAux = rut.substring(0, rut.length - 1)
-    val dv = rut.get(rut.length-1)
+    val dv = rut.get(rut.length - 1)
 
     return "$rutAux-$dv"
 }
@@ -182,7 +190,6 @@ fun dateDifferenceSeconds(initialDate: Date, finalDate: Date): Long{
     var seconds:Long = 0
     if(diffInMs>0){
         seconds = diffInMs / 1000
-        Log.e("Borrar", "REALM segundos: "+seconds)
     }
     return seconds
 }
@@ -192,7 +199,7 @@ fun dateTotalTimeMinute(initialDate: Date, finalDate: Date): Long{
     var minutes:Long = 0
     if(diffInMs>0){
         minutes = (diffInMs / 1000) / 60
-        Log.e("Borrar", "REALM minutos: "+minutes)
+        Log.e("Borrar", "REALM minutos: " + minutes)
     }
     return minutes
 }
@@ -217,6 +224,28 @@ fun dateDifferenceHMS(initialDate: Date, finalDate: Date): String{
     return timeHMS
 }
 
+@SuppressLint("WrongConstant")
+fun generateNotification(title: String, message: String){
+    val builder = NotificationCompat.Builder(context, "02")
+        .setContentTitle(title)
+        .setContentText(message)
+        .setSmallIcon(R.mipmap.ic_launcher)
+        .setAutoCancel(true)
+        .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
+
+    val notificationManager = NotificationManagerCompat.from(context)
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        val notificationChannel = NotificationChannel(
+            "02",
+            "time proximitly notification ",
+            NotificationManager.IMPORTANCE_MAX
+        )
+        notificationManager.createNotificationChannel(notificationChannel)
+    }
+    Log.e("Borrar", "NOTIFICACION PROXIMIDAD")
+    notificationManager.notify(2, builder.build())
+}
+
 //Triage Inicio
 fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
     val safeClickListener = SafeClickListener {
@@ -225,7 +254,10 @@ fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
     setOnClickListener(safeClickListener)
 }
 
-class SafeClickListener(private var defaultInterval: Int = 1000, private val onSafeCLick: (View) -> Unit) : View.OnClickListener {
+class SafeClickListener(
+    private var defaultInterval: Int = 1000,
+    private val onSafeCLick: (View) -> Unit
+) : View.OnClickListener {
     private var lastTimeClicked: Long = 0
     override fun onClick(v: View) {
         if (SystemClock.elapsedRealtime() - lastTimeClicked < defaultInterval) {

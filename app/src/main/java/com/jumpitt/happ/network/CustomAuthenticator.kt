@@ -11,6 +11,7 @@ import com.jumpitt.happ.context
 import com.jumpitt.happ.network.request.RequestTokenRequest
 import com.jumpitt.happ.network.response.RefreshTokenResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.realm.TraceProximityNotification
 import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.ui.login.Login
 import com.jumpitt.happ.utils.ConstantsApi
@@ -100,6 +101,7 @@ class CustomAuthenticator : Authenticator{
         realm.beginTransaction()
         realm.delete(RegisterData::class.java)
         realm.delete(TriageReturnValue::class.java)
+        realm.delete(TraceProximityNotification::class.java)
         realm.commitTransaction()
         realm.close()
 

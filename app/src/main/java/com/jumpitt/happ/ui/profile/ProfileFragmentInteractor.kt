@@ -8,6 +8,7 @@ import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.TokenFCMResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.realm.TraceProximityNotification
 import com.jumpitt.happ.realm.TriageReturnValue
 import io.realm.Realm
 import retrofit2.Call
@@ -53,6 +54,7 @@ class ProfileFragmentInteractor(private val mIOutput: ProfileFragmentContract.In
         realm.beginTransaction()
         realm.delete(RegisterData::class.java)
         realm.delete(TriageReturnValue::class.java)
+        realm.delete(TraceProximityNotification::class.java)
         realm.commitTransaction()
         realm.close()
 

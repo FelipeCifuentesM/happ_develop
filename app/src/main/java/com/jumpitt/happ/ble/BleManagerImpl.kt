@@ -13,17 +13,20 @@ import androidx.core.app.ServiceCompat
 import androidx.core.app.ServiceCompat.stopForeground
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.jumpitt.happ.R
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.TracingRequest
 import com.jumpitt.happ.network.response.TracingResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.realm.RiskTime
+import com.jumpitt.happ.realm.TraceProximityNotification
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.ui.registerPermissions.RegisterPermissions
 import com.jumpitt.happ.utils.Constants
 import com.jumpitt.happ.utils.dateDifferenceHMS
 import com.jumpitt.happ.utils.dateDifferenceSeconds
-import com.jumpitt.happ.utils.dateTotalTimeMinute
+import com.jumpitt.happ.utils.generateNotification
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -91,7 +94,8 @@ class BleManagerImpl(
             val userData = realm.where(RegisterData::class.java).findFirst()
 
             userData?.accessToken?.let {
-                saveRiskTime(myTcn?.toHex(), tcn.toHex(), currentDate, approximateDistance)
+                saveRegisterNotification(currentDate)
+//                saveRiskTime(myTcn?.toHex(), tcn.toHex(), currentDate, approximateDistance)
                 RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = approximateDistance)).
                 enqueue(object: Callback<TracingResponse> {
                     override fun onFailure(call: Call<TracingResponse>, t: Throwable) {
@@ -225,6 +229,58 @@ class BleManagerImpl(
         realm.commitTransaction()
         realm.close()
 
+    }
+
+    private fun saveRegisterNotification(currentDate: String){
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val realm = Realm.getDefaultInstance()
+        val traceProximityNotification: TraceProximityNotification? = realm.where(TraceProximityNotification::class.java).sort("firstRegisterTrace", Sort.DESCENDING).findFirst()
+        realm.beginTransaction()
+        if(traceProximityNotification != null){
+            var firstSavedDate:Date? = null
+            var lastSavedDate:Date? = null
+            traceProximityNotification.lastRegisterTrace?.let { lastSavedDate = sdf.parse(it) }
+            val currentFormatDate = sdf.parse(currentDate)
+            if(lastSavedDate!=null && currentFormatDate!=null){
+                val secondsDifference = dateDifferenceSeconds(lastSavedDate!!, currentFormatDate)
+                //compare separate time
+                Log.e("Borrar", "ultimo registro: $lastSavedDate - actual: $currentFormatDate")
+                Log.e("Borrar", "DIFERENCIA SEGUNDOS: $secondsDifference")
+                if(secondsDifference <= Constants.MAXIMUM_TIME_APART_SECONDS){
+                    traceProximityNotification.firstRegisterTrace?.let { firstSavedDate = sdf.parse(it) }
+                    firstSavedDate?.let { _firstSaveDate ->
+                        val totalTimeSeconds = dateDifferenceSeconds(_firstSaveDate, currentFormatDate)
+                        Log.e("Borrar", "Tiempo acumulado: $totalTimeSeconds")
+                        //compare continuous time with another person
+                        if(totalTimeSeconds >= Constants.MAXIMUM_TIME_SECONDS_PROXIMITY){
+                            //reset table notification
+                            traceProximityNotification.firstRegisterTrace = currentDate
+                            traceProximityNotification.lastRegisterTrace = currentDate
+                            realm.insertOrUpdate(traceProximityNotification)
+                            //generate notification
+                            Log.e("Borrar", "Notificacion proximidad")
+                            generateNotification(app.resources.getString(R.string.notiSocialDistancingTitle), app.resources.getString(R.string.notiSocialDistancingMessage))
+                        }else{
+                            traceProximityNotification.lastRegisterTrace = currentDate
+                            realm.insertOrUpdate(traceProximityNotification)
+                        }
+                    }
+                }else{
+                    Log.e("Borrar", "RESET")
+                    //reset table notification
+                    traceProximityNotification.firstRegisterTrace = currentDate
+                    traceProximityNotification.lastRegisterTrace = currentDate
+                    realm.insertOrUpdate(traceProximityNotification)
+                }
+            }
+        }else{
+            val traceProximityResetTime = TraceProximityNotification(currentDate, currentDate)
+            realm.delete(TraceProximityNotification::class.java)
+            realm.insertOrUpdate(traceProximityResetTime)
+        }
+
+        realm.commitTransaction()
+        realm.close()
     }
 }
 

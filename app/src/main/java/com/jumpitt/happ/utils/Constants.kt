@@ -84,7 +84,8 @@ object TypeNotification{
 }
 
 object Constants{
-    const val MAXIMUM_TIME_APART_SECONDS = 30
+    const val MAXIMUM_TIME_APART_SECONDS = 240
+    const val MAXIMUM_TIME_SECONDS_PROXIMITY = 240
 }
 
 

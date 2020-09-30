@@ -15,8 +15,8 @@ import com.jumpitt.happ.network.response.NotificationHistoryResponse
 import com.jumpitt.happ.utils.ColorIdResource
 import com.jumpitt.happ.utils.Labelstext
 import com.jumpitt.happ.utils.containedStyle
+import com.jumpitt.happ.utils.generateNotification
 import kotlinx.android.synthetic.main.fragment_notifications.*
-
 
 
 class NotificationsFragment : Fragment(), NotificationContract.View {
