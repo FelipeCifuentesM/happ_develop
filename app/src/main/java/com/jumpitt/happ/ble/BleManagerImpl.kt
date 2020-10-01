@@ -94,7 +94,10 @@ class BleManagerImpl(
             val userData = realm.where(RegisterData::class.java).findFirst()
 
             userData?.accessToken?.let {
-                saveRegisterNotification(currentDate)
+                approximateDistance?.let { distance ->
+                    Log.e("Borrar", "DISTANCIAAA $currentDate - $distance ")
+                    if(distance <= 1.0) { saveRegisterNotification(currentDate) }
+                }
 //                saveRiskTime(myTcn?.toHex(), tcn.toHex(), currentDate, approximateDistance)
                 RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = approximateDistance)).
                 enqueue(object: Callback<TracingResponse> {

@@ -4,19 +4,18 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.os.Handler
 import android.util.Log
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
+import com.jumpitt.happ.App
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
-import com.jumpitt.happ.network.response.ErrorResponse
-import com.jumpitt.happ.network.response.LoginAccessTokenResponse
-import com.jumpitt.happ.network.response.ProfileResponse
-import com.jumpitt.happ.network.response.TokenFCMResponse
+import com.jumpitt.happ.network.response.*
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,6 +26,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     private var mInteractor: LoginContract.Interactor = LoginInteractor()
     private var mView: LoginContract.View = activity as LoginContract.View
     private var mRouter: LoginContract.Router = LoginRouter(activity)
+    private var navigateMain: Boolean = true
 
     override fun initializeView() {
         mView.showInitializeView()
@@ -55,7 +55,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
                             val tokenFCMRequest = TokenFCMRequest(deviceToken)
                             mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${userRealm.accessToken}", tokenFCMRequest, this)
                         }?: run {
-                            mRouter.navigateMain()
+                            mInteractor.getPingUserActive("${ConstantsApi.BEARER} ${userRealm.accessToken}", this)
                         }
                     })
             }else{
@@ -74,6 +74,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     override fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, requestPermissions: Boolean) {
         //review permissions
+        navigateMain = true
         if(requestPermissions){
             val permissionGranted = activity.isPermissionBackgroundLocation()
             if(permissionGranted){
@@ -150,17 +151,59 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         mView.showValidateLoginError(messageError)
     }
 
-    override fun postRegisterTokenFCMFailureError() {
-        mRouter.navigateMain()
+    override fun postRegisterTokenFCMFailureError(accessToken: String) {
+        Log.e("Borrar", "MAIN 1 $navigateMain")
+        mInteractor.getPingUserActive(accessToken, this)
+        if(navigateMain) mRouter.navigateMain()
     }
 
-    override fun postRegisterTokenFCMOutput() {
-        mRouter.navigateMain()
+    override fun postRegisterTokenFCMOutput(accessToken: String) {
+        Log.e("Borrar", "MAIN 2 $navigateMain")
+        mInteractor.getPingUserActive(accessToken, this)
+        if(navigateMain) mRouter.navigateMain()
     }
 
-    override fun LoginFailureError() {
+    override fun loginFailureError() {
         mView.hideLoader()
         mView.showValidateLoginError(activity.resources.getString(R.string.snkDefaultApiError))
+    }
+
+    override fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse) {
+        runPing(dataPingResponse)
+        Log.e("Borrar", "MAIN 3 $navigateMain")
+        if(navigateMain) mRouter.navigateMain()
+    }
+
+    override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse) {
+        runPing(dataPingResponse)
+        Log.e("Borrar", "MAIN 4 $navigateMain")
+        if(navigateMain) mRouter.navigateMain()
+    }
+
+    override fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse) {
+        runPing(dataPingResponse)
+        Log.e("Borrar", "MAIN 5 $navigateMain")
+        if(navigateMain) mRouter.navigateMain()
+    }
+
+    override fun getAccessTokenOutput(accessToken: String) {
+        mInteractor.getPingUserActive(accessToken, this)
+    }
+
+    private fun runPing(dataPingResponse: PingActiveUserResponse){
+        Log.e("Borrar", "PING <-------------------------")
+        var requestTime: Long = 3600 * 1000
+        dataPingResponse.requestTime?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
+        Log.e("Borrar", "Request time: $requestTime milisegundos")
+
+        App.handler?.let { mHandler ->
+            mHandler.postDelayed({
+                Log.e("Borrar", "PING VOLVER A PEDIR")
+                navigateMain = false
+                mInteractor.getAccessToken(this)
+            }, requestTime)
+        }
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.jumpitt.happ.ui.profile
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.jumpitt.happ.App
 import com.jumpitt.happ.ui.TracingLogActivity
 import com.jumpitt.happ.ui.changePassword.ChangePasswordActivity
 import com.jumpitt.happ.ui.login.Login

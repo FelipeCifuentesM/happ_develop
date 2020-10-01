@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.jumpitt.happ.App
 import com.jumpitt.happ.R
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.*
@@ -84,6 +85,12 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RequestCode.FROM_PROFILE_FRAGMENT){
             showSnackBar(resources.getString(R.string.snkChangePassSuccess))
+        }
+    }
+
+    override fun stopHandlerPingActiveUser(){
+        App.handler?.let { mHandler ->
+            mHandler.removeCallbacksAndMessages(null)
         }
     }
 

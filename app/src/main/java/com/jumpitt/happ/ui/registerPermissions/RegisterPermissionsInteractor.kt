@@ -4,9 +4,11 @@ import android.util.Log
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
+import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TokenFCMResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.ui.login.LoginContract
 import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 import retrofit2.Call
@@ -60,16 +62,57 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
         RestClient.instance.postRegisterTokenFCM(accessToken, tokenFCMRequest).
         enqueue(object: Callback<TokenFCMResponse> {
             override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {
-                interactorOutputs.postRegisterTokenFCMFailureError()
+                interactorOutputs.postRegisterTokenFCMFailureError(accessToken)
             }
 
             override fun onResponse(call: Call<TokenFCMResponse>, response: Response<TokenFCMResponse>) {
                 val responseCode = response.code()
                 val responseData = response.body()
 
-                interactorOutputs.postRegisterTokenFCMOutput()
+                interactorOutputs.postRegisterTokenFCMOutput(accessToken)
 
             }
+        })
+    }
+
+    override fun getAccessToken(interactorOutputs: RegisterPermissionsContract.InteractorOutputs) {
+        val realm = Realm.getDefaultInstance()
+        var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
+
+        if(accessToken.isNullOrBlank())
+            accessToken = ""
+        interactorOutputs.getAccessTokenOutput(accessToken)
+    }
+
+    override fun getPingUserActive(accessToken: String, interactorOutput: RegisterPermissionsContract.InteractorOutputs){
+        RestClient.instanceRetrofit.getPingUserActive( ).
+        enqueue(object: Callback<PingActiveUserResponse>{
+            override fun onFailure(call: Call<PingActiveUserResponse>, t: Throwable) {
+                Log.e("Borrar", "MAIN FALLO")
+                val dataPingResponseNull = PingActiveUserResponse(null, null)
+                interactorOutput.getPingUserActiveFailureError(dataPingResponseNull)
+            }
+
+            override fun onResponse(call: Call<PingActiveUserResponse>, response: Response<PingActiveUserResponse>) {
+                val responseData = response.body()
+                val responseCode = response.code()
+
+                when (responseCode) {
+                    200 -> {
+                        responseData?.let {dataPingResponse ->
+                            interactorOutput.getPingUserActiveOutput(dataPingResponse)
+                        }?: run {
+                            val dataPingResponseNull = PingActiveUserResponse(null, null)
+                            interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
+                        }
+                    }
+                    else -> {
+                        val dataPingResponseNull = PingActiveUserResponse(null, null)
+                        interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
+                    }
+                }
+            }
+
         })
     }
 

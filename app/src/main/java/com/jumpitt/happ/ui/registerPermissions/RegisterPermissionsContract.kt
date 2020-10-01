@@ -2,6 +2,7 @@ package com.jumpitt.happ.ui.registerPermissions
 
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
+import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.ui.login.LoginContract
@@ -21,6 +22,7 @@ interface RegisterPermissionsContract {
         fun navigateMainActivity()
         fun getRegisterData(requestPermissions: Boolean)
         fun validateTcn()
+        fun runPingActiveUser()
     }
 
     interface Interactor{
@@ -28,6 +30,8 @@ interface RegisterPermissionsContract {
         fun postRegister(registerRequest: RegisterRequest, interactorOutputs: InteractorOutputs)
         fun saveRegisterProfile(userRealm: RegisterData)
         fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutputs: InteractorOutputs)
+        fun getAccessToken(interactorOutputs: InteractorOutputs)
+        fun getPingUserActive(accessToken: String, interactorOutput: InteractorOutputs)
     }
 
     interface Router{
@@ -40,8 +44,12 @@ interface RegisterPermissionsContract {
         fun postRegisterOutput(dataRegisterResponse: RegisterResponse)
         fun postRegisterOutputError(errorCode: Int, response: Response<RegisterResponse>)
         fun postRegisterFailureError()
-        fun postRegisterTokenFCMFailureError()
-        fun postRegisterTokenFCMOutput()
+        fun postRegisterTokenFCMFailureError(accessToken: String)
+        fun postRegisterTokenFCMOutput(accessToken: String)
+        fun getAccessTokenOutput(accessToken: String)
+        fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse)
+        fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse)
+        fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse)
 
     }
 }

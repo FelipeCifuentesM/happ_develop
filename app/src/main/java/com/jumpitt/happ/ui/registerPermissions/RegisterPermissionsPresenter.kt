@@ -7,11 +7,13 @@ import android.util.Log
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
+import com.jumpitt.happ.App
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
+import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.ConstantsApi
@@ -24,6 +26,8 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
     private var mInteractor: RegisterPermissionsContract.Interactor = RegisterPermissionsInteractor()
     private var mView: RegisterPermissionsContract.View = activity as RegisterPermissionsContract.View
     private var mRouter: RegisterPermissionsContract.Router = RegisterPermissionsRouter(activity)
+    private var fromLogin: Boolean = false
+    private var fromRegister: Boolean = false
 
     override fun initializeView() {
         mView.showInitializeView()
@@ -59,6 +63,11 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         }
     }
 
+    override fun runPingActiveUser() {
+        fromLogin = true
+        mInteractor.getAccessToken(this)
+    }
+
     override fun getRegisterDataOutput(registerData: RegisterRequest?) {
         registerData?.let {
             mInteractor.postRegister(registerData, this)
@@ -66,12 +75,11 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
             mView.hideLoader()
             mView.showRegisterError(activity.resources.getString(R.string.snkTryAgainLater))
         }
-
     }
 
 
     override fun postRegisterOutput(dataRegisterResponse: RegisterResponse) {
-
+        fromRegister = true
         val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
         if(!isRunning) {
             val tcnGenerator = TcnGeneratorImpl(context = activity)
@@ -87,6 +95,7 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
                 dataRegisterResponse.accessToken, dataRegisterResponse.refreshToken)
         mInteractor.saveRegisterProfile(userRealm)
 
+
         //Get device id for notifications
         FirebaseInstanceId.getInstance().instanceId
             .addOnSuccessListener(activity, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
@@ -95,8 +104,8 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
                     val tokenFCMRequest = TokenFCMRequest(deviceToken)
                     mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${dataRegisterResponse.accessToken}", tokenFCMRequest, this)
                 }?: run {
-                    mView.hideLoader()
-                    mRouter.navigateRegisterSuccess()
+//                    mRouter.navigateRegisterSuccess()
+                    mInteractor.getPingUserActive("${ConstantsApi.BEARER} ${userRealm.accessToken}", this)
                 }
             })
     }
@@ -112,14 +121,45 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         mView.showRegisterError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 
-    override fun postRegisterTokenFCMFailureError() {
-        mView.hideLoader()
-        mRouter.navigateRegisterSuccess()
+    override fun postRegisterTokenFCMFailureError(accessToken: String) {
+//        mRouter.navigateRegisterSuccess()
+        mInteractor.getPingUserActive(accessToken, this)
     }
 
-    override fun postRegisterTokenFCMOutput() {
-        mView.hideLoader()
-        mRouter.navigateRegisterSuccess()
+    override fun postRegisterTokenFCMOutput(accessToken: String) {
+//        mRouter.navigateRegisterSuccess()
+        mInteractor.getPingUserActive(accessToken, this)
+    }
+
+    override fun getAccessTokenOutput(accessToken: String) {
+        mInteractor.getPingUserActive("${ConstantsApi.BEARER} $accessToken", this)
+    }
+
+    override fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse) {
+        runPing(dataPingResponse)
+        if(fromLogin) mRouter.navigateMainActivity()
+        if(fromRegister){
+            mView.hideLoader()
+            mRouter.navigateRegisterSuccess()
+        }
+    }
+
+    override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse) {
+        runPing(dataPingResponse)
+        if(fromLogin) mRouter.navigateMainActivity()
+        if(fromRegister) {
+            mView.hideLoader()
+            mRouter.navigateRegisterSuccess()
+        }
+    }
+
+    override fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse) {
+        runPing(dataPingResponse)
+        if(fromLogin) mRouter.navigateMainActivity()
+        if(fromRegister){
+            mView.hideLoader()
+            mRouter.navigateRegisterSuccess()
+        }
     }
 
     private fun isMyServiceRunning(
@@ -133,6 +173,23 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
             }
         }
         return false
+    }
+
+    private fun runPing(dataPingResponse: PingActiveUserResponse){
+        Log.e("Borrar", "PING <-------------------------")
+        var requestTime: Long = 3600 * 1000
+        dataPingResponse.requestTime?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
+        Log.e("Borrar", "Request time: $requestTime milisegundos")
+
+        App.handler?.let { mHandler ->
+            mHandler.postDelayed({
+                Log.e("Borrar", "PING VOLVER A PEDIR")
+                fromLogin = false
+                fromRegister = false
+                mInteractor.getAccessToken(this)
+            }, requestTime)
+        }
+
     }
 
 }

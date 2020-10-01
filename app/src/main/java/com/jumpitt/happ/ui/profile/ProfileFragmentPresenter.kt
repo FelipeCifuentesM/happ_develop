@@ -1,6 +1,5 @@
 package com.jumpitt.happ.ui.profile
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.tasks.OnSuccessListener
@@ -8,9 +7,8 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.utils.ConstantsApi
-import java.security.AccessController.getContext
+
 
 class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragmentContract.Presenter, ProfileFragmentContract.InteractorOutputs{
     private var mView: ProfileFragmentContract.View = fragment as ProfileFragmentContract.View
@@ -43,6 +41,7 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
                     val tokenFCMRequest = TokenFCMRequest(deviceToken)
                     mInteractor.deleteRegisterTokenFCM("${ConstantsApi.BEARER} $accessToken", tokenFCMRequest)
                 }?: run {
+                    mView.stopHandlerPingActiveUser()
                     mRouter.navigateLogin()
                 }
             })
@@ -57,10 +56,12 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
     }
 
     override fun postRegisterTokenFCMFailureError() {
+        mView.stopHandlerPingActiveUser()
         mRouter.navigateLogin()
     }
 
     override fun postRegisterTokenFCMOutput() {
+        mView.stopHandlerPingActiveUser()
         mRouter.navigateLogin()
     }
 

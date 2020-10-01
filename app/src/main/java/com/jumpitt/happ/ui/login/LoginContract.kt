@@ -3,6 +3,7 @@ package com.jumpitt.happ.ui.login
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
+import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.realm.RegisterData
 import retrofit2.Response
@@ -28,6 +29,8 @@ interface LoginContract {
         fun getProfile(dataResponseToken: LoginAccessTokenResponse, interactorOutput: InteractorOutputs)
         fun saveRegisterProfile(userRealm: RegisterData)
         fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutput: InteractorOutputs)
+        fun getPingUserActive(accessToken: String, interactorOutput: InteractorOutputs)
+        fun getAccessToken(interactorOutput: InteractorOutputs)
     }
 
     interface Router{
@@ -42,8 +45,12 @@ interface LoginContract {
         fun postLoginAccessTokenOutputError(errorCode: Int, response: Response<LoginAccessTokenResponse>)
         fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String)
         fun getProfileOutputError(errorCode: Int, response: Response<ProfileResponse>)
-        fun postRegisterTokenFCMFailureError()
-        fun postRegisterTokenFCMOutput()
-        fun LoginFailureError()
+        fun postRegisterTokenFCMFailureError(accessToken: String)
+        fun postRegisterTokenFCMOutput(accessToken: String)
+        fun loginFailureError()
+        fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse)
+        fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse)
+        fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse)
+        fun getAccessTokenOutput(accessToken: String)
     }
 }

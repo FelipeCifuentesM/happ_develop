@@ -10,6 +10,7 @@ interface ProfileFragmentContract {
         fun showInitializeView()
         fun showUnwrappingValues(userData: RegisterData?)
         fun showSnackBar(message: String)
+        fun stopHandlerPingActiveUser()
     }
 
     interface Presenter{

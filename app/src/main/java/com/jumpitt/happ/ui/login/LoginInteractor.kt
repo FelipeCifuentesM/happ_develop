@@ -5,6 +5,7 @@ import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
+import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.network.response.TokenFCMResponse
 import com.jumpitt.happ.realm.RegisterData
@@ -23,7 +24,7 @@ class LoginInteractor: LoginContract.Interactor {
         RestClient.instance.postLoginAccessToken(loginRequest).
         enqueue(object: Callback<LoginAccessTokenResponse> {
             override fun onFailure(call: Call<LoginAccessTokenResponse>, t: Throwable) {
-                interactorOutput.LoginFailureError()
+                interactorOutput.loginFailureError()
             }
 
             override fun onResponse(call: Call<LoginAccessTokenResponse>, response: Response<LoginAccessTokenResponse>) {
@@ -48,7 +49,7 @@ class LoginInteractor: LoginContract.Interactor {
         RestClient.instance.getProfile( "${ConstantsApi.BEARER} ${dataResponseToken.accessToken}").
         enqueue(object: Callback<ProfileResponse>{
             override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
-                interactorOutput.LoginFailureError()
+                interactorOutput.loginFailureError()
             }
 
             override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
@@ -67,8 +68,6 @@ class LoginInteractor: LoginContract.Interactor {
                         interactorOutput.getProfileOutputError(responseCode, response)
                     }
                 }
-
-
             }
 
         })
@@ -87,16 +86,57 @@ class LoginInteractor: LoginContract.Interactor {
         RestClient.instance.postRegisterTokenFCM(accessToken, tokenFCMRequest).
         enqueue(object: Callback<TokenFCMResponse> {
             override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {
-                interactorOutput.postRegisterTokenFCMFailureError()
+                interactorOutput.postRegisterTokenFCMFailureError(accessToken)
             }
 
             override fun onResponse(call: Call<TokenFCMResponse>, response: Response<TokenFCMResponse>) {
                 val responseCode = response.code()
                 val responseData = response.body()
 
-                interactorOutput.postRegisterTokenFCMOutput()
+                interactorOutput.postRegisterTokenFCMOutput(accessToken)
             }
         })
+    }
+
+    override fun getPingUserActive(accessToken: String, interactorOutput: LoginContract.InteractorOutputs){
+        RestClient.instanceRetrofit.getPingUserActive( ).
+        enqueue(object: Callback<PingActiveUserResponse>{
+            override fun onFailure(call: Call<PingActiveUserResponse>, t: Throwable) {
+                Log.e("Borrar", "MAIN FALLO")
+                val dataPingResponseNull = PingActiveUserResponse(null, null)
+                interactorOutput.getPingUserActiveFailureError(dataPingResponseNull)
+            }
+
+            override fun onResponse(call: Call<PingActiveUserResponse>, response: Response<PingActiveUserResponse>) {
+                val responseData = response.body()
+                val responseCode = response.code()
+
+                when (responseCode) {
+                    200 -> {
+                        responseData?.let {dataPingResponse ->
+                            interactorOutput.getPingUserActiveOutput(dataPingResponse)
+                        }?: run {
+                            val dataPingResponseNull = PingActiveUserResponse(null, null)
+                            interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
+                        }
+                    }
+                    else -> {
+                        val dataPingResponseNull = PingActiveUserResponse(null, null)
+                        interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
+                    }
+                }
+            }
+
+        })
+    }
+
+    override fun getAccessToken(interactorOutput: LoginContract.InteractorOutputs) {
+        val realm = Realm.getDefaultInstance()
+        var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
+
+        if(accessToken.isNullOrBlank())
+            accessToken = ""
+        interactorOutput.getAccessTokenOutput(accessToken)
     }
 
 }

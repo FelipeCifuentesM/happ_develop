@@ -59,4 +59,10 @@ interface ApiService {
     @GET("notifications")
     fun getNotificationHistory(@Header("Authorization") accessToken: String, @Query("page") currentPage: Int): Call<NotificationHistoryResponse>
 
+
+
+    //Mock API PING
+    @GET("v3/8a6ae2a7-8631-4827-9035-533da626c050")
+    fun getPingUserActive(): Call<PingActiveUserResponse>
+
 }
