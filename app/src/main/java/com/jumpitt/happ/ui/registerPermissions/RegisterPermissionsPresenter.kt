@@ -178,7 +178,7 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
     private fun runPing(dataPingResponse: PingActiveUserResponse){
         Log.e("Borrar", "PING <-------------------------")
         var requestTime: Long = 3600 * 1000
-        dataPingResponse.requestTime?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
+        dataPingResponse.refresh?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
         Log.e("Borrar", "Request time: $requestTime milisegundos")
 
         App.handler?.let { mHandler ->

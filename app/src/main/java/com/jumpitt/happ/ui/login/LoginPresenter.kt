@@ -53,15 +53,17 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
                         val mToken: String? = instanceIdResult.token
                         mToken?.let {deviceToken ->
                             val tokenFCMRequest = TokenFCMRequest(deviceToken)
-                            mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${userRealm.accessToken}", tokenFCMRequest, this)
+                            mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${userRealm.accessToken}", tokenFCMRequest,  this)
                         }?: run {
                             mInteractor.getPingUserActive("${ConstantsApi.BEARER} ${userRealm.accessToken}", this)
                         }
                     })
             }else{
+                mView.hideLoader()
                 mRouter.navigatePermissionBluetooth()
             }
         }?: run {
+            mView.hideLoader()
             mView.showValidateLoginError(activity.resources.getString(R.string.snkBluetoothNotAvailable))
         }
     }
@@ -138,7 +140,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
 
     override fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String) {
-        mView.hideLoader()
+//        mView.hideLoader()
         val userRealm = RegisterData(dataLoginResponse.rut ,dataLoginResponse.names, dataLoginResponse.lastName,
             dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.home?.id, dataLoginResponse.work?.id,
             accessToken, refreshToken)
@@ -153,14 +155,12 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     override fun postRegisterTokenFCMFailureError(accessToken: String) {
         Log.e("Borrar", "MAIN 1 $navigateMain")
-        mInteractor.getPingUserActive(accessToken, this)
-        if(navigateMain) mRouter.navigateMain()
+        mInteractor.getPingUserActive(accessToken,this)
     }
 
     override fun postRegisterTokenFCMOutput(accessToken: String) {
         Log.e("Borrar", "MAIN 2 $navigateMain")
-        mInteractor.getPingUserActive(accessToken, this)
-        if(navigateMain) mRouter.navigateMain()
+        mInteractor.getPingUserActive(accessToken,this)
     }
 
     override fun loginFailureError() {
@@ -171,29 +171,39 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     override fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse) {
         runPing(dataPingResponse)
         Log.e("Borrar", "MAIN 3 $navigateMain")
-        if(navigateMain) mRouter.navigateMain()
+        if(navigateMain) {
+            mView.hideLoader()
+            mRouter.navigateMain()
+        }
+
     }
 
     override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse) {
         runPing(dataPingResponse)
         Log.e("Borrar", "MAIN 4 $navigateMain")
-        if(navigateMain) mRouter.navigateMain()
+        if(navigateMain) {
+            mView.hideLoader()
+            mRouter.navigateMain()
+        }
     }
 
     override fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse) {
         runPing(dataPingResponse)
         Log.e("Borrar", "MAIN 5 $navigateMain")
-        if(navigateMain) mRouter.navigateMain()
+        if(navigateMain) {
+            mView.hideLoader()
+            mRouter.navigateMain()
+        }
     }
 
     override fun getAccessTokenOutput(accessToken: String) {
-        mInteractor.getPingUserActive(accessToken, this)
+        mInteractor.getPingUserActive(accessToken,this)
     }
 
     private fun runPing(dataPingResponse: PingActiveUserResponse){
         Log.e("Borrar", "PING <-------------------------")
         var requestTime: Long = 3600 * 1000
-        dataPingResponse.requestTime?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
+        dataPingResponse.refresh?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
         Log.e("Borrar", "Request time: $requestTime milisegundos")
 
         App.handler?.let { mHandler ->

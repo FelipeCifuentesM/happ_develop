@@ -2,6 +2,7 @@ package com.jumpitt.happ.ui.registerPermissions
 
 import android.util.Log
 import com.jumpitt.happ.network.RestClient
+import com.jumpitt.happ.network.request.PingUserActiveRequest
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.PingActiveUserResponse
@@ -85,11 +86,10 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
     }
 
     override fun getPingUserActive(accessToken: String, interactorOutput: RegisterPermissionsContract.InteractorOutputs){
-        RestClient.instanceRetrofit.getPingUserActive( ).
+        RestClient.instanceTracing.getPingUserActive(accessToken).
         enqueue(object: Callback<PingActiveUserResponse>{
             override fun onFailure(call: Call<PingActiveUserResponse>, t: Throwable) {
-                Log.e("Borrar", "MAIN FALLO")
-                val dataPingResponseNull = PingActiveUserResponse(null, null)
+                val dataPingResponseNull = PingActiveUserResponse(null)
                 interactorOutput.getPingUserActiveFailureError(dataPingResponseNull)
             }
 
@@ -102,12 +102,12 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
                         responseData?.let {dataPingResponse ->
                             interactorOutput.getPingUserActiveOutput(dataPingResponse)
                         }?: run {
-                            val dataPingResponseNull = PingActiveUserResponse(null, null)
+                            val dataPingResponseNull = PingActiveUserResponse(null)
                             interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
                         }
                     }
                     else -> {
-                        val dataPingResponseNull = PingActiveUserResponse(null, null)
+                        val dataPingResponseNull = PingActiveUserResponse(null)
                         interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
                     }
                 }
