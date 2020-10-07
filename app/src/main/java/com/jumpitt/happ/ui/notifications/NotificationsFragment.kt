@@ -64,7 +64,7 @@ class NotificationsFragment : Fragment(), NotificationContract.View {
 
                 nsNotificationHistory.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
                     if(scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight && responseNH.currentPage < responseNH.lastPage){
-                        Log.e("Borrar", "cargar mas datos")
+                        //load more data
                         responseNH.currentPage.let { currentPage ->
                             val currentPageNext = currentPage+1
                             mPresenter.loadNextPage(false, currentPageNext, listFull)

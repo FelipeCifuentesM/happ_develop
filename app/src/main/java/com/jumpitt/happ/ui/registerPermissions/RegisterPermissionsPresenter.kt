@@ -176,14 +176,11 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
     }
 
     private fun runPing(dataPingResponse: PingActiveUserResponse){
-        Log.e("Borrar", "PING <-------------------------")
-        var requestTime: Long = 3600 * 1000
+        var requestTime: Long = 3600 * 1000 //miliseconds
         dataPingResponse.refresh?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
-        Log.e("Borrar", "Request time: $requestTime milisegundos")
 
         App.handler?.let { mHandler ->
             mHandler.postDelayed({
-                Log.e("Borrar", "PING VOLVER A PEDIR")
                 fromLogin = false
                 fromRegister = false
                 mInteractor.getAccessToken(this)

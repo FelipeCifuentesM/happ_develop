@@ -1,6 +1,9 @@
 package com.jumpitt.happ.ui.login
 
 import android.util.Log
+import com.jumpitt.happ.App
+import com.jumpitt.happ.ble.BleManagerImpl
+import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
 import com.jumpitt.happ.network.request.PingUserActiveRequest
@@ -10,6 +13,8 @@ import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.ProfileResponse
 import com.jumpitt.happ.network.response.TokenFCMResponse
 import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.realm.TraceProximityNotification
+import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.ConstantsApi
 import io.realm.Realm
 import retrofit2.Call
@@ -137,6 +142,16 @@ class LoginInteractor: LoginContract.Interactor {
         if(accessToken.isNullOrBlank())
             accessToken = ""
         interactorOutput.getAccessTokenOutput(accessToken)
+    }
+
+    override fun deleteProfileData() {
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.delete(RegisterData::class.java)
+        realm.delete(TriageReturnValue::class.java)
+        realm.delete(TraceProximityNotification::class.java)
+        realm.commitTransaction()
+        realm.close()
     }
 
 }

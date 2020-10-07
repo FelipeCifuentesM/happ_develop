@@ -112,6 +112,11 @@ class Login: ToolbarActivity(), LoginContract.View{
         btnEnterLogin.validateInputs(aValidateInputsLogin)
     }
 
+    override fun onRestart() {
+        mPresenter.deleteProfileData()
+        super.onRestart()
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         this.transitionActivity(Transition.RIGHT_TO_LEFT)

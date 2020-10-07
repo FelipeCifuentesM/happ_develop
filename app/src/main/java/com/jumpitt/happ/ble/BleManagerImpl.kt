@@ -95,8 +95,7 @@ class BleManagerImpl(
 
             userData?.accessToken?.let {
                 approximateDistance?.let { distance ->
-                    Log.e("Borrar", "DISTANCIAAA $currentDate - $distance ")
-                    if(distance <= 1.0) { saveRegisterNotification(currentDate) }
+                    if(distance <= 1.5) { saveRegisterNotification(currentDate) }
                 }
 //                saveRiskTime(myTcn?.toHex(), tcn.toHex(), currentDate, approximateDistance)
                 RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = approximateDistance)).
@@ -118,13 +117,11 @@ class BleManagerImpl(
     }
 
     override fun startService() {
-        Log.e("Borrar", "START SERVICE")
         app.bindService(intent, serviceConnection, Context.BIND_NOT_FOREGROUND)
         app.startService(intent)
     }
 
     override fun stopService() {
-        Log.e("Borrar", "STOP SERVICE")
         app.stopService(intent)
     }
 
@@ -206,7 +203,7 @@ class BleManagerImpl(
             if(lastSavedDate!=null && currentFormatDate!=null){
                 val secondsDifference = dateDifferenceSeconds(lastSavedDate!!, currentFormatDate)
                 if(secondsDifference <= Constants.MAXIMUM_TIME_APART_SECONDS){
-                    Log.e("Borrar", "REALM actualizo datos")
+                    //Realm update data
                     riskTime[0]?.dateFirstContact?.let { firstSavedDate = sdf.parse(it) }
                     firstSavedDate?.let { firstSaveDate ->
                         val totalTime = dateDifferenceHMS(firstSaveDate, currentFormatDate)
@@ -214,18 +211,18 @@ class BleManagerImpl(
                     }
                     riskTime[0]?.dateLastContact = currentDate
                 }else{
-                    Log.e("Borrar", "REALM nueva fila")
+                    //Realm New Row
                     var firstSavedDate:Date? = null
                     riskTime[0]?.dateFirstContact?.let { firstSavedDate = sdf.parse(it) }
                     firstSavedDate?.let {firstSaveDate ->
-                        val riskTimeNew = RiskTime(myTcn, tcnFound, currentDate, currentDate, "0:00:00")
+                        val riskTimeNew = RiskTime(myTcn, tcnFound, currentDate, currentDate, "00:00:00")
                         realm.insertOrUpdate(riskTimeNew)
                     }
                 }
             }
         }else{
-            Log.e("Borrar", "REALM nueva fila - primera")
-            val riskTimeNew = RiskTime(myTcn, tcnFound, currentDate, currentDate, "0:00:00")
+            //Realm first row
+            val riskTimeNew = RiskTime(myTcn, tcnFound, currentDate, currentDate, "00:00:00")
             realm.insertOrUpdate(riskTimeNew)
         }
 
@@ -247,13 +244,10 @@ class BleManagerImpl(
             if(lastSavedDate!=null && currentFormatDate!=null){
                 val secondsDifference = dateDifferenceSeconds(lastSavedDate!!, currentFormatDate)
                 //compare separate time
-                Log.e("Borrar", "ultimo registro: $lastSavedDate - actual: $currentFormatDate")
-                Log.e("Borrar", "DIFERENCIA SEGUNDOS: $secondsDifference")
                 if(secondsDifference <= Constants.MAXIMUM_TIME_APART_SECONDS){
                     traceProximityNotification.firstRegisterTrace?.let { firstSavedDate = sdf.parse(it) }
                     firstSavedDate?.let { _firstSaveDate ->
                         val totalTimeSeconds = dateDifferenceSeconds(_firstSaveDate, currentFormatDate)
-                        Log.e("Borrar", "Tiempo acumulado: $totalTimeSeconds")
                         //compare continuous time with another person
                         if(totalTimeSeconds >= Constants.MAXIMUM_TIME_SECONDS_PROXIMITY){
                             //reset table notification
@@ -261,7 +255,6 @@ class BleManagerImpl(
                             traceProximityNotification.lastRegisterTrace = currentDate
                             realm.insertOrUpdate(traceProximityNotification)
                             //generate notification
-                            Log.e("Borrar", "Notificacion proximidad")
                             generateNotification(app.resources.getString(R.string.notiSocialDistancingTitle), app.resources.getString(R.string.notiSocialDistancingMessage))
                         }else{
                             traceProximityNotification.lastRegisterTrace = currentDate
@@ -269,7 +262,6 @@ class BleManagerImpl(
                         }
                     }
                 }else{
-                    Log.e("Borrar", "RESET")
                     //reset table notification
                     traceProximityNotification.firstRegisterTrace = currentDate
                     traceProximityNotification.lastRegisterTrace = currentDate

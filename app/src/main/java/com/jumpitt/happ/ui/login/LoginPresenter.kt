@@ -68,6 +68,10 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         }
     }
 
+    override fun deleteProfileData() {
+        mInteractor.deleteProfileData()
+    }
+
 
     override fun navigateRegisterStepOne() {
         mRouter.navigateRegisterStepOne()
@@ -154,12 +158,10 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
     override fun postRegisterTokenFCMFailureError(accessToken: String) {
-        Log.e("Borrar", "MAIN 1 $navigateMain")
         mInteractor.getPingUserActive(accessToken,this)
     }
 
     override fun postRegisterTokenFCMOutput(accessToken: String) {
-        Log.e("Borrar", "MAIN 2 $navigateMain")
         mInteractor.getPingUserActive(accessToken,this)
     }
 
@@ -170,7 +172,6 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     override fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse) {
         runPing(dataPingResponse)
-        Log.e("Borrar", "MAIN 3 $navigateMain")
         if(navigateMain) {
             mView.hideLoader()
             mRouter.navigateMain()
@@ -180,7 +181,6 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse) {
         runPing(dataPingResponse)
-        Log.e("Borrar", "MAIN 4 $navigateMain")
         if(navigateMain) {
             mView.hideLoader()
             mRouter.navigateMain()
@@ -189,7 +189,6 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     override fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse) {
         runPing(dataPingResponse)
-        Log.e("Borrar", "MAIN 5 $navigateMain")
         if(navigateMain) {
             mView.hideLoader()
             mRouter.navigateMain()
@@ -201,14 +200,11 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
     private fun runPing(dataPingResponse: PingActiveUserResponse){
-        Log.e("Borrar", "PING <-------------------------")
-        var requestTime: Long = 3600 * 1000
+        var requestTime: Long = 3600 * 1000 //miliseconds
         dataPingResponse.refresh?.let { dataRequestTime -> requestTime = (dataRequestTime * 1000).toLong() }
-        Log.e("Borrar", "Request time: $requestTime milisegundos")
 
         App.handler?.let { mHandler ->
             mHandler.postDelayed({
-                Log.e("Borrar", "PING VOLVER A PEDIR")
                 navigateMain = false
                 mInteractor.getAccessToken(this)
             }, requestTime)

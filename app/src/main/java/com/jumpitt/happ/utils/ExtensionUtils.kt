@@ -242,7 +242,6 @@ fun generateNotification(title: String, message: String){
         )
         notificationManager.createNotificationChannel(notificationChannel)
     }
-    Log.e("Borrar", "NOTIFICACION PROXIMIDAD")
     notificationManager.notify(2, builder.build())
 }
 

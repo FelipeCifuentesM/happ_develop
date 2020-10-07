@@ -76,7 +76,6 @@ class RegisterPermissions: ToolbarActivity(), RegisterPermissionsContract.View{
                 if(resultCode  == Activity.RESULT_OK){
                     //Accept permission
                     if(isFromLogin){
-                        Log.e("Borrar", "PASOOOOOOOOOO")
                         mPresenter.validateTcn()
                         mPresenter.runPingActiveUser()
                     }else if(isFromRegister)

@@ -22,6 +22,7 @@ interface LoginContract {
         fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, requestPermissions: Boolean)
         fun navigateRecoverPass()
         fun validateBluetoothState(userRealm: RegisterData)
+        fun deleteProfileData()
     }
 
     interface Interactor{
@@ -31,6 +32,7 @@ interface LoginContract {
         fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutput: InteractorOutputs)
         fun getPingUserActive(accessToken: String, interactorOutput: InteractorOutputs)
         fun getAccessToken(interactorOutput: InteractorOutputs)
+        fun deleteProfileData()
     }
 
     interface Router{

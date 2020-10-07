@@ -22,8 +22,8 @@ android {
         applicationId "com.jumpitt.happ"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 8
-        versionName "8.0"
+        versionCode 19
+        versionName "19.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
