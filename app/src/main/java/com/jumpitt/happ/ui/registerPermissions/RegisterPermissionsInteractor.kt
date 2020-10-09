@@ -1,15 +1,13 @@
 package com.jumpitt.happ.ui.registerPermissions
 
-import android.util.Log
 import com.jumpitt.happ.network.RestClient
-import com.jumpitt.happ.network.request.PingUserActiveRequest
 import com.jumpitt.happ.network.request.RegisterRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.network.response.TokenFCMResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.ui.login.LoginContract
+import com.jumpitt.happ.utils.ConstantsApi
 import com.orhanobut.hawk.Hawk
 import io.realm.Realm
 import retrofit2.Call
@@ -60,7 +58,7 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
     }
 
     override fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutputs: RegisterPermissionsContract.InteractorOutputs){
-        RestClient.instance.postRegisterTokenFCM(accessToken, tokenFCMRequest).
+        RestClient.instance.postRegisterTokenFCM("${ConstantsApi.BEARER} $accessToken", tokenFCMRequest).
         enqueue(object: Callback<TokenFCMResponse> {
             override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {
                 interactorOutputs.postRegisterTokenFCMFailureError(accessToken)
@@ -86,7 +84,7 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
     }
 
     override fun getPingUserActive(accessToken: String, interactorOutput: RegisterPermissionsContract.InteractorOutputs){
-        RestClient.instanceTracing.getPingUserActive(accessToken).
+        RestClient.instanceTracing.getPingUserActive("${ConstantsApi.BEARER} $accessToken").
         enqueue(object: Callback<PingActiveUserResponse>{
             override fun onFailure(call: Call<PingActiveUserResponse>, t: Throwable) {
                 val dataPingResponseNull = PingActiveUserResponse(null)

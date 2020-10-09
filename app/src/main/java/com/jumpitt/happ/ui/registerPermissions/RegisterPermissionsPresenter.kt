@@ -16,7 +16,6 @@ import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
-import com.jumpitt.happ.utils.ConstantsApi
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
@@ -102,10 +101,10 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
                 val mToken: String? = instanceIdResult.token
                 mToken?.let {deviceToken ->
                     val tokenFCMRequest = TokenFCMRequest(deviceToken)
-                    mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${dataRegisterResponse.accessToken}", tokenFCMRequest, this)
+                    mInteractor.postRegisterTokenFCM("${dataRegisterResponse.accessToken}", tokenFCMRequest, this)
                 }?: run {
 //                    mRouter.navigateRegisterSuccess()
-                    mInteractor.getPingUserActive("${ConstantsApi.BEARER} ${userRealm.accessToken}", this)
+                    mInteractor.getPingUserActive("${userRealm.accessToken}", this)
                 }
             })
     }
@@ -132,7 +131,7 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
     }
 
     override fun getAccessTokenOutput(accessToken: String) {
-        mInteractor.getPingUserActive("${ConstantsApi.BEARER} $accessToken", this)
+        mInteractor.getPingUserActive(accessToken, this)
     }
 
     override fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse) {
@@ -186,7 +185,6 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
                 mInteractor.getAccessToken(this)
             }, requestTime)
         }
-
     }
 
 }

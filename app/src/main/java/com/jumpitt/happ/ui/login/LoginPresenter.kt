@@ -4,8 +4,6 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
-import android.os.Handler
-import android.util.Log
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
@@ -18,7 +16,6 @@ import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.*
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.*
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 
 
@@ -53,9 +50,9 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
                         val mToken: String? = instanceIdResult.token
                         mToken?.let {deviceToken ->
                             val tokenFCMRequest = TokenFCMRequest(deviceToken)
-                            mInteractor.postRegisterTokenFCM("${ConstantsApi.BEARER} ${userRealm.accessToken}", tokenFCMRequest,  this)
+                            mInteractor.postRegisterTokenFCM("${userRealm.accessToken}", tokenFCMRequest,  this)
                         }?: run {
-                            mInteractor.getPingUserActive("${ConstantsApi.BEARER} ${userRealm.accessToken}", this)
+                            mInteractor.getPingUserActive("${userRealm.accessToken}", this)
                         }
                     })
             }else{

@@ -1,12 +1,7 @@
 package com.jumpitt.happ.ui.login
 
-import android.util.Log
-import com.jumpitt.happ.App
-import com.jumpitt.happ.ble.BleManagerImpl
-import com.jumpitt.happ.ble.TcnGeneratorImpl
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
-import com.jumpitt.happ.network.request.PingUserActiveRequest
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.LoginAccessTokenResponse
 import com.jumpitt.happ.network.response.PingActiveUserResponse
@@ -89,7 +84,7 @@ class LoginInteractor: LoginContract.Interactor {
     }
 
     override fun postRegisterTokenFCM(accessToken: String, tokenFCMRequest: TokenFCMRequest, interactorOutput: LoginContract.InteractorOutputs) {
-        RestClient.instance.postRegisterTokenFCM(accessToken, tokenFCMRequest).
+        RestClient.instance.postRegisterTokenFCM("${ConstantsApi.BEARER} $accessToken", tokenFCMRequest).
         enqueue(object: Callback<TokenFCMResponse> {
             override fun onFailure(call: Call<TokenFCMResponse>, t: Throwable) {
                 interactorOutput.postRegisterTokenFCMFailureError(accessToken)
@@ -105,7 +100,7 @@ class LoginInteractor: LoginContract.Interactor {
     }
 
     override fun getPingUserActive(accessToken: String, interactorOutput: LoginContract.InteractorOutputs){
-        RestClient.instanceTracing.getPingUserActive(accessToken).
+        RestClient.instanceTracing.getPingUserActive("${ConstantsApi.BEARER} $accessToken").
         enqueue(object: Callback<PingActiveUserResponse>{
             override fun onFailure(call: Call<PingActiveUserResponse>, t: Throwable) {
                 val dataPingResponseNull = PingActiveUserResponse(null)
