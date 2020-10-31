@@ -13,6 +13,10 @@ class MainActivityPresenter constructor(private val activity: Activity): MainAct
     private var mView: MainActivityContract.View = activity as MainActivityContract.View
     private var mRouter: MainActivityContract.Router = MainActivityRouter(activity)
 
+    override fun loadFragmentHappHome() {
+        mView.loadFragmentHappHome()
+    }
+
     override fun validatePressingDifferent(bottomNavigation: BottomNavigationView, itemId: Int): Boolean {
         return bottomNavigation.menu.findItem(itemId).isChecked
     }

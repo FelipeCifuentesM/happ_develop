@@ -7,6 +7,7 @@ import retrofit2.Response
 
 interface MainActivityContract {
     interface View{
+        fun loadFragmentHappHome()
         fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse, isButtonEnabled: Boolean = true)
         fun loadFragmentMyRiskFailure(errorCode: Int)
         fun showTriageAnswerError(messageError: String)
@@ -17,6 +18,7 @@ interface MainActivityContract {
     }
 
     interface Presenter{
+        fun loadFragmentHappHome()
         fun validatePressingDifferent(bottomNavigation: BottomNavigationView, itemId: Int): Boolean
         fun getAccessToken(isShowSkeleton: Boolean = true)
     }

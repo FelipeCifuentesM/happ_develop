@@ -2,6 +2,8 @@ package com.jumpitt.happ.ui.main
 
 import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +34,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         setContentView(R.layout.activity_main)
 
         mPresenter = MainActivityPresenter(this)
-        mPresenter.getAccessToken()
+        mPresenter.loadFragmentHappHome()
+//        mPresenter.getAccessToken()
 
         //Notificacion borrar__.._
 //        FirebaseMessaging.getInstance().subscribeToTopic("demo-topic2")
@@ -59,8 +62,18 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         if(!mPresenter.validatePressingDifferent(bottomNavigation, menuItem.itemId)){
             //Bottom click different
             when (menuItem.itemId) {
+                R.id.navigationHappHome ->{
+                    isShowRiskFragment = false
+                    this.replaceFragment(HappHomeFragment.newInstance(), R.id.mainPager, "1")
+                    hideSkeleton()
+                    hideLoader()
+                    mainPager.visibility = View.VISIBLE
+                    return@OnNavigationItemSelectedListener true
+                }
                 R.id.navigationRisk -> {
                     isShowRiskFragment = true
+                    showSkeleton()
+                    showLoader()
                     healthCareStatusCopy?.let {
                         loadFragmentMyRisk(it, false)
                     }
@@ -77,7 +90,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                 }
                 R.id.navigationProfile -> {
                     isShowRiskFragment = false
-                    this.replaceFragment(HappHomeFragment.newInstance(), R.id.mainPager, "1")
+                    this.replaceFragment(ProfileFragment.newInstance(), R.id.mainPager, "1")
                     hideSkeleton()
                     hideLoader()
                     mainPager.visibility = View.VISIBLE
@@ -89,6 +102,10 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             //Bottom click same
             false
         }
+    }
+
+    override fun loadFragmentHappHome() {
+        this.replaceFragment(HappHomeFragment.newInstance(), R.id.mainPager, "1")
     }
 
     override fun loadFragmentMyRisk(healthCareStatus: TriageAnswerResponse, isButtonEnabled: Boolean) {
@@ -115,9 +132,11 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                     Sentry.capture(String.format(resources.getString(R.string.errSentryUnknownStatus), healthCareStatus.triageStatus))
                 }
             }
-            hideSkeleton()
-            hideLoader()
-            mainPager.visibility = View.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                mainPager.visibility = View.VISIBLE
+                hideSkeleton()
+                hideLoader()
+            }, 1000)
         }
     }
 
@@ -159,13 +178,13 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         if(bottomNavigation.menu.getItem(0).isChecked){
             finish()
         }else{
-            isShowRiskFragment = true
+//            isShowRiskFragment = true
             bottomNavigation.menu.getItem(0).isChecked = true
-            healthCareStatusCopy?.let {
-                loadFragmentMyRisk(it, false)
-            }
+//            healthCareStatusCopy?.let {
+//                loadFragmentMyRisk(it, false)
+//            }
 //            mainPager.visibility = View.GONE
-            mPresenter.getAccessToken(false)
+            mPresenter.loadFragmentHappHome()
         }
 
 

@@ -80,6 +80,7 @@
 
     <!-- Bottom Navigation Bar -->
     <string name="navFragmentExposition">Exposición</string>
+    <string name="navFragmentHappHome">Happ</string>
     <string name="navFragmentRisk">Mi riesgo</string>
     <string name="navFragmentNotifications">Notificaciones</string>
     <string name="navFragmentProfile">Perfil</string>
