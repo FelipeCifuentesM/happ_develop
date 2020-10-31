@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.ui.*
+import com.jumpitt.happ.ui.happHome.HappHomeFragment
 import com.jumpitt.happ.ui.notifications.NotificationsFragment
 import com.jumpitt.happ.ui.profile.ProfileFragment
 import com.jumpitt.happ.utils.*
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                 }
                 R.id.navigationProfile -> {
                     isShowRiskFragment = false
-                    this.replaceFragment(ProfileFragment.newInstance(), R.id.mainPager, "1")
+                    this.replaceFragment(HappHomeFragment.newInstance(), R.id.mainPager, "1")
                     hideSkeleton()
                     hideLoader()
                     mainPager.visibility = View.VISIBLE

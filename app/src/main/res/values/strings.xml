@@ -29,6 +29,9 @@
     <string name="lbChangePassTitle">Cambiar contraseña</string>
     <string name="lbRecoverPassTitle">Recuperar contraseña</string>
     <string name="lbNotiHistoryEmpty">No hay notificaciones</string>
+    <string name="lbtriageSuccessDefaultTitle">¡Gracias por responder!</string>
+    <string name="lbTriageSuccessDefaultDesc">Vuelve mañana para responder nuevas preguntas que tenemos para ti</string>
+    <string name="lbHappBackground">Happ seguirá funcionando en segundo plano, no apagues ni reinicies tu teléfono</string>
 
     <!-- Input Text fields -->
     <string name="itRut">Rut</string>
@@ -68,6 +71,7 @@
     <string name="tbChangePass">Contraseña</string>
     <string name="tbTermsConditions">Términos de uso</string>
     <string name="tbPrivacy">Politicas de privacidad</string>
+    <string name="tbHapp">Happ</string>
 
     <!-- Notifications -->
     <string name="notiSocialDistancingTitle">Distanciamiento social</string>
