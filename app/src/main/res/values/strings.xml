@@ -32,6 +32,7 @@
     <string name="lbtriageSuccessDefaultTitle">¡Gracias por responder!</string>
     <string name="lbTriageSuccessDefaultDesc">Vuelve mañana para responder nuevas preguntas que tenemos para ti</string>
     <string name="lbHappBackground">Happ seguirá funcionando en segundo plano, no apagues ni reinicies tu teléfono</string>
+    <string name="lbMyRiskTextDescription"><![CDATA[]]></string>
 
     <!-- Input Text fields -->
     <string name="itRut">Rut</string>
@@ -108,6 +109,8 @@
     <!-- Errors Sentry -->
     <string name="errSentryUnknownStatus">Estado no registrado en el código (healthCareStatus.triageStatus): %1$s</string>
     <string name="errSentryLoadApiFailedMyRisk">Carga del fragment MyRisk falló (api healthcare). Código error: %1$d</string>
-    <string name="errSentryMyRiskLevelNull">My risk, API healthcare trae el campo risk null</string>
+    <string name="errSentryMyRiskLevelNull">My risk, API healthcare trae el campo risk level null</string>
+    <string name="errSentryMyRiskResultTypeNull">My risk, API healthcare trae el campo result_type null</string>
+    <string name="errSentrUnknownStatusResultType">Estado no registrado en el código (healthCareStatus.result_type): %1$s</string>
 
 </resources>

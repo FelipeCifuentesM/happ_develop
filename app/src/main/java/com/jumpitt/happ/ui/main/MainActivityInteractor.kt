@@ -50,8 +50,6 @@ class MainActivityInteractor(private val mIOutput: MainActivityContract.Interact
     }
 
     override fun saveHealthCareStatus(healthCareStatusRealm: TriageReturnValue) {
-
-
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.delete(TriageReturnValue::class.java)

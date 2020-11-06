@@ -14,7 +14,11 @@ data class TriageAnswerResponse(
     @SerializedName("created_at")
     val createdAt: String? = null,
     @SerializedName("passport")
-    val passport: Passport? = null
+    val passport: Passport? = null,
+    @SerializedName("result_type")
+    val resultType: String? = null,
+    @SerializedName("text")
+    val text: Text? = null
 )
 
 data class Risk(
@@ -41,4 +45,11 @@ data class Passport(
     val status: String?,
     @SerializedName("issued_at")
     val issuedAt: String?
+)
+
+data class Text(
+    @SerializedName("title")
+    val title: String? = null,
+    @SerializedName("description")
+    val description: String? = null
 )

@@ -32,7 +32,8 @@ interface TriageActivityContract {
 
     interface Router{
         fun displayQuestion(question: Question)
-        fun displayResult(tracing: Boolean)
+        fun displayResultScore(tracing: Boolean)
+        fun displayResultDefault(tracing: Boolean)
         fun showMain()
     }
 

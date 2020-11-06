@@ -4,14 +4,9 @@ import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.iid.InstanceIdResult
-import com.google.firebase.messaging.FirebaseMessaging
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.ui.*
@@ -115,16 +110,39 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             when(healthCareStatus.triageStatus){
                 TriageStatus.WITHOUT_TRIAGE -> this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
                 TriageStatus.TRIAGE_NOT_STARTED -> this.replaceFragment(MyRiskAnswerFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
-                TriageStatus.TRIAGE_PENDING -> this.replaceFragment(MyRiskPendingFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
+                TriageStatus.TRIAGE_PENDING -> {
+                    healthCareStatus.resultType?.let {resultType ->
+                        when(resultType){
+                            TriageResultType.SCORE_SCREEN -> this.replaceFragment(MyRiskPendingFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
+                            else -> this.replaceFragment(MyRiskAnswerFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
+                        }
+                    }?: run {
+                        this.replaceFragment(MyRiskPendingFragment.newInstance(isButtonEnabled), R.id.mainPager, "0")
+                    }
+                }
                 TriageStatus.TRIAGE_COMPLETED -> {
-                    healthCareStatus.risk?.level?.let {level ->
-                        if( level == SemaphoreTriage.RISK_HIGH.name)
-                            this.replaceFragment(MyRiskValueHighFragment.newInstance(), R.id.mainPager, "0")
-                        else
-                            this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainPager, "0")
-                    }?: run{
+                    healthCareStatus.resultType?.let {resultType ->
+                        when (resultType){
+                            TriageResultType.TEXT_SCREEN -> this.replaceFragment(MyRiskAnswerCompletedText.newInstance(), R.id.mainPager, "0")
+                            TriageResultType.SCORE_SCREEN -> {
+                                healthCareStatus.risk?.level?.let {level ->
+                                    if( level == SemaphoreTriage.RISK_HIGH.name)
+                                        this.replaceFragment(MyRiskValueHighFragment.newInstance(), R.id.mainPager, "0")
+                                    else
+                                        this.replaceFragment(MyRiskValueFragment.newInstance(), R.id.mainPager, "0")
+                                }?: run {
+                                    this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
+                                    Sentry.capture(resources.getString(R.string.errSentryMyRiskLevelNull))
+                                }
+                            }
+                            else -> {
+                                this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
+                                Sentry.capture(resources.getString(R.string.errSentrUnknownStatusResultType))
+                            }
+                        }
+                    }?: run {
                         this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
-                        Sentry.capture(resources.getString(R.string.errSentryMyRiskLevelNull))
+                        Sentry.capture(resources.getString(R.string.errSentryMyRiskResultTypeNull))
                     }
                 }
                 else -> {

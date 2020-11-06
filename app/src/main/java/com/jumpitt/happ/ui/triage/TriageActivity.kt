@@ -6,16 +6,15 @@ import androidx.appcompat.widget.Toolbar
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.ui.triage.question.QuestionFragment
-import com.jumpitt.happ.ui.triage.result.ResultFragment
+import com.jumpitt.happ.ui.triage.result.ResultFragmentDefault
+import com.jumpitt.happ.ui.triage.result.ResultFragmentScore
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.activity_triage.*
 import kotlinx.android.synthetic.main.activity_triage.toolbar
 import kotlinx.android.synthetic.main.fragment_triage_question.*
-import kotlinx.android.synthetic.main.fragment_triage_result.*
-import kotlinx.android.synthetic.main.login.*
 
 class TriageActivity : ToolbarActivity(),
-    TriageActivityContract.View, QuestionFragment.Delegate, ResultFragment.Delegate{
+    TriageActivityContract.View, QuestionFragment.Delegate, ResultFragmentScore.Delegate, ResultFragmentDefault.Delegate{
     companion object {
         const val TRIAGE_TYPE_TRACING = "TRIAGE_TYPE_TRACING"
     }

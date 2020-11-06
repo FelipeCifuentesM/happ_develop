@@ -16,11 +16,11 @@ import com.jumpitt.happ.realm.TriageReturnValue
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_triage_result.*
 
-class ResultFragment : Fragment() {
+class ResultFragmentScore : Fragment() {
 
     companion object {
-        fun newInstance(value: Int): ResultFragment {
-            val fragment = ResultFragment()
+        fun newInstance(value: Int): ResultFragmentScore {
+            val fragment = ResultFragmentScore()
             val args = Bundle()
             args.putInt(LEVEL_ARG, value)
             fragment.arguments = args

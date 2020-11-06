@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigationHappHome"
-        android:icon="@drawable/ic_user_pass"
+        android:icon="@drawable/ic_happ_transparent"
         android:title="@string/navFragmentHappHome" />
     <item
         android:id="@+id/navigationRisk"

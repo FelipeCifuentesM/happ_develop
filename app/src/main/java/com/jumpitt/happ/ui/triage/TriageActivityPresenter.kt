@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.jumpitt.happ.R
 import com.jumpitt.happ.model.Question
+import com.jumpitt.happ.model.TriageResult
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.TriageReturnValue
+import com.jumpitt.happ.utils.TriageResultType
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
 import retrofit2.Response
 
@@ -55,9 +57,18 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
 
     override fun getTriageAnswerOutput(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
         val healthCareStatusRealm = TriageReturnValue(responseTriageAnswer.score, responseTriageAnswer.risk?.title, responseTriageAnswer.risk?.level, responseTriageAnswer.risk?.description,
-            responseTriageAnswer.risk?.message, responseTriageAnswer.latestReview, responseTriageAnswer.passport?.timeRemainingVerbose, responseTriageAnswer.passport?.validationUrl)
+            responseTriageAnswer.risk?.message, responseTriageAnswer.latestReview, responseTriageAnswer.passport?.timeRemainingVerbose, responseTriageAnswer.passport?.validationUrl,
+            responseTriageAnswer.text?.title, responseTriageAnswer.text?.description)
         mInteractor.saveResult(healthCareStatusRealm)
-        mRouter.displayResult(tracing)
+        responseTriageAnswer.resultType?.let {resultType ->
+            if(resultType == TriageResultType.SCORE_SCREEN){
+                mRouter.displayResultScore(tracing)
+            }else{
+                mRouter.displayResultDefault(tracing)
+            }
+        }?: run {
+            mRouter.displayResultDefault(tracing)
+        }
         mView.hideLoader()
     }
 

@@ -6,6 +6,8 @@ import android.app.NotificationManager
 import android.os.Build
 import android.os.SystemClock
 import android.text.Editable
+import android.text.Html
+import android.text.Spanned
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -184,6 +186,18 @@ fun String.asteriskBold(): String{
     }
     return formattedString
 }
+
+// String format html
+fun String.formatHtml(): Spanned {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        return Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        @Suppress("DEPRECATION")
+        return Html.fromHtml(this)
+    }
+}
+
+
 
 fun dateDifferenceSeconds(initialDate: Date, finalDate: Date): Long{
     val diffInMs: Long = finalDate.time - initialDate.time

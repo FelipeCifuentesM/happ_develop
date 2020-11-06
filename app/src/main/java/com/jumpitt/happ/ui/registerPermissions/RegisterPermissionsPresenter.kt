@@ -90,8 +90,8 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         }
 
         val userRealm = RegisterData(dataRegisterResponse.profile?.rut ,dataRegisterResponse.profile?.names, dataRegisterResponse.profile?.lastName,
-                dataRegisterResponse.profile?.email, dataRegisterResponse.profile?.phone, dataRegisterResponse.profile?.home?.id, dataRegisterResponse.profile?.work?.id,
-                dataRegisterResponse.accessToken, dataRegisterResponse.refreshToken)
+                dataRegisterResponse.profile?.email, dataRegisterResponse.profile?.phone, dataRegisterResponse.profile?.company?.id, dataRegisterResponse.profile?.company?.name,
+                dataRegisterResponse.profile?.home?.id, dataRegisterResponse.profile?.work?.id, dataRegisterResponse.accessToken, dataRegisterResponse.refreshToken)
         mInteractor.saveRegisterProfile(userRealm)
 
 

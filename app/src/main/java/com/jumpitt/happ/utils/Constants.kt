@@ -61,6 +61,11 @@ object TriageStatus{
     const val WITHOUT_TRIAGE = "WITHOUT_TRIAGE"
 }
 
+object TriageResultType{
+    const val TEXT_SCREEN = "TEXT_SCREEN"
+    const val SCORE_SCREEN = "SCORE_SCREEN"
+}
+
 object Transition{
     const val CENTER = "center"
     const val LEFT_TO_RIGHT = "left"
@@ -85,7 +90,8 @@ object TypeNotification{
 
 object Constants{
     const val MAXIMUM_TIME_APART_SECONDS = 240
-    const val MAXIMUM_TIME_SECONDS_PROXIMITY = 600
+    const val MAXIMUM_TIME_SECONDS_PROXIMITY = 300
+
 }
 
 

@@ -8,6 +8,8 @@ open class RegisterData(
     var lastName: String? = null,
     var email: String? = null,
     var phone: String? = null,
+    var idCompany: String? = null,
+    var nameCompany: String? = null,
     var homeCommuneId: String? = null,
     var workCommuneId: String? = null,
     var accessToken: String? = null,
@@ -24,7 +26,9 @@ open class TriageReturnValue(
     var riskMessage: String? = null,
     var lastReview: String? = null,
     var passportTimeRemainingVerbose: String? = null,
-    var passportValidationUrl: String? = null
+    var passportValidationUrl: String? = null,
+    var resultTypeTextTitle: String? = null,
+    var resultTypeTextDescription: String? = null
 ): RealmObject(){
     constructor(): this(null)
 }

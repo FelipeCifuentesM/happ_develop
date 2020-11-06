@@ -37,7 +37,8 @@ class MainActivityPresenter constructor(private val activity: Activity): MainAct
 
     override fun getHealthCareOutput(healthCareStatus: TriageAnswerResponse) {
         val healthCareStatusRealm = TriageReturnValue(healthCareStatus.score, healthCareStatus.risk?.title, healthCareStatus.risk?.level, healthCareStatus.risk?.description,
-            healthCareStatus.risk?.message, healthCareStatus.latestReview, healthCareStatus.passport?.timeRemainingVerbose, healthCareStatus.passport?.validationUrl)
+            healthCareStatus.risk?.message, healthCareStatus.latestReview, healthCareStatus.passport?.timeRemainingVerbose, healthCareStatus.passport?.validationUrl,
+            healthCareStatus.text?.title, healthCareStatus.text?.description)
         mInteractor.saveHealthCareStatus(healthCareStatusRealm)
         mView.loadFragmentMyRisk(healthCareStatus)
 
