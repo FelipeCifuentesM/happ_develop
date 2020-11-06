@@ -13,6 +13,7 @@ import androidx.core.app.ServiceCompat
 import androidx.core.app.ServiceCompat.stopForeground
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.jumpitt.happ.App
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.TracingRequest
@@ -20,7 +21,6 @@ import com.jumpitt.happ.network.response.TracingResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.realm.RiskTime
 import com.jumpitt.happ.realm.TraceProximityNotification
-import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.ui.registerPermissions.RegisterPermissions
 import com.jumpitt.happ.utils.Constants
@@ -55,14 +55,32 @@ class BleManagerImpl(
 
     private val intent get() = Intent(app, TcnBluetoothService::class.java)
     private var service: TcnBluetoothService? = null
+    private lateinit var runnable: Runnable
 
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             this@BleManagerImpl.service = (service as TcnBluetoothService.LocalBinder).service.apply {
-                val notification = foregroundNotification()
+                val notification = foregroundNotification("Happ se está ejecutandooo")
                 startForegroundNotificationIfNeeded(NOTIFICATION_ID, notification)
                 setBluetoothStateListener(this@BleManagerImpl)
                 startTcnExchange(BluetoothServiceCallback())
+
+                runnable = Runnable {
+                    // Insert custom code here
+                    val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+//                    if(isRunning){
+                        updateNotification()
+                        // Repeat every 25 minutes
+                        val timeRepeatMilliseconds:Long = 30000 * 1 // 25 minutes
+                        App.handlerNoti?.let { mHandlerNoti ->
+                            mHandlerNoti.postDelayed(runnable, timeRepeatMilliseconds)
+                        }
+//                    }else{
+//                        App.handlerNoti?.removeCallbacks(runnable)
+//                    }
+                }
+
+
             }
         }
 
@@ -72,6 +90,7 @@ class BleManagerImpl(
                 this@BleManagerImpl.service?.let { service -> service.stopTcnExchange() }
                 this@BleManagerImpl.service?.let { stopForeground(it, ServiceCompat.STOP_FOREGROUND_REMOVE) }
                 app.stopService(intent)
+                App.handlerNoti?.removeCallbacks(runnable)
             }
         }
     }
@@ -140,7 +159,7 @@ class BleManagerImpl(
         }
     }
 
-    private fun foregroundNotification(): Notification {
+    private fun foregroundNotification(title: String): Notification {
         createNotificationChannelIfNeeded()
 
         val notificationIntent = Intent(app, MainActivity::class.java)
@@ -149,7 +168,7 @@ class BleManagerImpl(
         )
 
         return NotificationCompat.Builder(app, CHANNEL_ID)
-            .setContentTitle("Happ se está ejecutando")
+            .setContentTitle("HAPPPP")
             .setContentIntent(pendingIntent)
             .setCategory(Notification.CATEGORY_SERVICE)
             .build()
@@ -276,6 +295,13 @@ class BleManagerImpl(
 
         realm.commitTransaction()
         realm.close()
+    }
+
+    private fun updateNotification() {
+        val notification = foregroundNotification("Happ se está ejecutando ahora")
+        Log.e("Borrar", "ACTUALIZAR NOTIFICACION")
+        val manager: NotificationManager? = ContextCompat.getSystemService(app, NotificationManager::class.java)
+        manager?.notify(NOTIFICATION_ID, notification)
     }
 }
 

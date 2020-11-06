@@ -12,6 +12,7 @@ import io.sentry.android.AndroidSentryClientFactory
 
 val context: Context by lazy { App.ctx!! }
 val mHandler : Handler by lazy { App.handler!! }
+val mHandlerNotification : Handler by lazy { App.handlerNoti!! }
 
 class App: Application() {
 
@@ -19,6 +20,7 @@ class App: Application() {
         super.onCreate()
         ctx = applicationContext
         handler = Handler()
+        handlerNoti = Handler()
         initHawk()
         initRealm()
         Sentry.init("https://3a056092c4b243ee905d807cf8178cea@o205720.ingest.sentry.io/5275165", AndroidSentryClientFactory(this))
@@ -29,6 +31,7 @@ class App: Application() {
         @SuppressLint("StaticFieldLeak")
         var ctx: Context? = null
         var handler: Handler? = null
+        var handlerNoti: Handler? = null
             private set
     }
 

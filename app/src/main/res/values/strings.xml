@@ -32,7 +32,6 @@
     <string name="lbtriageSuccessDefaultTitle">¡Gracias por responder!</string>
     <string name="lbTriageSuccessDefaultDesc">Vuelve mañana para responder nuevas preguntas que tenemos para ti</string>
     <string name="lbHappBackground">Happ seguirá funcionando en segundo plano, no apagues ni reinicies tu teléfono</string>
-    <string name="lbMyRiskTextDescription"><![CDATA[]]></string>
 
     <!-- Input Text fields -->
     <string name="itRut">Rut</string>
