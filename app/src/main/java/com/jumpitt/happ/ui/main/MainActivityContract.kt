@@ -15,10 +15,11 @@ interface MainActivityContract {
         fun hideSkeleton()
         fun showLoader()
         fun hideLoader()
+        fun setNavigationTab()
     }
 
     interface Presenter{
-        fun loadFragmentHappHome()
+        fun loadFragment(isMyRiskTabSelected: Boolean = false)
         fun validatePressingDifferent(bottomNavigation: BottomNavigationView, itemId: Int): Boolean
         fun getAccessToken(isShowSkeleton: Boolean = true)
     }

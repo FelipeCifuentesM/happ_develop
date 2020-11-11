@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jumpitt.happ.R
 import com.jumpitt.happ.model.Question
 import com.jumpitt.happ.model.TriageResult
+import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.TriageResultType
@@ -60,6 +61,25 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
             responseTriageAnswer.risk?.message, responseTriageAnswer.latestReview, responseTriageAnswer.passport?.timeRemainingVerbose, responseTriageAnswer.passport?.validationUrl,
             responseTriageAnswer.text?.title, responseTriageAnswer.text?.description)
         mInteractor.saveResult(healthCareStatusRealm)
+        mInteractor.getAccessTokenPing(tracing, responseTriageAnswer)
+    }
+
+    override fun getAccessTokenPingOutput(accessToken: String, tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
+        mInteractor.getPingUserActive(accessToken, tracing, responseTriageAnswer)
+    }
+
+    override fun getTriageAnswerOutputError(errorCode: Int, response: Response<TriageAnswerResponse>) {
+        val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
+        mView.hideLoader()
+        mView.showTriageAnswerError(messageError)
+    }
+
+    override fun getTriageAnswerFailureError() {
+        mView.hideLoader()
+        mView.showTriageAnswerError(activity.resources.getString(R.string.snkDefaultApiError))
+    }
+
+    override fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse, tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
         responseTriageAnswer.resultType?.let {resultType ->
             if(resultType == TriageResultType.SCORE_SCREEN){
                 mRouter.displayResultScore(tracing)
@@ -72,15 +92,30 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
         mView.hideLoader()
     }
 
-    override fun getTriageAnswerOutputError(errorCode: Int, response: Response<TriageAnswerResponse>) {
-        val messageError = response.qualifyResponseErrorDefault(errorCode, activity)
+    override fun getPingUserActiveFailureError(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
+        responseTriageAnswer.resultType?.let {resultType ->
+            if(resultType == TriageResultType.SCORE_SCREEN){
+                mRouter.displayResultScore(tracing)
+            }else{
+                mRouter.displayResultDefault(tracing)
+            }
+        }?: run {
+            mRouter.displayResultDefault(tracing)
+        }
         mView.hideLoader()
-        mView.showTriageAnswerError(messageError)
     }
 
-    override fun getTriageAnswerFailureError() {
+    override fun getPingUserActiveOutputError(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
+        responseTriageAnswer.resultType?.let {resultType ->
+            if(resultType == TriageResultType.SCORE_SCREEN){
+                mRouter.displayResultScore(tracing)
+            }else{
+                mRouter.displayResultDefault(tracing)
+            }
+        }?: run {
+            mRouter.displayResultDefault(tracing)
+        }
         mView.hideLoader()
-        mView.showTriageAnswerError(activity.resources.getString(R.string.snkDefaultApiError))
     }
 
 }

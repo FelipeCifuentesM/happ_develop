@@ -5,9 +5,11 @@ import com.jumpitt.happ.model.Triage
 import com.jumpitt.happ.network.RestClient
 import com.jumpitt.happ.network.request.ChoiceID
 import com.jumpitt.happ.network.request.TriageAnswerRequest
+import com.jumpitt.happ.network.response.PingActiveUserResponse
 import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.realm.TriageReturnValue
+import com.jumpitt.happ.ui.login.LoginContract
 import com.jumpitt.happ.utils.ConstantsApi
 import io.realm.Realm
 import retrofit2.Call
@@ -97,8 +99,47 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
         mIOutput.getAccessTokenProfileOutput(tracing, accessToken)
     }
 
+    override fun getAccessTokenPing(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
+        val realm = Realm.getDefaultInstance()
+        var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
+
+        if(accessToken.isNullOrBlank())
+            accessToken = ""
+        mIOutput.getAccessTokenPingOutput(accessToken, tracing, responseTriageAnswer)
+    }
+
+    override fun getPingUserActive(accessToken: String, tracing: Boolean, responseTriageAnswer: TriageAnswerResponse){
+        RestClient.instanceTracing.getPingUserActive("${ConstantsApi.BEARER} $accessToken").
+        enqueue(object: Callback<PingActiveUserResponse>{
+            override fun onFailure(call: Call<PingActiveUserResponse>, t: Throwable) {
+                val dataPingResponseNull = PingActiveUserResponse(null)
+                mIOutput.getPingUserActiveFailureError(tracing, responseTriageAnswer)
+            }
+
+            override fun onResponse(call: Call<PingActiveUserResponse>, response: Response<PingActiveUserResponse>) {
+                val responseData = response.body()
+                val responseCode = response.code()
+
+                when (responseCode) {
+                    200 -> {
+                        responseData?.let {dataPingResponse ->
+                            mIOutput.getPingUserActiveOutput(dataPingResponse, tracing, responseTriageAnswer)
+                        }?: run {
+                            val dataPingResponseNull = PingActiveUserResponse(null)
+                            mIOutput.getPingUserActiveOutputError(tracing, responseTriageAnswer)
+                        }
+                    }
+                    else -> {
+                        val dataPingResponseNull = PingActiveUserResponse(null)
+                        mIOutput.getPingUserActiveOutputError(tracing, responseTriageAnswer)
+                    }
+                }
+            }
+
+        })
+    }
+
     override fun saveResult(healthCareStatusRealm: TriageReturnValue) {
-        //GUARDAR DATOS LOCAL
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.delete(TriageReturnValue::class.java)

@@ -1,9 +1,11 @@
 package com.jumpitt.happ.ui.main
 
 import android.bluetooth.BluetoothAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     private lateinit var mPresenter: MainActivityContract.Presenter
     private var healthCareStatusCopy: TriageAnswerResponse? = null
     private var isShowRiskFragment = true
+    private var isMyRiskTabSelected = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +32,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         setContentView(R.layout.activity_main)
 
         mPresenter = MainActivityPresenter(this)
-        mPresenter.loadFragmentHappHome()
+        intent.extras?.getBoolean("fromTriageActivityResult")?.let { isMyRiskTabSelected = it }?: run { isMyRiskTabSelected = false }
+        mPresenter.loadFragment(isMyRiskTabSelected)
 //        mPresenter.getAccessToken()
 
         //Notificacion borrar__.._
@@ -192,6 +196,11 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         pbMainCircle.visibility = View.GONE
     }
 
+    override fun setNavigationTab() {
+        if(isMyRiskTabSelected)
+            bottomNavigation.menu.getItem(1).isChecked = true //My Risk
+    }
+
     override fun onBackPressed() {
         if(bottomNavigation.menu.getItem(0).isChecked){
             finish()
@@ -202,7 +211,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 //                loadFragmentMyRisk(it, false)
 //            }
 //            mainPager.visibility = View.GONE
-            mPresenter.loadFragmentHappHome()
+            mPresenter.loadFragment()
         }
 
 

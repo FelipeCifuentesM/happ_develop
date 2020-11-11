@@ -7,6 +7,7 @@ import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.ui.triage.question.QuestionFragment
 import com.jumpitt.happ.ui.triage.result.ResultFragmentDefault
 import com.jumpitt.happ.ui.triage.result.ResultFragmentScore
+import com.jumpitt.happ.utils.Transition
 import com.jumpitt.happ.utils.enterFromRight
 import com.jumpitt.happ.utils.goToActivity
 import com.jumpitt.happ.utils.replaceFragmentQuestions
@@ -34,7 +35,9 @@ class TriageActivityRouter constructor(private val activity: AppCompatActivity):
     }
 
     override fun showMain() {
-        activity.goToActivity<MainActivity>("", finish = true)
+        activity.goToActivity<MainActivity>(Transition.RIGHT_TO_LEFT, finish = true){
+            this.putExtra("fromTriageActivityResult", true)
+        }
     }
 
 }

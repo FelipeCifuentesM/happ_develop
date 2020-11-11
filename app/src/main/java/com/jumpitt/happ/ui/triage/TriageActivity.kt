@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.ToolbarActivity
+import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.ui.triage.question.QuestionFragment
 import com.jumpitt.happ.ui.triage.result.ResultFragmentDefault
 import com.jumpitt.happ.ui.triage.result.ResultFragmentScore
@@ -74,7 +75,7 @@ class TriageActivity : ToolbarActivity(),
 
     override fun onBackPressed() {
         super.onBackPressed()
-        this.transitionActivity("")
+        this.transitionActivity(Transition.RIGHT_TO_LEFT)
     }
 
 }

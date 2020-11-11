@@ -1,5 +1,6 @@
 package com.jumpitt.happ.ble
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.ComponentName
 import android.content.Context
@@ -8,6 +9,7 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.app.ServiceCompat.stopForeground
@@ -58,27 +60,28 @@ class BleManagerImpl(
     private lateinit var runnable: Runnable
 
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
+        @RequiresApi(Build.VERSION_CODES.N)
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             this@BleManagerImpl.service = (service as TcnBluetoothService.LocalBinder).service.apply {
-                val notification = foregroundNotification("Happ se está ejecutandooo")
-                startForegroundNotificationIfNeeded(NOTIFICATION_ID, notification)
+                val notification = foregroundNotification("Happ se está ejecutando", 1)
+                startForegroundNotificationIfNeeded(NOTIFICATION_ID_SERVICE, notification)
                 setBluetoothStateListener(this@BleManagerImpl)
                 startTcnExchange(BluetoothServiceCallback())
 
-                runnable = Runnable {
-                    // Insert custom code here
-                    val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-//                    if(isRunning){
-                        updateNotification()
-                        // Repeat every 25 minutes
-                        val timeRepeatMilliseconds:Long = 30000 * 1 // 25 minutes
-                        App.handlerNoti?.let { mHandlerNoti ->
-                            mHandlerNoti.postDelayed(runnable, timeRepeatMilliseconds)
-                        }
-//                    }else{
-//                        App.handlerNoti?.removeCallbacks(runnable)
-//                    }
-                }
+//                runnable = Runnable {
+//                    // Insert custom code here
+//                    val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
+////                    if(isRunning){
+//                        updateNotification()
+//                        // Repeat every 25 minutes
+//                        val timeRepeatMilliseconds:Long = 30000 * 1 // 25 minutes
+//                        App.handlerNoti?.let { mHandlerNoti ->
+//                            mHandlerNoti.postDelayed(runnable, timeRepeatMilliseconds)
+//                        }
+////                    }else{
+////                        App.handlerNoti?.removeCallbacks(runnable)
+////                    }
+//                }
 
 
             }
@@ -159,17 +162,19 @@ class BleManagerImpl(
         }
     }
 
-    private fun foregroundNotification(title: String): Notification {
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun foregroundNotification(title: String, requestCode: Int): Notification {
         createNotificationChannelIfNeeded()
 
         val notificationIntent = Intent(app, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
-            app, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            app, requestCode, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         return NotificationCompat.Builder(app, CHANNEL_ID)
-            .setContentTitle("HAPPPP")
+            .setContentTitle(title)
             .setContentIntent(pendingIntent)
+            .setPriority(NotificationManager.IMPORTANCE_MAX)
             .setCategory(Notification.CATEGORY_SERVICE)
             .build()
     }
@@ -179,12 +184,13 @@ class BleManagerImpl(
      * android O. This creates the necessary notification channel for the foregroundService
      * to function.
      */
+    @SuppressLint("WrongConstant")
     private fun createNotificationChannelIfNeeded() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
                 CHANNEL_ID,
                 "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_MAX
             )
             val manager: NotificationManager? = ContextCompat.getSystemService(
                 app, NotificationManager::class.java
@@ -196,6 +202,7 @@ class BleManagerImpl(
     companion object {
         private const val CHANNEL_ID = "CoEpiBluetoothContactChannel"
         const val NOTIFICATION_ID = 1
+        const val NOTIFICATION_ID_SERVICE = 211
     }
 
     fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
@@ -298,7 +305,7 @@ class BleManagerImpl(
     }
 
     private fun updateNotification() {
-        val notification = foregroundNotification("Happ se está ejecutando ahora")
+        val notification = foregroundNotification("Happ se está ejecutando ahora",0)
         Log.e("Borrar", "ACTUALIZAR NOTIFICACION")
         val manager: NotificationManager? = ContextCompat.getSystemService(app, NotificationManager::class.java)
         manager?.notify(NOTIFICATION_ID, notification)
