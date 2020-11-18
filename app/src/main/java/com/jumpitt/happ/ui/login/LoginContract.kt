@@ -51,7 +51,7 @@ interface LoginContract {
         fun postRegisterTokenFCMOutput(accessToken: String)
         fun loginFailureError()
         fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse)
-        fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse)
+        fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse, responseCode: Int)
         fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse)
         fun getAccessTokenOutput(accessToken: String)
     }

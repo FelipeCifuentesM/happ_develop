@@ -18,6 +18,7 @@ import com.jumpitt.happ.network.response.RegisterResponse
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.isPermissionBackgroundLocation
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
+import io.sentry.Sentry
 import retrofit2.Response
 
 
@@ -143,13 +144,18 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
         }
     }
 
-    override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse) {
+    override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse, responseCode: Int) {
         runPing(dataPingResponse)
         if(fromLogin) mRouter.navigateMainActivity()
         if(fromRegister) {
             mView.hideLoader()
             mRouter.navigateRegisterSuccess()
         }
+        //sentry
+        if(responseCode == 200)
+            Sentry.capture(activity.resources.getString(R.string.errSentryLoadApiPingNull))
+        else
+            Sentry.capture(String.format(activity.resources.getString(R.string.errSentryLoadApiPingError), responseCode))
     }
 
     override fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse) {
@@ -159,6 +165,7 @@ class RegisterPermissionsPresenter constructor(private val activity: Activity): 
             mView.hideLoader()
             mRouter.navigateRegisterSuccess()
         }
+        Sentry.capture(activity.resources.getString(R.string.errSentryLoadApiPingFailure))
     }
 
     private fun isMyServiceRunning(

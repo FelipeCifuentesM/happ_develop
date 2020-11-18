@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/tbHapp" />
+                android:text="@string/tbTriage" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -66,7 +66,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="56dp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    tools:text="Te recomendamos seguir la siguiente indicacion"/>
 
                 <TextView
                     android:id="@+id/tvMyRiskCompletedTextDescription"
@@ -74,7 +75,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:layout_marginBottom="16dp"
-                    android:gravity="start"/>
+                    android:gravity="start"
+                    tools:text="Debes permanecer en tu casa y comunicarte con prevencion de riesgos"/>
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>

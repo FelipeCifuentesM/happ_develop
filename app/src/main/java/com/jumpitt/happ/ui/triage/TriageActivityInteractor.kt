@@ -126,12 +126,12 @@ class TriageActivityInteractor(private val mIOutput: TriageActivityContract.Inte
                             mIOutput.getPingUserActiveOutput(dataPingResponse, tracing, responseTriageAnswer)
                         }?: run {
                             val dataPingResponseNull = PingActiveUserResponse(null)
-                            mIOutput.getPingUserActiveOutputError(tracing, responseTriageAnswer)
+                            mIOutput.getPingUserActiveOutputError(tracing, responseTriageAnswer, responseCode)
                         }
                     }
                     else -> {
                         val dataPingResponseNull = PingActiveUserResponse(null)
-                        mIOutput.getPingUserActiveOutputError(tracing, responseTriageAnswer)
+                        mIOutput.getPingUserActiveOutputError(tracing, responseTriageAnswer, responseCode)
                     }
                 }
             }

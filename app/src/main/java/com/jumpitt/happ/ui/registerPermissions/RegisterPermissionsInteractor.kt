@@ -101,12 +101,12 @@ class RegisterPermissionsInteractor: RegisterPermissionsContract.Interactor{
                             interactorOutput.getPingUserActiveOutput(dataPingResponse)
                         }?: run {
                             val dataPingResponseNull = PingActiveUserResponse(null)
-                            interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
+                            interactorOutput.getPingUserActiveOutputError(dataPingResponseNull, responseCode)
                         }
                     }
                     else -> {
                         val dataPingResponseNull = PingActiveUserResponse(null)
-                        interactorOutput.getPingUserActiveOutputError(dataPingResponseNull)
+                        interactorOutput.getPingUserActiveOutputError(dataPingResponseNull, responseCode)
                     }
                 }
             }

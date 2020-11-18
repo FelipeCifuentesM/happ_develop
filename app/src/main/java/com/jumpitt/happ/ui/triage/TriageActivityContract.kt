@@ -51,7 +51,7 @@ interface TriageActivityContract {
         fun getTriageAnswerFailureError()
         fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse, tracing: Boolean, responseTriageAnswer: TriageAnswerResponse)
         fun getPingUserActiveFailureError(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse)
-        fun getPingUserActiveOutputError(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse)
+        fun getPingUserActiveOutputError(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse, responseCode: Int)
 
     }
 }

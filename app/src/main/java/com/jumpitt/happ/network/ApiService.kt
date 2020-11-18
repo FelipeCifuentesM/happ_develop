@@ -62,8 +62,4 @@ interface ApiService {
     @POST("pings/")
     fun getPingUserActive(@Header("Authorization") accessToken: String): Call<PingActiveUserResponse>
 
-    //Mock API PING
-//    @GET("v3/8a6ae2a7-8631-4827-9035-533da626c050")
-//    fun getPingUserActive(): Call<PingActiveUserResponse>
-
 }

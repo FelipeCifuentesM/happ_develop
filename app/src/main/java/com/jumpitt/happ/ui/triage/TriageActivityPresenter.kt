@@ -11,6 +11,7 @@ import com.jumpitt.happ.network.response.TriageAnswerResponse
 import com.jumpitt.happ.realm.TriageReturnValue
 import com.jumpitt.happ.utils.TriageResultType
 import com.jumpitt.happ.utils.qualifyResponseErrorDefault
+import io.sentry.Sentry
 import retrofit2.Response
 
 class TriageActivityPresenter constructor(private val activity: Activity): TriageActivityContract.Presenter,
@@ -77,6 +78,7 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
     override fun getTriageAnswerFailureError() {
         mView.hideLoader()
         mView.showTriageAnswerError(activity.resources.getString(R.string.snkDefaultApiError))
+        Sentry.capture(activity.resources.getString(R.string.errSentryLoadApiPingFailure))
     }
 
     override fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse, tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
@@ -105,7 +107,7 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
         mView.hideLoader()
     }
 
-    override fun getPingUserActiveOutputError(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse) {
+    override fun getPingUserActiveOutputError(tracing: Boolean, responseTriageAnswer: TriageAnswerResponse, responseCode: Int) {
         responseTriageAnswer.resultType?.let {resultType ->
             if(resultType == TriageResultType.SCORE_SCREEN){
                 mRouter.displayResultScore(tracing)
@@ -116,6 +118,11 @@ class TriageActivityPresenter constructor(private val activity: Activity): Triag
             mRouter.displayResultDefault(tracing)
         }
         mView.hideLoader()
+        //sentry
+        if(responseCode == 200)
+            Sentry.capture(activity.resources.getString(R.string.errSentryLoadApiPingNull))
+        else
+            Sentry.capture(String.format(activity.resources.getString(R.string.errSentryLoadApiPingError), responseCode))
     }
 
 }

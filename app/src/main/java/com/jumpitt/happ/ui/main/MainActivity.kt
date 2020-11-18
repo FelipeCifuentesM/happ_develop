@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                             }
                             else -> {
                                 this.replaceFragment(MyRiskWithoutTriage.newInstance(), R.id.mainPager, "0")
-                                Sentry.capture(resources.getString(R.string.errSentrUnknownStatusResultType))
+                                Sentry.capture(String.format(resources.getString(R.string.errSentryUnknownStatusResultType), healthCareStatus.resultType))
                             }
                         }
                     }?: run {

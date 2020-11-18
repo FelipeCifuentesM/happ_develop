@@ -16,6 +16,7 @@ import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.network.response.*
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.*
+import io.sentry.Sentry
 import retrofit2.Response
 
 
@@ -176,12 +177,17 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     }
 
-    override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse) {
+    override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse, responseCode: Int) {
         runPing(dataPingResponse)
         if(navigateMain) {
             mView.hideLoader()
             mRouter.navigateMain()
         }
+        //Sentry
+        if(responseCode == 200)
+            Sentry.capture(activity.resources.getString(R.string.errSentryLoadApiPingNull))
+        else
+            Sentry.capture(String.format(activity.resources.getString(R.string.errSentryLoadApiPingError), responseCode))
     }
 
     override fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse) {
@@ -190,6 +196,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
             mView.hideLoader()
             mRouter.navigateMain()
         }
+        Sentry.capture(activity.resources.getString(R.string.errSentryLoadApiPingFailure))
     }
 
     override fun getAccessTokenOutput(accessToken: String) {

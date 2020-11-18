@@ -110,6 +110,9 @@
     <string name="errSentryLoadApiFailedMyRisk">Carga del fragment MyRisk falló (api healthcare). Código error: %1$d</string>
     <string name="errSentryMyRiskLevelNull">My risk, API healthcare trae el campo risk level null</string>
     <string name="errSentryMyRiskResultTypeNull">My risk, API healthcare trae el campo result_type null</string>
-    <string name="errSentrUnknownStatusResultType">Estado no registrado en el código (healthCareStatus.result_type): %1$s</string>
+    <string name="errSentryUnknownStatusResultType">Estado no registrado en el código (healthCareStatus.result_type): %1$s</string>
+    <string name="errSentryLoadApiPingFailure">Servicio Ping falló</string>
+    <string name="errSentryLoadApiPingError">Error en servicio Ping. Codigo de error: %1$d</string>
+    <string name="errSentryLoadApiPingNull">Servicio Ping - body null</string>
 
 </resources>

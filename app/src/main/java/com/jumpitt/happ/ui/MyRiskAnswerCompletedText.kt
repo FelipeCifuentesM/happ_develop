@@ -20,7 +20,6 @@ class MyRiskAnswerCompletedText: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_myrisk_completed_text, container, false)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -33,11 +32,8 @@ class MyRiskAnswerCompletedText: Fragment() {
         tvRoundedToolbar.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
 
         //Information
-        tvMyRiskCompletedTextTitle.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
+        tvMyRiskCompletedTextTitle.containedStyle(Labelstext.H5, ColorIdResource.PRIMARY, font = R.font.dmsans_medium)
         tvMyRiskCompletedTextDescription.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
-
-        Log.e("Borrar", "titulo: ${healthCareStatusLocal?.resultTypeTextTitle}")
-        Log.e("Borrar", "descipcion: ${Html.fromHtml(healthCareStatusLocal?.resultTypeTextDescription)}")
 
         healthCareStatusLocal?.resultTypeTextTitle?.let { tvMyRiskCompletedTextTitle.text = it.formatHtml() }
         healthCareStatusLocal?.resultTypeTextDescription?.let { tvMyRiskCompletedTextDescription.text = it.formatHtml() }

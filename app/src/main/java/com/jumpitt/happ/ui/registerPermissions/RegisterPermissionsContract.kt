@@ -48,7 +48,7 @@ interface RegisterPermissionsContract {
         fun postRegisterTokenFCMOutput(accessToken: String)
         fun getAccessTokenOutput(accessToken: String)
         fun getPingUserActiveOutput(dataPingResponse: PingActiveUserResponse)
-        fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse)
+        fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse, responseCode: Int)
         fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse)
 
     }
