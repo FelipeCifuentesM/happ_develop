@@ -77,6 +77,7 @@ object RequestCode{
     const val ACCESS_FINE_LOCATION = 44
     const val LOCATION_BACKGROUND = 1001
     const val FROM_PROFILE_FRAGMENT = 2
+    const val BATTERY_PERMISSION = 20
 }
 
 object ItemRecyclerview{

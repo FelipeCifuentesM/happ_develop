@@ -135,8 +135,9 @@ class Login: ToolbarActivity(), LoginContract.View{
                 mPresenter.postLoginAccessToken(loginRequest, false)
                 return
             }
-            // Add other 'when' lines to check for other
-            // permissions this app might request.
+            RequestCode.BATTERY_PERMISSION -> {
+                Log.e("Borrar", "Bateria: $grantResults")
+            }
             else -> {
                 val loginRequest = LoginAccessTokenRequest(username= etRutLogin.text.toString().rutFormatOnlyHyphen(), password = etPasswordLoginMail.text.toString())
                 mPresenter.postLoginAccessToken(loginRequest, false)

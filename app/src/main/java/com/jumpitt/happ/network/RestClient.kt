@@ -40,7 +40,7 @@ object RestClient{
 
     val instanceTracing: ApiService by lazy{
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://tracing.keepsafe.jumpittlabs.cl/")
+            .baseUrl("http://api-dev.happ.cl:9100/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

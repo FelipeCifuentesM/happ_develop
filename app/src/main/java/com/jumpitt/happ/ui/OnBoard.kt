@@ -33,6 +33,9 @@ class OnBoard: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.on_board)
 
+        //Battery
+        isPermissionBatteryOptimization()
+
         introOnBoardAdapter = OnBoardAdapter(
             listOf(
                 OnBoardSlide(

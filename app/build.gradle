@@ -23,7 +23,7 @@ android {
         applicationId "com.jumpitt.happ"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 27
+        versionCode 2
         versionName "2.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,7 +44,7 @@ android {
             buildConfigField "String", "URL_PRIVACY_POLICIES", "${URL_PRIVACY_POLICIES}"
         }
         debug{
-            buildConfigField "String", "BASE_URL", "${baseURL}"
+            buildConfigField "String", "BASE_URL", "${baseURLDev}"
             buildConfigField "String", "URL_PRIVACY_POLICIES", "${URL_PRIVACY_POLICIES}"
         }
     }

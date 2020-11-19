@@ -120,7 +120,7 @@ class BleManagerImpl(
                     if(distance <= 1.5) { saveRegisterNotification(currentDate) }
                 }
 //                saveRiskTime(myTcn?.toHex(), tcn.toHex(), currentDate, approximateDistance)
-                RestClient.instance.postTCN("http://tracing.keepsafe.jumpittlabs.cl/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = approximateDistance)).
+                RestClient.instance.postTCN("http://api-dev.happ.cl:9100/traces/","Bearer "+userData.accessToken, tcnRequest = TracingRequest(tcn = myTcn!!.toHex(),tcnFounded = tcn.toHex(),distance = approximateDistance)).
                 enqueue(object: Callback<TracingResponse> {
                     override fun onFailure(call: Call<TracingResponse>, t: Throwable) {
                     }

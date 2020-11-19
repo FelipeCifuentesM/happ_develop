@@ -2,10 +2,17 @@ package com.jumpitt.happ.utils
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context.POWER_SERVICE
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
+import android.provider.Settings
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+
 
 fun Activity.isPermissionBluetooth(){
     // Here, thisActivity is the current activity
@@ -108,5 +115,20 @@ fun Activity.isPermissionBackgroundLocation(): Boolean {
         }
     }
     return true
+}
+
+fun Activity.isPermissionBatteryOptimization(){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val batteryIntent = Intent()
+        val packageName = packageName
+        val pm = this.getSystemService(POWER_SERVICE) as PowerManager?
+        if (pm!!.isIgnoringBatteryOptimizations(packageName)) batteryIntent.action =
+            Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS else {
+            batteryIntent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+            batteryIntent.data = Uri.parse("package:$packageName")
+            this.startActivityForResult(batteryIntent, RequestCode.BATTERY_PERMISSION)
+        }
+    }
+
 }
 

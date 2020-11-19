@@ -59,7 +59,7 @@ interface ApiService {
     @GET("notifications")
     fun getNotificationHistory(@Header("Authorization") accessToken: String, @Query("page") currentPage: Int): Call<NotificationHistoryResponse>
 
-    @POST("pings/")
+    @POST("pings")
     fun getPingUserActive(@Header("Authorization") accessToken: String): Call<PingActiveUserResponse>
 
 }
