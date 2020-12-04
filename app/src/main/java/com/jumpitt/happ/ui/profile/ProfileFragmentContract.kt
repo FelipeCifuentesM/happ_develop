@@ -19,6 +19,8 @@ interface ProfileFragmentContract {
         fun navigateTracingLog()
         fun deleteProfileData()
         fun navigateChangePassword(fragment: ProfileFragment, activity: FragmentActivity?)
+        fun navigatePrivacyPolicies()
+        fun navigateFrequentQuestions()
     }
 
     interface Interactor{
@@ -32,6 +34,7 @@ interface ProfileFragmentContract {
         fun navigateTracingLog()
         fun navigateLogin()
         fun navigateChangePassword(fragment: ProfileFragment, activity: FragmentActivity?)
+        fun navigateWebView(urlWebView: String, titleBar: String)
     }
 
     interface InteractorOutputs{

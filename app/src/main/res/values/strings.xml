@@ -32,6 +32,9 @@
     <string name="lbtriageSuccessDefaultTitle">¡Gracias por responder!</string>
     <string name="lbTriageSuccessDefaultDesc">Vuelve mañana para responder nuevas preguntas que tenemos para ti</string>
     <string name="lbHappBackground">Happ seguirá funcionando en segundo plano, no apagues ni reinicies tu teléfono</string>
+    <string name="lbHappDoesNotCollectData">Happ se basa en la tecnología Bluetooth Low Energy y no recopila datos de geolocalización de ningún tipo, incluidos los del GPS. Happ no recopila ningún dato que permita rastrear tu identidad.
+
+</string>
 
     <!-- Input Text fields -->
     <string name="itRut">Rut</string>
@@ -56,6 +59,8 @@
     <string name="btnUnderstood">Entendido</string>
     <string name="btnAnswer">Contestar</string>
     <string name="btnGetPass">Obtener pase</string>
+    <string name="btnPrivacyPolicies">Políticas de privacidad</string>
+    <string name="btnFrequentQuestions">Preguntas frecuentes</string>
     <string name="btnLogOut">Cerrar sesión</string>
     <string name="btnChangePass">Cambiar contraseña</string>
     <string name="btnRecoverPass">Recuperar contraseña</string>
@@ -70,7 +75,8 @@
     <string name="tbNotifications">Notificaciones</string>
     <string name="tbChangePass">Contraseña</string>
     <string name="tbTermsConditions">Términos de uso</string>
-    <string name="tbPrivacy">Politicas de privacidad</string>
+    <string name="tbPrivacy">Políticas de privacidad</string>
+    <string name="tbFrequentQuestions">Preguntas frecuentes</string>
     <string name="tbHapp">Happ</string>
 
     <!-- Notifications -->

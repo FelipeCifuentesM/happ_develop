@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
+import com.jumpitt.happ.BuildConfig.*
+import com.jumpitt.happ.R
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.ConstantsApi
@@ -49,6 +51,18 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
 
     override fun navigateChangePassword(fragment: ProfileFragment, activity: FragmentActivity?) {
         mRouter.navigateChangePassword(fragment, activity)
+    }
+
+    override fun navigatePrivacyPolicies() {
+        val urlWebView = URL_PRIVACY_POLICIES_WEB
+        val titleBar = fragment.resources.getString(R.string.tbPrivacy)
+        mRouter.navigateWebView(urlWebView, titleBar)
+    }
+
+    override fun navigateFrequentQuestions() {
+        val urlWebView = URL_FRECUENT_QUESTIONS_WEB
+        val titleBar = fragment.resources.getString(R.string.tbFrequentQuestions)
+        mRouter.navigateWebView(urlWebView, titleBar)
     }
 
     override fun getUserProfileDataOutput(userData: RegisterData?) {

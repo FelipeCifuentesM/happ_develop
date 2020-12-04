@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
+import com.jumpitt.happ.BuildConfig.URL_PRIVACY_POLICIES_DOC
 import com.jumpitt.happ.R
 import com.jumpitt.happ.model.OnBoardSlide
 import com.jumpitt.happ.ui.login.Login
@@ -81,7 +82,7 @@ class OnBoard: AppCompatActivity(){
         val clickSpanPrivacy = object : ClickableSpan(){
             override fun onClick(widget: View) {
                 goToActivity<WebViewActivity>{
-                    putExtra("urlWebView", "https://drive.google.com/file/d/1ELB17XPw62Hk0tHuGmvv_2ut1pAsDYEz/view")
+                    putExtra("urlWebView", URL_PRIVACY_POLICIES_DOC)
                     putExtra("titleBar", resources.getString(R.string.tbPrivacy))
                 }
             }

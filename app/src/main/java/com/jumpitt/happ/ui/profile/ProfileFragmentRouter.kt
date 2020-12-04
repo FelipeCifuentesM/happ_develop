@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.jumpitt.happ.App
+import com.jumpitt.happ.R
 import com.jumpitt.happ.ui.TracingLogActivity
+import com.jumpitt.happ.ui.WebViewActivity
 import com.jumpitt.happ.ui.changePassword.ChangePasswordActivity
 import com.jumpitt.happ.ui.login.Login
 import com.jumpitt.happ.utils.goToActivity
@@ -26,6 +28,13 @@ class ProfileFragmentRouter constructor(private val mFragment: Fragment): Profil
         val intent = Intent(activity, ChangePasswordActivity::class.java)
         fragment.startActivityForResult(intent, 2)
 
+    }
+
+    override fun navigateWebView(urlWebView: String, titleBar: String) {
+        mFragment.activity?.goToActivity<WebViewActivity>{
+            putExtra("urlWebView", urlWebView)
+            putExtra("titleBar", titleBar)
+        }
     }
 
 }

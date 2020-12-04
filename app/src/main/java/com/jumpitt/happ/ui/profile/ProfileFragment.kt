@@ -42,6 +42,14 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
             mPresenter.navigateChangePassword(this, activity)
         }
 
+        btnPrivacyPolicies.setSafeOnClickListener {
+            mPresenter.navigatePrivacyPolicies()
+        }
+
+        btnFrequentQuestions.setSafeOnClickListener {
+            mPresenter.navigateFrequentQuestions()
+        }
+
         cvProfileUserData.setOnClickListener {
             clickCounter++
             if(clickCounter > 5){
@@ -63,7 +71,10 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         tvProfileRut.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
         tvProfileMail.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
         btnEnterChangePass.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
-        btnCloseSesion.containedStyle(ColorIdResource.WHITE, ColorIdResource.BLACK)
+        tvHappDoesNotCollectData.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
+        btnPrivacyPolicies.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
+        btnFrequentQuestions.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
+        btnCloseSesion.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
 
         mPresenter.getUserProfileData()
     }
