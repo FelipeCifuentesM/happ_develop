@@ -79,3 +79,8 @@ data class Choice(
         }
     }
 }
+
+data class ProfileMenu(
+    var icon: Int,
+    var option: Int
+)

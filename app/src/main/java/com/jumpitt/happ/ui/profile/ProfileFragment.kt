@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jumpitt.happ.App
 import com.jumpitt.happ.R
+import com.jumpitt.happ.model.ProfileMenu
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -34,21 +37,21 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         mPresenter = ProfileFragmentPresenter(this)
         mPresenter.initializeView()
 
-        btnCloseSesion.setSafeOnClickListener {
-            mPresenter.deleteProfileData()
-        }
+//        btnCloseSesion.setSafeOnClickListener {
+//            mPresenter.deleteProfileData()
+//        }
 
         btnEnterChangePass.setSafeOnClickListener {
             mPresenter.navigateChangePassword(this, activity)
         }
 
-        btnPrivacyPolicies.setSafeOnClickListener {
-            mPresenter.navigatePrivacyPolicies()
-        }
-
-        btnFrequentQuestions.setSafeOnClickListener {
-            mPresenter.navigateFrequentQuestions()
-        }
+//        btnPrivacyPolicies.setSafeOnClickListener {
+//            mPresenter.navigatePrivacyPolicies()
+//        }
+//
+//        btnFrequentQuestions.setSafeOnClickListener {
+//            mPresenter.navigateFrequentQuestions()
+//        }
 
         cvProfileUserData.setOnClickListener {
             clickCounter++
@@ -65,16 +68,33 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
 
     }
 
-    override fun showInitializeView() {
+    override fun initDataListProfile() {
+        val profileMenuListObject: ArrayList<ProfileMenu> = ArrayList()
+        profileMenuListObject.add(ProfileMenu(ProfileMenuOptions.PRIVACY_POLICIES.optionIcon, ProfileMenuOptions.PRIVACY_POLICIES.optionText))
+        profileMenuListObject.add(ProfileMenu(ProfileMenuOptions.FREQUENT_QUESTIONS.optionIcon, ProfileMenuOptions.FREQUENT_QUESTIONS.optionText))
+        profileMenuListObject.add(ProfileMenu(ProfileMenuOptions.LOGOUT.optionIcon, ProfileMenuOptions.LOGOUT.optionText))
+
+        mPresenter.showInitializeView(profileMenuListObject)
+    }
+
+    override fun showInitializeView(profileMenuListObject: ArrayList<ProfileMenu>) {
         tvRoundedToolbar.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvProfileName.containedStyle(Labelstext.H6, ColorIdResource.BLACK, font = R.font.dmsans_medium)
         tvProfileRut.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
         tvProfileMail.containedStyle(Labelstext.SUBTITLE1, ColorIdResource.BLACK)
         btnEnterChangePass.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
         tvHappDoesNotCollectData.containedStyle(Labelstext.BODY1, ColorIdResource.BLACK)
-        btnPrivacyPolicies.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
-        btnFrequentQuestions.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
-        btnCloseSesion.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
+//        btnPrivacyPolicies.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
+//        btnFrequentQuestions.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
+//        btnCloseSesion.containedStyle(ColorIdResource.WHITE, ColorIdResource.PRIMARY)
+
+        val layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+        rvProfileMenu.layoutManager = layoutManager
+        rvProfileMenu.adapter = AdapterProfileMenu(requireActivity(), profileMenuListObject, object: AdapterProfileMenu.ClickListener{
+            override fun itemClickProfileMenu(position: Int) {
+                mPresenter.clickListenerItemProfileMenu(position)
+            }
+        })
 
         mPresenter.getUserProfileData()
     }

@@ -58,7 +58,7 @@
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="36dp"
+                        android:layout_marginTop="18dp"
                         android:tint="@color/colorPrimary"
                         app:srcCompat="@drawable/ic_user_circle_solid" />
 
@@ -105,7 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="28dp"
+                        android:layout_marginBottom="14dp"
                         android:text="@string/btnChangePass" />
 
                 </LinearLayout>
@@ -117,60 +117,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvProfileUserData">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvProfileMenu"
+                    android:layout_marginTop="16dp"
+                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
                 <TextView
                     android:id="@+id/tvHappDoesNotCollectData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="26dp"
-                    android:gravity="center"
+                    android:layout_marginTop="13dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:gravity="left"
                     android:text="@string/lbHappDoesNotCollectData"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnPrivacyPolicies"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:text="@string/btnPrivacyPolicies"
-                    android:layout_marginTop="28dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnFrequentQuestions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:text="@string/btnFrequentQuestions"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCloseSesion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:text="@string/btnLogOut"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
             </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,15 @@
 package com.jumpitt.happ.ui.profile
 
 import androidx.fragment.app.FragmentActivity
+import com.jumpitt.happ.model.ProfileMenu
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.ui.login.LoginContract
 
 interface ProfileFragmentContract {
     interface View{
-        fun showInitializeView()
+        fun initDataListProfile()
+        fun showInitializeView(profileMenuListObject: ArrayList<ProfileMenu>)
         fun showUnwrappingValues(userData: RegisterData?)
         fun showSnackBar(message: String)
         fun stopHandlerPingActiveUser()
@@ -15,9 +17,11 @@ interface ProfileFragmentContract {
 
     interface Presenter{
         fun initializeView()
+        fun showInitializeView(profileMenuListObject: ArrayList<ProfileMenu>)
         fun getUserProfileData()
         fun navigateTracingLog()
         fun deleteProfileData()
+        fun clickListenerItemProfileMenu(position: Int)
         fun navigateChangePassword(fragment: ProfileFragment, activity: FragmentActivity?)
         fun navigatePrivacyPolicies()
         fun navigateFrequentQuestions()

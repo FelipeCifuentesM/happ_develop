@@ -7,6 +7,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import com.jumpitt.happ.BuildConfig.*
 import com.jumpitt.happ.R
+import com.jumpitt.happ.model.ProfileMenu
 import com.jumpitt.happ.network.request.TokenFCMRequest
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.ConstantsApi
@@ -18,7 +19,11 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
     private var mInteractor: ProfileFragmentContract.Interactor = ProfileFragmentInteractor(this)
 
     override fun initializeView() {
-        mView.showInitializeView()
+        mView.initDataListProfile()
+    }
+
+    override fun showInitializeView(profileMenuListObject: ArrayList<ProfileMenu>) {
+        mView.showInitializeView(profileMenuListObject)
     }
 
     override fun getUserProfileData() {
@@ -31,6 +36,24 @@ class ProfileFragmentPresenter constructor(val fragment: Fragment): ProfileFragm
 
     override fun deleteProfileData() {
         mInteractor.getAccessToken()
+    }
+
+    override fun clickListenerItemProfileMenu(position: Int) {
+        when(position){
+            0 -> {
+                val urlWebView = URL_PRIVACY_POLICIES_WEB
+                val titleBar = fragment.resources.getString(R.string.tbPrivacy)
+                mRouter.navigateWebView(urlWebView, titleBar)
+            }
+            1 -> {
+                val urlWebView = URL_FRECUENT_QUESTIONS_WEB
+                val titleBar = fragment.resources.getString(R.string.tbFrequentQuestions)
+                mRouter.navigateWebView(urlWebView, titleBar)
+            }
+            2 -> {
+                mInteractor.getAccessToken()
+            }
+        }
     }
 
     override fun getAccesTokenOutput(accessToken: String) {

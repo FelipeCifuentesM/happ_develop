@@ -54,6 +54,12 @@ enum class SemaphoreTriage(val colorResource: ColorIdResource, val colorID: Int,
     RISK_HIGH(ColorIdResource.SEMAPHORERED, R.color.semaphoreRed,"RISK_HIGH")
 }
 
+enum class ProfileMenuOptions(val optionIcon: Int, val optionText: Int, val position: Int){
+    PRIVACY_POLICIES(R.drawable.ic_chevron_right, R.string.tbPrivacy, 0),
+    FREQUENT_QUESTIONS(R.drawable.ic_chevron_right, R.string.tbFrequentQuestions, 1),
+    LOGOUT(R.drawable.ic_chevron_right, R.string.btnLogOut, 2)
+}
+
 object TriageStatus{
     const val TRIAGE_NOT_STARTED = "TRIAGE_NOT_STARTED"
     const val TRIAGE_PENDING = "TRIAGE_PENDING"
