@@ -1,6 +1,7 @@
 package com.jumpitt.happ.realm
 
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
 open class RegisterData(
     var rut: String? = null,
@@ -44,8 +45,9 @@ open class RiskTime(
 }
 
 open class TraceProximityNotification(
-  var firstRegisterTrace: String? = null,
-  var lastRegisterTrace: String? = null
+    @PrimaryKey var id: Int = 1,
+    var firstRegisterTrace: String? = null,
+    var lastRegisterTrace: String? = null
 ): RealmObject(){
-    constructor(): this(null)
+    constructor(): this(id = 1)
 }

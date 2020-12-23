@@ -295,7 +295,7 @@ class BleManagerImpl(
                 }
             }
         }else{
-            val traceProximityResetTime = TraceProximityNotification(currentDate, currentDate)
+            val traceProximityResetTime = TraceProximityNotification(1,currentDate, currentDate)
             realm.delete(TraceProximityNotification::class.java)
             realm.insertOrUpdate(traceProximityResetTime)
         }
@@ -304,6 +304,7 @@ class BleManagerImpl(
         realm.close()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun updateNotification() {
         val notification = foregroundNotification("Happ se está ejecutando ahora",0)
         Log.e("Borrar", "ACTUALIZAR NOTIFICACION")
