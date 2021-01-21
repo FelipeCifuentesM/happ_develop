@@ -104,6 +104,18 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".ping.EndlessService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
+
+        <receiver android:enabled="true" android:name=".ping.StartReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

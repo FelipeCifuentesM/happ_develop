@@ -1,6 +1,8 @@
 package com.jumpitt.happ.ui.login
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +10,9 @@ import com.jumpitt.happ.R
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import com.jumpitt.happ.network.request.LoginAccessTokenRequest
+import com.jumpitt.happ.ping.EndlessService
+import com.jumpitt.happ.ping.ServiceState
+import com.jumpitt.happ.ping.getServiceState
 import com.jumpitt.happ.ui.ToolbarActivity
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.login.*
@@ -23,6 +28,8 @@ class Login: ToolbarActivity(), LoginContract.View{
 
         toolbarToLoad(toolbar as Toolbar, resources.getString(R.string.tbLogIn))
         enableHomeDisplay(true)
+
+        actionOnService(Actions.START)
 
         mPresenter = LoginPresenter(this)
         mPresenter.initializeView()
@@ -120,6 +127,20 @@ class Login: ToolbarActivity(), LoginContract.View{
     override fun onBackPressed() {
         super.onBackPressed()
         this.transitionActivity(Transition.RIGHT_TO_LEFT)
+    }
+
+    private fun actionOnService(action: Actions) {
+        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP) return
+        Intent(this, EndlessService::class.java).also {
+            it.action = action.name
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                log("Starting the service in >=26 Mode")
+                startForegroundService(it)
+                return
+            }
+            log("Starting the service in < 26 Mode")
+            startService(it)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

@@ -2,6 +2,7 @@ package com.jumpitt.happ.ui.main
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jumpitt.happ.R
 import com.jumpitt.happ.network.response.TriageAnswerResponse
+import com.jumpitt.happ.ping.EndlessService
+import com.jumpitt.happ.ping.ServiceState
+import com.jumpitt.happ.ping.getServiceState
 import com.jumpitt.happ.ui.*
 import com.jumpitt.happ.ui.happHome.HappHomeFragment
 import com.jumpitt.happ.ui.notifications.NotificationsFragment
@@ -45,6 +49,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 //                    Log.e("Borrar", "Token dispositivo: "+mToken)
 //                })
 
+
+        actionOnService(Actions.START)
 
         var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
         bAdapter?.let { _bAdapter ->
@@ -225,6 +231,20 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 //            finish()
     }
 
+
+    private fun actionOnService(action: Actions) {
+        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP) return
+        Intent(this, EndlessService::class.java).also {
+            it.action = action.name
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                log("Starting the service in >=26 Mode")
+                startForegroundService(it)
+                return
+            }
+            log("Starting the service in < 26 Mode")
+            startService(it)
+        }
+    }
 
     override fun onPause() {
         super.onPause()

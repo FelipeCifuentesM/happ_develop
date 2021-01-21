@@ -35,13 +35,12 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         }
     }
 
-    @SuppressLint("WrongConstant")
     private fun showNotification(title: String?, message: String?){
         Log.e("Borrar", "Notificacion 01")
         val intent = Intent(this, SplashActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        val builder = NotificationCompat.Builder(this,"01")
+        val builder = NotificationCompat.Builder(this,"happ_notification")
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.mipmap.ic_launcher)
@@ -51,10 +50,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val notificationChannel = NotificationChannel("01", "notification", NotificationManager.IMPORTANCE_MAX)
+            val notificationChannel = NotificationChannel("happ_notification", "notification", NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
-        notificationManager.notify(0, builder.build())
+        notificationManager.notify(88, builder.build())
     }
 
 }

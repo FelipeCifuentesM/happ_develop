@@ -174,6 +174,7 @@ class BleManagerImpl(
         return NotificationCompat.Builder(app, CHANNEL_ID)
             .setContentTitle(title)
             .setContentIntent(pendingIntent)
+            .setChannelId(CHANNEL_ID)
             .setPriority(NotificationManager.IMPORTANCE_MAX)
             .setCategory(Notification.CATEGORY_SERVICE)
             .build()
@@ -184,13 +185,12 @@ class BleManagerImpl(
      * android O. This creates the necessary notification channel for the foregroundService
      * to function.
      */
-    @SuppressLint("WrongConstant")
     private fun createNotificationChannelIfNeeded() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
                 CHANNEL_ID,
                 "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_MAX
+                NotificationManager.IMPORTANCE_HIGH
             )
             val manager: NotificationManager? = ContextCompat.getSystemService(
                 app, NotificationManager::class.java
@@ -200,7 +200,7 @@ class BleManagerImpl(
     }
 
     companion object {
-        private const val CHANNEL_ID = "CoEpiBluetoothContactChannel"
+        const val CHANNEL_ID = "CoEpiBluetoothContactChannel"
         const val NOTIFICATION_ID = 1
         const val NOTIFICATION_ID_SERVICE = 211
     }
@@ -306,7 +306,7 @@ class BleManagerImpl(
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateNotification() {
-        val notification = foregroundNotification("Happ se está ejecutando ahora",0)
+        val notification = foregroundNotification("Happ se está ejecutando",0)
         Log.e("Borrar", "ACTUALIZAR NOTIFICACION")
         val manager: NotificationManager? = ContextCompat.getSystemService(app, NotificationManager::class.java)
         manager?.notify(NOTIFICATION_ID, notification)

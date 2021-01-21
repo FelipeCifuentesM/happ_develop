@@ -286,3 +286,8 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
 }
 //Triage Fin
 
+fun log(msg: String) {
+    Log.d("ENDLESS-SERVICE", msg)
+}
+
+

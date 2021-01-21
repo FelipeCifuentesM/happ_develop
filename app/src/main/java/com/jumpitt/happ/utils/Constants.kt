@@ -100,4 +100,10 @@ object Constants{
 
 }
 
+enum class Actions {
+    START,
+    STOP
+}
+
+
 
