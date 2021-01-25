@@ -97,10 +97,6 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         rvProfileMenu.layoutManager = layoutManager
         rvProfileMenu.adapter = AdapterProfileMenu(requireActivity(), profileMenuListObject, object: AdapterProfileMenu.ClickListener{
             override fun itemClickProfileMenu(position: Int) {
-
-                if (position == 2){
-                    actionOnService(Actions.STOP)
-                }
                 mPresenter.clickListenerItemProfileMenu(position)
             }
         })
@@ -131,21 +127,6 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
     override fun stopHandlerPingActiveUser(){
         App.handler?.let { mHandler ->
             mHandler.removeCallbacksAndMessages(null)
-        }
-    }
-
-
-    private fun actionOnService(action: Actions) {
-        if (getServiceState(activity!!) == ServiceState.STOPPED && action == Actions.STOP) return
-        Intent(activity!!, EndlessService::class.java).also {
-            it.action = action.name
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                log("Starting the service in >=26 Mode")
-                activity!!.startForegroundService(it)
-                return
-            }
-            log("Starting the service in < 26 Mode")
-            activity!!.startService(it)
         }
     }
 }

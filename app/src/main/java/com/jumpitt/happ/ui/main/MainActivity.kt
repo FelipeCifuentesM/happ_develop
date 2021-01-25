@@ -52,7 +52,13 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 //                })
 
 
-        actionOnService(Actions.START)
+        if (!isMyServiceRunning(EndlessService::class.java)) {
+            Log.e("funcionao", "sifunciona")
+            actionOnService(Actions.START)
+
+        } else{
+            Log.e("funcionao", "nofunciona")
+        }
 
         var bAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
         bAdapter?.let { _bAdapter ->
@@ -235,7 +241,8 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
 
     private fun actionOnService(action: Actions) {
-        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP && !isMyServiceRunning(EndlessService::class.java)) return
+        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP) return
+
         Intent(this, EndlessService::class.java).also {
             it.action = action.name
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -246,9 +253,10 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             log("Starting the service in < 26 Mode")
             startService(it)
         }
+
     }
 
-    fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+    private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
         val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in manager.getRunningServices(Int.MAX_VALUE)) {
             if (serviceClass.name == service.service.className) {

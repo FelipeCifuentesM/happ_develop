@@ -91,9 +91,6 @@ class LoginInteractor: LoginContract.Interactor {
             }
 
             override fun onResponse(call: Call<TokenFCMResponse>, response: Response<TokenFCMResponse>) {
-                val responseCode = response.code()
-                val responseData = response.body()
-
                 interactorOutput.postRegisterTokenFCMOutput(accessToken)
             }
         })

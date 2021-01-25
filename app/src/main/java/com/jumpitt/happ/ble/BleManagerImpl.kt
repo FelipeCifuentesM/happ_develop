@@ -67,24 +67,6 @@ class BleManagerImpl(
                 startForegroundNotificationIfNeeded(NOTIFICATION_ID_SERVICE, notification)
                 setBluetoothStateListener(this@BleManagerImpl)
                 startTcnExchange(BluetoothServiceCallback())
-
-//                runnable = Runnable {
-//                    // Insert custom code here
-//                    val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
-////                    if(isRunning){
-//                        updateNotification()
-
-//                        // Repeat every 25 minutes
-//                        val timeRepeatMilliseconds:Long = 30000 * 1 // 25 minutes
-//                        App.handlerNoti?.let { mHandlerNoti ->
-//                            mHandlerNoti.postDelayed(runnable, timeRepeatMilliseconds)
-//                        }
-////                    }else{
-////                        App.handlerNoti?.removeCallbacks(runnable)
-////                    }
-//                }
-
-
             }
         }
 
