@@ -1,5 +1,7 @@
 package com.jumpitt.happ.ui.login
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -29,10 +31,10 @@ class Login: ToolbarActivity(), LoginContract.View{
         toolbarToLoad(toolbar as Toolbar, resources.getString(R.string.tbLogIn))
         enableHomeDisplay(true)
 
-        actionOnService(Actions.START)
-
         mPresenter = LoginPresenter(this)
         mPresenter.initializeView()
+
+        actionOnService(Actions.STOP)
 
 
         btnEnterLogin.setSafeOnClickListener {
@@ -129,20 +131,6 @@ class Login: ToolbarActivity(), LoginContract.View{
         this.transitionActivity(Transition.RIGHT_TO_LEFT)
     }
 
-    private fun actionOnService(action: Actions) {
-        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP) return
-        Intent(this, EndlessService::class.java).also {
-            it.action = action.name
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                log("Starting the service in >=26 Mode")
-                startForegroundService(it)
-                return
-            }
-            log("Starting the service in < 26 Mode")
-            startService(it)
-        }
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             RequestCode.LOCATION_BACKGROUND -> {
@@ -166,4 +154,29 @@ class Login: ToolbarActivity(), LoginContract.View{
             }
         }
     }
+
+    private fun actionOnService(action: Actions) {
+        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP && !isMyServiceRunning(EndlessService::class.java)) return
+        Intent(this, EndlessService::class.java).also {
+            it.action = action.name
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                log("Starting the service in >=26 Mode")
+                startForegroundService(it)
+                return
+            }
+            log("Starting the service in < 26 Mode")
+            startService(it)
+        }
+    }
+
+    fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
+    }
+
 }

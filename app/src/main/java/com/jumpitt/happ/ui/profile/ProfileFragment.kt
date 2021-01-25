@@ -1,16 +1,21 @@
 package com.jumpitt.happ.ui.profile
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startForegroundService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jumpitt.happ.App
 import com.jumpitt.happ.R
 import com.jumpitt.happ.model.ProfileMenu
+import com.jumpitt.happ.ping.EndlessService
+import com.jumpitt.happ.ping.ServiceState
+import com.jumpitt.happ.ping.getServiceState
 import com.jumpitt.happ.realm.RegisterData
 import com.jumpitt.happ.utils.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -92,6 +97,10 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         rvProfileMenu.layoutManager = layoutManager
         rvProfileMenu.adapter = AdapterProfileMenu(requireActivity(), profileMenuListObject, object: AdapterProfileMenu.ClickListener{
             override fun itemClickProfileMenu(position: Int) {
+
+                if (position == 2){
+                    actionOnService(Actions.STOP)
+                }
                 mPresenter.clickListenerItemProfileMenu(position)
             }
         })
@@ -125,4 +134,18 @@ class ProfileFragment : Fragment(), ProfileFragmentContract.View {
         }
     }
 
+
+    private fun actionOnService(action: Actions) {
+        if (getServiceState(activity!!) == ServiceState.STOPPED && action == Actions.STOP) return
+        Intent(activity!!, EndlessService::class.java).also {
+            it.action = action.name
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                log("Starting the service in >=26 Mode")
+                activity!!.startForegroundService(it)
+                return
+            }
+            log("Starting the service in < 26 Mode")
+            activity!!.startService(it)
+        }
+    }
 }

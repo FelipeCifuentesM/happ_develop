@@ -45,17 +45,24 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
                     )
                     bleManagerImpl.startService()
                 }
+
                 //Get device id for notifications
                 FirebaseInstanceId.getInstance().instanceId
-                    .addOnSuccessListener(activity, OnSuccessListener<InstanceIdResult> { instanceIdResult ->
-                        val mToken: String? = instanceIdResult.token
-                        mToken?.let {deviceToken ->
-                            val tokenFCMRequest = TokenFCMRequest(deviceToken)
-                            mInteractor.postRegisterTokenFCM("${userRealm.accessToken}", tokenFCMRequest,  this)
-                        }?: run {
-                            mInteractor.getPingUserActive("${userRealm.accessToken}", this)
-                        }
-                    })
+                    .addOnSuccessListener(
+                        activity,
+                        OnSuccessListener<InstanceIdResult> { instanceIdResult ->
+                            val mToken: String? = instanceIdResult.token
+                            mToken?.let { deviceToken ->
+                                val tokenFCMRequest = TokenFCMRequest(deviceToken)
+                                mInteractor.postRegisterTokenFCM(
+                                    "${userRealm.accessToken}",
+                                    tokenFCMRequest,
+                                    this
+                                )
+                            } ?: run {
+                                mInteractor.getPingUserActive("${userRealm.accessToken}", this)
+                            }
+                        })
             }else{
                 mView.hideLoader()
                 mRouter.navigatePermissionBluetooth()
@@ -76,7 +83,10 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
 
-    override fun postLoginAccessToken(loginRequest: LoginAccessTokenRequest, requestPermissions: Boolean) {
+    override fun postLoginAccessToken(
+        loginRequest: LoginAccessTokenRequest,
+        requestPermissions: Boolean
+    ) {
         //review permissions
         navigateMain = true
         if(requestPermissions){
@@ -113,7 +123,10 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         mInteractor.getProfile(dataResponseToken, this)
     }
 
-    override fun postLoginAccessTokenOutputError(errorCode: Int, response: Response<LoginAccessTokenResponse>) {
+    override fun postLoginAccessTokenOutputError(
+        errorCode: Int,
+        response: Response<LoginAccessTokenResponse>
+    ) {
         mView.hideLoader()
         when(errorCode){
             200 -> {
@@ -121,17 +134,17 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
             }
             401 -> {
                 val errorResponse = response.parseErrJsonResponse<ErrorResponse>()
-                errorResponse.errorMessage?.let {messageError ->
+                errorResponse.errorMessage?.let { messageError ->
                     mView.showValidateLoginError(messageError)
-                }?: run{
+                } ?: run {
                     mView.showValidateLoginError(activity.resources.getString(R.string.snkDefaultApiError))
                 }
             }
             422 -> {
                 val errorResponse = response.parseErrJsonResponse<ErrorResponse>()
-                errorResponse.errorMessage?.let {messageError ->
+                errorResponse.errorMessage?.let { messageError ->
                     mView.showValidateLoginError(messageError)
-                }?: run{
+                } ?: run {
                     mView.showValidateLoginError(activity.resources.getString(R.string.snkDefaultApiError))
                 }
 
@@ -141,11 +154,25 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
 
-    override fun getProfileOutput(dataLoginResponse: ProfileResponse, accessToken: String, refreshToken: String) {
+    override fun getProfileOutput(
+        dataLoginResponse: ProfileResponse,
+        accessToken: String,
+        refreshToken: String
+    ) {
 //        mView.hideLoader()
-        val userRealm = RegisterData(dataLoginResponse.rut ,dataLoginResponse.names, dataLoginResponse.lastName,
-            dataLoginResponse.email, dataLoginResponse.phone, dataLoginResponse.company?.id, dataLoginResponse.company?.name,
-            dataLoginResponse.home?.id, dataLoginResponse.work?.id, accessToken, refreshToken)
+        val userRealm = RegisterData(
+            dataLoginResponse.rut,
+            dataLoginResponse.names,
+            dataLoginResponse.lastName,
+            dataLoginResponse.email,
+            dataLoginResponse.phone,
+            dataLoginResponse.company?.id,
+            dataLoginResponse.company?.name,
+            dataLoginResponse.home?.id,
+            dataLoginResponse.work?.id,
+            accessToken,
+            refreshToken
+        )
         validateBluetoothState(userRealm)
     }
 
@@ -156,11 +183,11 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
     override fun postRegisterTokenFCMFailureError(accessToken: String) {
-        mInteractor.getPingUserActive(accessToken,this)
+        mInteractor.getPingUserActive(accessToken, this)
     }
 
     override fun postRegisterTokenFCMOutput(accessToken: String) {
-        mInteractor.getPingUserActive(accessToken,this)
+        mInteractor.getPingUserActive(accessToken, this)
     }
 
     override fun loginFailureError() {
@@ -177,7 +204,10 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
 
     }
 
-    override fun getPingUserActiveOutputError(dataPingResponse: PingActiveUserResponse, responseCode: Int) {
+    override fun getPingUserActiveOutputError(
+        dataPingResponse: PingActiveUserResponse,
+        responseCode: Int
+    ) {
         runPing(dataPingResponse)
         if(navigateMain) {
             mView.hideLoader()
@@ -187,7 +217,12 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
         if(responseCode == 200)
             Sentry.capture(activity.resources.getString(R.string.errSentryLoadApiPingNull))
         else
-            Sentry.capture(String.format(activity.resources.getString(R.string.errSentryLoadApiPingError), responseCode))
+            Sentry.capture(
+                String.format(
+                    activity.resources.getString(R.string.errSentryLoadApiPingError),
+                    responseCode
+                )
+            )
     }
 
     override fun getPingUserActiveFailureError(dataPingResponse: PingActiveUserResponse) {
@@ -200,7 +235,7 @@ class LoginPresenter constructor(private val activity: Activity): LoginContract.
     }
 
     override fun getAccessTokenOutput(accessToken: String) {
-        mInteractor.getPingUserActive(accessToken,this)
+        mInteractor.getPingUserActive(accessToken, this)
     }
 
     private fun runPing(dataPingResponse: PingActiveUserResponse){

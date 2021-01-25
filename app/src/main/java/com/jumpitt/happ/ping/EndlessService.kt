@@ -1,25 +1,27 @@
 package com.jumpitt.happ.ping
 
-import android.annotation.SuppressLint
+
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
-import android.os.IBinder
-import android.os.PowerManager
-import android.os.SystemClock
+import android.os.*
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import com.jumpitt.happ.R
-import com.jumpitt.happ.ble.BleManagerImpl
 import com.jumpitt.happ.context
+import com.jumpitt.happ.network.RestClient
+import com.jumpitt.happ.network.response.PingActiveUserResponse
+import com.jumpitt.happ.realm.RegisterData
+import com.jumpitt.happ.ui.login.LoginContract
 import com.jumpitt.happ.ui.main.MainActivity
 import com.jumpitt.happ.utils.Actions
+import com.jumpitt.happ.utils.ConstantsApi
 import com.jumpitt.happ.utils.log
+import io.realm.Realm
 import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class EndlessService : Service() {
@@ -94,9 +96,9 @@ class EndlessService : Service() {
         GlobalScope.launch(Dispatchers.IO) {
             while (isServiceStarted) {
                 launch(Dispatchers.IO) {
-                    pingFakeServer()
+                    getPingUserActive()
                 }
-                delay(1 * 60 * 1000)
+                delay(60 * 60 * 1000)
             }
             log("End of the loop for the service")
         }
@@ -118,33 +120,6 @@ class EndlessService : Service() {
         }
         isServiceStarted = false
         setServiceState(this, ServiceState.STOPPED)
-    }
-
-    private fun pingFakeServer() {
-
-        val sharedPref = context?.getSharedPreferences(
-            "asd", Context.MODE_PRIVATE)
-        val defaultValue = 0
-        val newHighScore = sharedPref!!.getInt("asd", defaultValue) + 1
-
-        if(newHighScore == 1){
-
-            val sharedPrefReset = context?.getSharedPreferences(
-                "reset", Context.MODE_PRIVATE)
-            val resetDefaultValue = 0
-            val newRecord = sharedPrefReset!!.getInt("reset", resetDefaultValue) + 1
-            with (sharedPrefReset.edit()) {
-                putInt("reset", newRecord)
-                commit()
-            }
-        }
-
-        with (sharedPref.edit()) {
-            putInt("asd", newHighScore)
-            commit()
-        }
-
-        Log.e("henlo","funcionasiu")
     }
 
     private fun createNotification(): Notification {
@@ -181,5 +156,24 @@ class EndlessService : Service() {
             .setSmallIcon(R.mipmap.ic_launcher)
             .setPriority(Notification.PRIORITY_HIGH) // for under android 26 compatibility
             .build()
+    }
+
+
+    fun getPingUserActive(){
+
+        val realm = Realm.getDefaultInstance()
+        var accessToken = realm.where(RegisterData::class.java).findFirst()?.accessToken
+
+        if(accessToken.isNullOrBlank())
+            accessToken = ""
+
+        realm.close()
+
+        RestClient.instanceTracing.getPingUserActive("${ConstantsApi.BEARER} $accessToken").
+        enqueue(object: Callback<PingActiveUserResponse> {
+            override fun onFailure(call: Call<PingActiveUserResponse>, t: Throwable) {}
+            override fun onResponse(call: Call<PingActiveUserResponse>, response: Response<PingActiveUserResponse>) {}
+        })
+
     }
 }

@@ -1,6 +1,8 @@
 package com.jumpitt.happ.ui.main
 
+import android.app.ActivityManager
 import android.bluetooth.BluetoothAdapter
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -233,7 +235,7 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
 
     private fun actionOnService(action: Actions) {
-        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP) return
+        if (getServiceState(this) == ServiceState.STOPPED && action == Actions.STOP && !isMyServiceRunning(EndlessService::class.java)) return
         Intent(this, EndlessService::class.java).also {
             it.action = action.name
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -244,6 +246,16 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
             log("Starting the service in < 26 Mode")
             startService(it)
         }
+    }
+
+    fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
     }
 
     override fun onPause() {

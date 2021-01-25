@@ -73,6 +73,7 @@ class BleManagerImpl(
 //                    val isRunning = isMyServiceRunning(BleManagerImpl::class.java)
 ////                    if(isRunning){
 //                        updateNotification()
+
 //                        // Repeat every 25 minutes
 //                        val timeRepeatMilliseconds:Long = 30000 * 1 // 25 minutes
 //                        App.handlerNoti?.let { mHandlerNoti ->
@@ -97,9 +98,8 @@ class BleManagerImpl(
             }
         }
     }
-    inner class BluetoothServiceCallback : TcnBluetoothServiceCallback
 
-    {
+    inner class BluetoothServiceCallback : TcnBluetoothServiceCallback {
         override fun generateTcn(): ByteArray =
             tcnGenerator.generateTcn().bytes
 
